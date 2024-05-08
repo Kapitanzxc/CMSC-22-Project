@@ -1,6 +1,7 @@
 package elements;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -18,24 +19,24 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GameTimer extends AnimationTimer {
-	private Stage stage;
-	private Group root;
+
 	private Scene gameScene;
-	private Canvas canvas;
 	private GraphicsContext gc;
-	private ArrayList<Text> texts;
-	private double XPOS;
-	private double YPOS;
 	private Knight knight;
+	private Knight pixel;
+	private long previousTime;
+	private Knight knight2;
+	private long previousTime2;
 	
 	GameTimer(GraphicsContext gc, Scene theScene) {
 		this.gc = gc;
+		this.previousTime = System.nanoTime();
 		this.gameScene = theScene;
-		this.knight = new Knight(100,100);
+//		Two knights
+		this.knight = new Knight(344,100,2);
+		this.knight2 = new Knight(370,100,2);
 		//call method to handle mouse click event
 		this.handleKeyPressEvent();
-		this.XPOS = Formatting.SCREEN_WIDTH/2;
-		this.YPOS = Formatting.SCREEN_HEIGHT/2;
 	}
 	
 	@Override
@@ -43,11 +44,16 @@ public class GameTimer extends AnimationTimer {
 		// TODO Auto-generated method stub
 		this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		this.gc.drawImage(Formatting.MAP, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-		//call the methods to move the ship
+		// Method to move the two players
 		this.knight.move();
-		
-		//render the ship
+		this.knight2.move();
+//		Method to show idle animation
+		this.previousTime = this.knight.idleStart(System.nanoTime(), this.previousTime);
+		this.previousTime2 = this.knight2.idleStart(System.nanoTime(), this.previousTime2);
+//		Spawning two knights
 		this.knight.render(this.gc);
+		this.knight2.render(this.gc);
+
 	}
 	
 	//method that will listen and handle the key press events
@@ -59,31 +65,43 @@ public class GameTimer extends AnimationTimer {
 			}
 			
 		});
-		
 		gameScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
 		            public void handle(KeyEvent e){
 		            	KeyCode code = e.getCode();
 		                stopCharacter(code);
+		        		
 		            }
 		        });
     }
 	
-	//method that will move the ship depending on the key pressed
+	//method that will move the knight depending on the key pressed
 	private void moveCharacter(KeyCode ke) {
 		if(ke==KeyCode.UP) {
 			this.knight.setDY(-3);                 
 		}
 		if(ke==KeyCode.LEFT) {
 			this.knight.setDX(-3);
-			this.knight.moveLeft();
 		}
 		if(ke==KeyCode.DOWN) {
 			this.knight.setDY(3);
 		}
 		if(ke==KeyCode.RIGHT) {
 			this.knight.setDX(3);
-			this.knight.moveRight();
 		}
+		if(ke==KeyCode.W) {
+			this.knight2.setDY(-3);                 
+		}
+		if(ke==KeyCode.A) {
+			this.knight2.setDX(-3);
+		}
+		if(ke==KeyCode.S) {
+			this.knight2.setDY(3);
+		}
+		if(ke==KeyCode.D) {
+			this.knight2.setDX(3);
+		}
+			
+		
 		System.out.println(ke+" key pressed.");
    	}
 	
@@ -91,6 +109,8 @@ public class GameTimer extends AnimationTimer {
 	private void stopCharacter(KeyCode ke){
 		this.knight.setDX(0);
 		this.knight.setDY(0);
+		this.knight2.setDX(0);
+		this.knight2.setDY(0);
 	}
 	
 	public Scene getScene() {
