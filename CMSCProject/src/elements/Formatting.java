@@ -21,12 +21,16 @@ public class Formatting {
 	public static final Image LEFT_SCROLL = new Image("file:resources/scrollLeft.png", 136.5, 31.5,true,true);
 	public static final Image MIDDLE_SCROLL = new Image("file:resources/scrollMiddle.png",  136.5, 31.5,true,true);
 	public static final Image RIGHT_SCROLL = new Image("file:resources/scrollRight.png",  136.5, 31.5,true,true);
-	public static final Image CHARACTER_R = new Image("file:resources/characterRight.png",  50, 50,true,true);
-	public static final Image CHARACTER_L = new Image("file:resources/characterLeft.png",  50, 50,true,true);
+	public static final Image CHARACTER_R = new Image("file:resources/characterRight.png",  35, 35,true,true);
 	public static final Image MAP = new Image("file:resources/map.jpg",  7000, 2917,true,true);
+	public static final Image PIXEL = new Image("file:resources/pixel.jpg", 1, 1,false,false);
 //	Font Styles
 	public static final Font FONT_STYLE_26 = Font.loadFont("file:resources/PrStart.ttf", 26);
 	public static final double XPOS_TEXT = SCREEN_WIDTH/2;
 	public static final double YPOS_TEXT = 600;
-	
+//	Characters
+	public static final Image Knight = new Image("file:resources/Knight/RKnightIdle1.png", 80, 80,true,true);
+	public static final Image Knight2 = new Image("file:resources/Knight/RKnightIdle2.png",  80, 80,true,true);
+	public static final Image Knight3 = new Image("file:resources/Knight/RKnightIdle3.png",   80, 80,true,true);
+	public static final Image Knight4 = new Image("file:resources/Knight/RKnightIdle4.png",   80, 80,true,true);
 }

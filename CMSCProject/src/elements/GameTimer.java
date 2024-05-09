@@ -41,18 +41,7 @@ public class GameTimer extends AnimationTimer {
 	
 	@Override
 	public void handle(long currentNanoTime) {
-		// TODO Auto-generated method stub
-		this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
-		this.gc.drawImage(Formatting.MAP, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-		// Method to move the two players
-		this.knight.move();
-		this.knight2.move();
-//		Method to show idle animation
-		this.previousTime = this.knight.idleStart(System.nanoTime(), this.previousTime);
-		this.previousTime2 = this.knight2.idleStart(System.nanoTime(), this.previousTime2);
-//		Spawning two knights
-		this.knight.render(this.gc);
-		this.knight2.render(this.gc);
+		handle2(currentNanoTime);
 
 	}
 	
@@ -73,6 +62,21 @@ public class GameTimer extends AnimationTimer {
 		            }
 		        });
     }
+	
+	public void handle2(long currentNanoTime) {
+		// TODO Auto-generated method stub
+		this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+		this.gc.drawImage(Formatting.MAP, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+		// Method to move the two players
+		this.knight.move();
+		this.knight2.move();
+//		Method to show idle animation
+		this.previousTime = this.knight.idleStart(System.nanoTime(), this.previousTime);
+		this.previousTime2 = this.knight2.idleStart(System.nanoTime(), this.previousTime2);
+//		Spawning two knights
+		this.knight.render(this.gc);
+		this.knight2.render(this.gc);
+	}
 	
 	//method that will move the knight depending on the key pressed
 	private void moveCharacter(KeyCode ke) {
@@ -101,17 +105,21 @@ public class GameTimer extends AnimationTimer {
 			this.knight2.setDX(3);
 		}
 			
-		
 		System.out.println(ke+" key pressed.");
    	}
 	
-	//method that will stop the ship's movement; set the ship's DX and DY to 0
+	// Set dx and dy to 0 when character is not moving
 	private void stopCharacter(KeyCode ke){
-		this.knight.setDX(0);
-		this.knight.setDY(0);
-		this.knight2.setDX(0);
-		this.knight2.setDY(0);
+		if (ke == KeyCode.W || ke == KeyCode.A|| ke == KeyCode.S || ke == KeyCode.D) {
+			this.knight2.setDX(0);
+			this.knight2.setDY(0);
+		}
+		if (ke == KeyCode.UP || ke == KeyCode.LEFT|| ke == KeyCode.DOWN || ke == KeyCode.RIGHT) {
+			this.knight.setDX(0);
+			this.knight.setDY(0);
+		}
 	}
+	
 	
 	public Scene getScene() {
 		return gameScene;
