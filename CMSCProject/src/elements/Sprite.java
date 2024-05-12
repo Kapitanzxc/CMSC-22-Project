@@ -9,30 +9,18 @@ import javafx.scene.input.KeyCode;
 public abstract class Sprite {
 //	Attributes
 	protected Image img;
-	protected int x, y, dx, dy;
-	protected int width;
-	protected int height;
-	protected int health;
-	protected int attackPoints;
-	private boolean visible;
-	private boolean alive;
-	protected boolean attack;
-	protected boolean hit;
-	private double xOffset;
-	private double yOffset;
-	private double attackWOffset;
-	private double attackHOffset;
-	public Rectangle hitbox;
-	public Rectangle attackbox;
-	private boolean collisionChecker;
+	private int characterID;
+	protected int x, y, dx, dy, width, height, health, attackPoints;
+	private boolean visible, alive, attack, hit, collisionChecker;
+	private double xOffset, yOffset, attackWOffset, attackHOffset;
+	public Rectangle hitbox, attackbox;
 	private int animationCountDie;
 	private long previousTimeDie;
 	private int direction;
+	
 //	Constructor
-	
-	
-
-	public Sprite(int xPos, int yPos, double xOffset, double yOffset, double attackWOffset, double attackHOffset){
+	public Sprite(int characterID, int xPos, int yPos, double xOffset, double yOffset, double attackWOffset, double attackHOffset){
+		this.characterID = characterID;
 		this.x = xPos;
 		this.y = yPos;
 		this.health = 15;
