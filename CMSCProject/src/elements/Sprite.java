@@ -7,28 +7,20 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 public abstract class Sprite {
+//	Attributes
 	protected Image img;
-	protected int x, y, dx, dy;
-	protected int width;
-	protected int height;
-	protected int health;
-	protected int attackPoints;
-	private boolean visible;
-	private boolean alive;
-	protected boolean attack;
-	protected boolean hit;
-	private double xOffset;
-	private double yOffset;
-	private double attackWOffset;
-	private double attackHOffset;
-	public Rectangle hitbox;
-	public Rectangle attackbox;
-	private boolean collisionChecker;
+	private int characterID;
+	protected int x, y, dx, dy, width, height, health, attackPoints;
+	private boolean visible, alive, attack, hit, collisionChecker;
+	private double xOffset, yOffset, attackWOffset, attackHOffset;
+	public Rectangle hitbox, attackbox;
 	private int animationCountDie;
 	private long previousTimeDie;
-
+	private int direction;
 	
-	public Sprite(int xPos, int yPos, double xOffset, double yOffset, double attackWOffset, double attackHOffset){
+//	Constructor
+	public Sprite(int characterID, int xPos, int yPos, double xOffset, double yOffset, double attackWOffset, double attackHOffset){
+		this.characterID = characterID;
 		this.x = xPos;
 		this.y = yPos;
 		this.health = 15;
@@ -46,6 +38,7 @@ public abstract class Sprite {
 		this.previousTimeDie = System.nanoTime();
 		this.animationCountDie = 1;
 		this.collisionChecker = false;
+		this.direction = 1;
 	}
 	
 	//method to set the object's image
@@ -59,13 +52,14 @@ public abstract class Sprite {
 	//method to set the image to the image view node
 	void render(GraphicsContext gc){
 		if (this.visible) {
-			hitboxUpdate();
-			attackboxUpdate();
-			gc.drawImage(this.img, this.x, this.y);    
+			flipHitbox(gc);
 		} 
+		gc.drawImage(this.img, this.x, this.y);   
     }
-
-	private void hitboxUpdate() {
+	
+	
+//	Swapping hitboxes when the character faced opposite direction
+	private void hitboxRUpdate() {
 		// TODO Auto-generated method stub
 		this.hitbox.x = (int) (this.x + this.width * this.xOffset);
 		this.hitbox.y = (int) (this.y + this.height * this.yOffset);
@@ -73,7 +67,7 @@ public abstract class Sprite {
 		this.hitbox.height = (int) (this.height - this.height * this.yOffset);
 	}
 	
-	private void attackboxUpdate() {
+	private void attackboxRUpdate() {
 		// TODO Auto-generated method stub
 		this.attackbox.x = (int) (this.x + this.width * this.attackWOffset);
 		this.attackbox.y = this.y;	
@@ -81,30 +75,67 @@ public abstract class Sprite {
 		this.attackbox.height = this.height;
 	}
 	
-	public void checkCollision(Sprite player1, Sprite player2, long currentTime) {
+	private void hitboxLUpdate() {
+		// TODO Auto-generated method stub
+		this.hitbox.x = (int) (this.x + this.width * this.attackWOffset);
+		this.hitbox.y = this.y;
+		this.hitbox.width = this.width/2;	
+		this.hitbox.height = (int) (this.height - this.height * this.yOffset);
+	}
+	
+	private void attackboxLUpdate() {
+		// TODO Auto-generated method stub
+		this.attackbox.x = (int) (this.x + this.width * this.xOffset);
+		this.attackbox.y = (int) (this.y + this.height * this.yOffset);
+		this.attackbox.width = this.width/2;	
+		this.attackbox.height = this.height;
+	}
+	
+//	Update hitbox
+	private void flipHitbox(GraphicsContext gc) {
+		if (this.direction == 1) {
+			hitboxRUpdate();
+			attackboxRUpdate();
+		} else {
+			hitboxLUpdate();
+			attackboxLUpdate();
+		}
+		
+	}
+//	Method for checking collision
+	public void checkCollision(Sprite player1, Sprite player2, long currentTime, int direction) {
 		if (player1.attackbox.intersects(player2.hitbox)) {
 			player2.setHit(true);
 			System.out.println("Hit");
-			player2.hitAnimation(currentTime, player1);
+			player2.hitAnimation(currentTime, player1, direction);
 	        // Attack hits the defending player
 	    	player1.setCollisionChecker(true);
 	    } else {
 	    	System.out.println("Miss");
 	    }
 	}
-	
-	public void hitAnimation(long currentTime, Sprite attacker) {
-		if (getHit() == true) {
-			this.img = Formatting.KnightHit1;
-			System.out.println("Hit Animation Finished");
-			this.hit = false;
-			this.setHealth(attacker.getAttackPoints()); 
-			System.out.println("Player Health Remaining: " + this.health);
+//	Animation for hitting opponent
+	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
+		if (getHit() == true && this.checkAlive()) {
+			if (direction == 1) {
+				this.img = Formatting.KnightRHit1;
+				System.out.println("Hit Animation Finished");
+				this.hit = false;
+//				Decreases health
+				this.setHealth(attacker.getAttackPoints()); 
+				System.out.println("Player Health Remaining: " + this.health);
+			} else {
+				this.img = Formatting.KnightLHit1;
+				System.out.println("Hit Animation Finished");
+				this.hit = false;
+				this.setHealth(attacker.getAttackPoints()); 
+				System.out.println("Player Health Remaining: " + this.health);
+			}
 		} else {
-			this.img = Formatting.Knight;
+			this.img = Formatting.KnightRIdle1;
 		}
 	}
-
+	// Checks if character still alive
 	protected boolean checkAlive() {
 		if (this.health <= 0) {
 			this.alive = false;
@@ -119,21 +150,25 @@ public abstract class Sprite {
 	    this.height = (int) this.img.getHeight();
 	}
 	
+//	Method for updating characters coordinates
 	public void move() {
-		if (mapCollision()) {
+		if (mapCollision() && this.alive) {
 			this.x += this.dx;
 			this.y += this.dy;
 		}
 	}
 	
+//	Map boundaries
 	public boolean mapCollision() {
-		if (this.y + this.dy + this.height >= 91 && this.y + this.dy + this.height <= 167) {
+//		north
+		if (this.y + this.dy + this.height/2 >= 91 && this.y + this.dy + this.height <= 167) {
 			if (this.x + this.dx >= 343 && this.x + this.dx + this.width <= 870) {
 				return true;
 			} else {
 				System.out.println("Collision");
 				return false;
 			}
+//		north 2
 		} else if (this.y + this.dy + this.height >= 168 && this.y + this.dy + this.height <= 240) {
 			if (this.x + this.dx >= 230 && this.x + this.dx + this.width <= 967) {
 				return true;
@@ -141,13 +176,26 @@ public abstract class Sprite {
 				System.out.println("Collision");
 				return false;
 			}
+//		middle
 		} else if (this.y + this.dy + this.height >= 241 && this.y + this.dy + this.height <= 397) {
 			if (this.x + this.dx >= 134 && this.x + this.dx + this.width <= 1069) {
+				if (this.y + this.dy + this.height >= 314 && this.y + this.dy + this.height <= 409) {
+					if (this.x + this.dx + this.width >= 298 && this.x + this.dx + this.width <= 427) {
+						System.out.println("Collision1");
+						return false;
+					} 
+					else if (this.x + this.dx + this.width >= 842 && this.x + this.dx + this.width <= 971){
+						System.out.println("Collision2");
+						return false;
+					}
+				}
 				return true;
+
 			} else {
-				System.out.println("Collision");
+				System.out.println("Collision3");
 				return false;
 			}
+//		south 1
 		} else if (this.y + this.dy + this.height >= 398 && this.y + this.dy + this.height <= 486) {
 			if (this.x + this.dx >= 180 && this.x + this.dx + this.width  <= 1023) {
 				return true;
@@ -155,6 +203,7 @@ public abstract class Sprite {
 				System.out.println("Collision");
 				return false;
 			}
+//		south 2
 		} else if (this.y + this.dy + this.height >= 487 && this.y + this.dy + this.height <= 560) {
 			if (this.x + this.dx >= 286 && this.x + this.dx + this.width  <= 922) {
 				return true;
@@ -162,6 +211,7 @@ public abstract class Sprite {
 				System.out.println("Collision");
 				return false;
 			}
+//		south 3
 		} else if (this.y + this.dy + this.height >= 561 && this.y + this.dy + this.height <= 619) {
 			if (this.x + this.dx >= 384 && this.x + this.dx + this.width  <= 816) {
 				return true;
@@ -221,6 +271,15 @@ public abstract class Sprite {
 	
 	public boolean getCollisionChecker() {
 		return collisionChecker;
+	}
+	
+	public int getDirection() {
+		return direction;
+	}
+	
+//	Setters 
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 	
 	public void setHealth(int damage) {

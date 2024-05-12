@@ -22,37 +22,102 @@ public class Formatting {
 	public static final Image MIDDLE_SCROLL = new Image("file:resources/scrollMiddle.png",  136.5, 31.5,true,true);
 	public static final Image RIGHT_SCROLL = new Image("file:resources/scrollRight.png",  136.5, 31.5,true,true);
 	public static final Image CHARACTER_R = new Image("file:resources/characterRight.png",  35, 35,true,true);
-	public static final Image MAP = new Image("file:resources/map.jpg",  7000, 2917,true,true);
+	public static final Image MAP = new Image("file:resources/map1.jpg",  7000, 2917,true,true);
+	public static final Image TOWER = new Image("file:resources/tower.png",  70, 172,true,true);
 	public static final Image PIXEL = new Image("file:resources/pixel.jpg", 1, 1,false,false);
 //	Font Styles
 	public static final Font FONT_STYLE_26 = Font.loadFont("file:resources/PrStart.ttf", 26);
 	public static final double XPOS_TEXT = SCREEN_WIDTH/2;
 	public static final double YPOS_TEXT = 600;
+	
+//	Character codes
+	public static final int KNIGHT = 1;
+	public static final int ORC = 2;
+	public static final int SWORDSWOMAN = 3;
+	public static final int WIZARD = 4;
+	
+//	Choose character images
+	public static final Image P1KNIGHT1 = new Image("file:resources/ChooseCharacter/Player1/P1Knight1.jpg", 7000, 2917,true,true);
+	public static final Image P1KNIGHT2 = new Image("file:resources/ChooseCharacter/Player1/P1Knight2.jpg", 7000, 2917,true,true);
+	public static final Image P1ORC1 = new Image("file:resources/ChooseCharacter/Player1/P1Orc1.jpg", 7000, 2917,true,true);
+	public static final Image P1ORC2 = new Image("file:resources/ChooseCharacter/Player1/P1Orc2.jpg", 7000, 2917,true,true);
+	public static final Image P1SWORDSWOMAN1 = new Image("file:resources/ChooseCharacter/Player1/P1SW1.jpg", 7000, 2917,true,true);
+	public static final Image P1SWORDSWOMAN2 = new Image("file:resources/ChooseCharacter/Player1/P1SW2.jpg", 7000, 2917,true,true);
+	public static final Image P1WIZARD1 = new Image("file:resources/ChooseCharacter/Player1/P1Wiz1.jpg", 7000, 2917,true,true);
+	public static final Image P1WIZARD2 = new Image("file:resources/ChooseCharacter/Player1/P1Wiz2.jpg", 7000, 2917,true,true);
+	
+	public static final Image P2KNIGHT1 = new Image("file:resources/ChooseCharacter/Player2/P2Knight1.jpg", 7000, 2917,true,true);
+	public static final Image P2KNIGHT2 = new Image("file:resources/ChooseCharacter/Player2/P2Knight2.jpg", 7000, 2917,true,true);
+	public static final Image P2ORC1 = new Image("file:resources/ChooseCharacter/Player2/P2Orc1.jpg", 7000, 2917,true,true);
+	public static final Image P2ORC2 = new Image("file:resources/ChooseCharacter/Player2/P2Orc2.jpg", 7000, 2917,true,true);
+	public static final Image P2SWORDSWOMAN1 = new Image("file:resources/ChooseCharacter/Player2/P2SW1.jpg", 7000, 2917,true,true);
+	public static final Image P2SWORDSWOMAN2 = new Image("file:resources/ChooseCharacter/Player2/P2SW2.jpg", 7000, 2917,true,true);
+	public static final Image P2WIZARD1 = new Image("file:resources/ChooseCharacter/Player2/P2Wiz1.jpg", 7000, 2917,true,true);
+	public static final Image P2WIZARD2 = new Image("file:resources/ChooseCharacter/Player2/P2Wiz2.jpg", 7000, 2917,true,true);
+	
 //	Characters
+	
+	
 	
 	public static final double CHARACTER_WIDTH = 55;
 	public static final double CHARACTER_HEIGHT = 55;
 	
-	public static final Image Knight = new Image("file:resources/Knight/Idle/RKnightIdle1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image Knight2 = new Image("file:resources/Knight/Idle/RKnightIdle2.png",  CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image Knight3 = new Image("file:resources/Knight/Idle/RKnightIdle3.png",   CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image Knight4 = new Image("file:resources/Knight/Idle/RKnightIdle4.png",   CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRIdle1 = new Image("file:resources/Knight/Idle/RKnightIdle1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRIdle2 = new Image("file:resources/Knight/Idle/RKnightIdle2.png",  CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRIdle3 = new Image("file:resources/Knight/Idle/RKnightIdle3.png",   CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRIdle4 = new Image("file:resources/Knight/Idle/RKnightIdle4.png",   CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
 	
-	public static final Image KnightAttack1 = new Image("file:resources/Knight/Attack/RKnightAttack1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightAttack2 = new Image("file:resources/Knight/Attack/RKnightAttack2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightAttack3 = new Image("file:resources/Knight/Attack/RKnightAttack3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightAttack4 = new Image("file:resources/Knight/Attack/RKnightAttack4.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightAttack5 = new Image("file:resources/Knight/Attack/RKnightAttack5.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLIdle1 = new Image("file:resources/Knight/Idle/LKnightIdle1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLIdle2 = new Image("file:resources/Knight/Idle/LKnightIdle2.png",  CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLIdle3 = new Image("file:resources/Knight/Idle/LKnightIdle3.png",   CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLIdle4 = new Image("file:resources/Knight/Idle/LKnightIdle4.png",   CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	
+	
+	public static final Image KnightRAttack1 = new Image("file:resources/Knight/Attack/RKnightAttack1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRAttack2 = new Image("file:resources/Knight/Attack/RKnightAttack2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRAttack3 = new Image("file:resources/Knight/Attack/RKnightAttack3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRAttack4 = new Image("file:resources/Knight/Attack/RKnightAttack4.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRAttack5 = new Image("file:resources/Knight/Attack/RKnightAttack5.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	
+	public static final Image KnightLAttack1 = new Image("file:resources/Knight/Attack/LKnightAttack1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLAttack2 = new Image("file:resources/Knight/Attack/LKnightAttack2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLAttack3 = new Image("file:resources/Knight/Attack/LKnightAttack3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLAttack4 = new Image("file:resources/Knight/Attack/LKnightAttack4.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLAttack5 = new Image("file:resources/Knight/Attack/LKnightAttack5.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
 
-	public static final Image KnightHit1 = new Image("file:resources/Knight/Hit/RKnightHit.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightHit2 = new Image("file:resources/Knight/Hit/RKnightHit2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightHit3 = new Image("file:resources/Knight/Hit/RKnightHit3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightHit4 = new Image("file:resources/Knight/Hit/RKnightHit4.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightHit5 = new Image("file:resources/Knight/Hit/RKnightHit5.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRHit1 = new Image("file:resources/Knight/Hit/RKnightHit.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLHit1 = new Image("file:resources/Knight/Hit/LKnightHit.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+
 	
-	public static final Image KnightDie1 = new Image("file:resources/Knight/Die/RKnightDie1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightDie2 = new Image("file:resources/Knight/Die/RKnightDie2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
-	public static final Image KnightDie3 = new Image("file:resources/Knight/Die/RKnightDie3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRDie1 = new Image("file:resources/Knight/Die/RKnightDie1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRDie2 = new Image("file:resources/Knight/Die/RKnightDie2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRDie3 = new Image("file:resources/Knight/Die/RKnightDie3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	
+	public static final Image KnightLDie1 = new Image("file:resources/Knight/Die/LKnightDie1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLDie2 = new Image("file:resources/Knight/Die/LKnightDie2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLDie3 = new Image("file:resources/Knight/Die/LKnightDie3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	
+	
+	public static final Image KnightRWalk1 = new Image("file:resources/Knight/Walk/RKnightWalk1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRWalk2 = new Image("file:resources/Knight/Walk/RKnightWalk2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRWalk3 = new Image("file:resources/Knight/Walk/RKnightWalk3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRWalk4 = new Image("file:resources/Knight/Walk/RKnightWalk4.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRWalk5 = new Image("file:resources/Knight/Walk/RKnightWalk5.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRWalk6 = new Image("file:resources/Knight/Walk/RKnightWalk6.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRWalk7 = new Image("file:resources/Knight/Walk/RKnightWalk7.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightRWalk8 = new Image("file:resources/Knight/Walk/RKnightWalk8.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	
+	public static final Image KnightLWalk1 = new Image("file:resources/Knight/Walk/LKnightWalk1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLWalk2 = new Image("file:resources/Knight/Walk/LKnightWalk2.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLWalk3 = new Image("file:resources/Knight/Walk/LKnightWalk3.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLWalk4 = new Image("file:resources/Knight/Walk/LKnightWalk4.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLWalk5 = new Image("file:resources/Knight/Walk/LKnightWalk5.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLWalk6 = new Image("file:resources/Knight/Walk/LKnightWalk6.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLWalk7 = new Image("file:resources/Knight/Walk/LKnightWalk7.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+	public static final Image KnightLWalk8 = new Image("file:resources/Knight/Walk/LKnightWalk8.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
+
+//	Winner
+	public static final Image KNIGHTVICTORY = new Image("file:resources/KnightVictory.jpg",7000, 2917,true,true);
 
 	
 	
