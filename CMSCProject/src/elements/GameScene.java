@@ -1,17 +1,10 @@
 package elements;
 
-import java.util.ArrayList;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GameScene {
@@ -25,7 +18,7 @@ public class GameScene {
 	
 
 	// Constructor
-	public GameScene(Scene menuScene, Stage stage) {
+	public GameScene(Scene menuScene, Stage stage, int player1, int player2) {
 		// Initialize variables
 		this.stage = stage;
 		this.root = new Group();
@@ -36,7 +29,7 @@ public class GameScene {
 		
 		this.root.getChildren().add(canvas);
 		// Draw Background
-		this.gametimer = new GameTimer(this.gc,this.gameScene);
+		this.gametimer = new GameTimer(this.gc,this.gameScene, this.menuScene, this.stage, player1, player2);
 		
 	}
 	

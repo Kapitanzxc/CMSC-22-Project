@@ -1,45 +1,65 @@
 package elements;
 
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GameTimer extends AnimationTimer {
-
+//	Attributes
 	private Scene gameScene;
 	private GraphicsContext gc;
+	private Stage stage;
+	private Scene menuScene;
+	private boolean gameOver;
 	private Knight player1;
 	private Knight player2;
 	
-	GameTimer(GraphicsContext gc, Scene theScene) {
+	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
+		this.stage = stage;
+		this.menuScene = menuScene;
 		this.gc = gc;
 		this.gameScene = theScene;
 //		Creating two players
-		this.player1 = new Knight(344,100,System.nanoTime());
-		this.player2 = new Knight(600,100,System.nanoTime());
+		if (player1 == Formatting.KNIGHT) {
+			this.player1 = new Knight(344,100,System.nanoTime());
+		} 
+		
+		if (player2 == Formatting.KNIGHT) {
+			this.player2 = new Knight(600,100,System.nanoTime());
+		}
+
 		//call method to handle key click event
 		this.handleKeyPressEvent();
 	}
 	
 	@Override
 	public void handle(long currentNanoTime) {
-//		Runs the gameplay 
-		gameplay(currentNanoTime);
-
+//		Runs the gameplay and checks game over situation
+		if (!this.gameOver) {
+//			Run gameplay 
+			gameplay(currentNanoTime);
+//			Check if one player is already dead
+			if (!player1.checkAlive() || !player2.checkAlive()) {
+//				If dead: Finish the die animation
+				if (!player1.checkAlive()) {
+					this.gameOver = player1.dieAnimation(System.nanoTime());
+					this.player1.render(this.gc);
+				} else {
+					this.gameOver = player2.dieAnimation(System.nanoTime());
+					this.player2.render(this.gc);
+				}
+			}
+//		End the game 
+		} else {
+			endGame();
+		}
 	}
 	
 	//method that will listen and handle the key press events
@@ -74,33 +94,36 @@ public class GameTimer extends AnimationTimer {
 //		Spawning two players
 		this.player1.render(this.gc);
 		this.player2.render(this.gc);
+//		Draw structure
+		this.gc.drawImage(Formatting.TOWER, 307, 202);
+		this.gc.drawImage(Formatting.TOWER, 844, 202);
 	}
 	
 	//method that will move the chracter depending on the key pressed
 	private void moveCharacter(KeyCode ke) {
 		if(ke==KeyCode.W) {
-			this.player1.setDY(-3);                 
+			this.player1.setDY(-2);                 
 		}
 		if(ke==KeyCode.A) {
-			this.player1.setDX(-3);
+			this.player1.setDX(-2);
 		}
 		if(ke==KeyCode.S) {
-			this.player1.setDY(3);
+			this.player1.setDY(2);
 		}
 		if(ke==KeyCode.D) {
-			this.player1.setDX(3);
+			this.player1.setDX(2);
 		}
 		if(ke==KeyCode.UP) {
-			this.player2.setDY(-3);                 
+			this.player2.setDY(-2);                 
 		}
 		if(ke==KeyCode.LEFT) {
-			this.player2.setDX(-3);
+			this.player2.setDX(-2);
 		}
 		if(ke==KeyCode.DOWN) {
-			this.player2.setDY(3);
+			this.player2.setDY(2);
 		}
 		if(ke==KeyCode.RIGHT) {
-			this.player2.setDX(3);
+			this.player2.setDX(2);
 		}
 		if(ke==KeyCode.F) {
 			this.player1.setAttack(true);
@@ -109,8 +132,9 @@ public class GameTimer extends AnimationTimer {
 			this.player2.setAttack(true);
 		}
 		if(ke==KeyCode.SPACE) {
-			System.out.println("X: " + this.player2.x + " Y: " + this.player2.y);
-			this.player2.setAttack(true);
+			int x =  this.player2.x + this.player2.width;
+			int y = this.player2.y + this.player2.height;
+			System.out.println("X: " + x + " Y: " + y);
 		}
 		System.out.println(ke+" key pressed.");
    	}
@@ -126,6 +150,24 @@ public class GameTimer extends AnimationTimer {
 			this.player2.setDY(0);
 		}
 	}
+	
+//	End game method
+	private void endGame() {
+//		Stop the timer
+	 this.stop();
+//	    Reference: https://stackoverflow.com/questions/24978278/fade-in-fade-out-a-screen-in-javafx
+	    FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), stage.getScene().getRoot());
+	    fadeOut.setFromValue(1.0);
+	    fadeOut.setToValue(0.0);
+	    fadeOut.setOnFinished(event -> {
+	        // Proceed to winning scene
+	        WinningScene winningScene = new WinningScene(this.menuScene, this.stage);
+	        stage.setScene(winningScene.getScene());
+	    });
+	    
+	    fadeOut.play();
+	}
+
 	
 	public Scene getScene() {
 		return gameScene;

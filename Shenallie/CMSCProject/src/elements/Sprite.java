@@ -61,9 +61,6 @@ public abstract class Sprite {
 	//method to set the image to the image view node
 	void render(GraphicsContext gc){
 		if (this.visible) {
-//			hitboxUpdate();
-//			attackboxUpdate();
-//			gc.drawImage(this.img, this.x, this.y);  
 			flipHitbox(gc);
 		} 
     }
@@ -104,12 +101,11 @@ public abstract class Sprite {
 		if (direction == 1) {
 			hitboxRUpdate();
 			attackboxRUpdate();
-			gc.drawImage(this.img, this.x, this.y);   
 		} else {
 			hitboxLUpdate();
 			attackboxLUpdate();
-			gc.drawImage(this.img, this.x, this.y);
 		}
+		gc.drawImage(this.img, this.x, this.y);   
 	}
 	
 	

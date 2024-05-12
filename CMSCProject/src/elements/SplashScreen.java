@@ -41,14 +41,14 @@ public class SplashScreen {
 		this.splashScene = new Scene(this.root,Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		this.canvas = new Canvas(Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
-	 	this.titlePicture = new Image("file:resources/gameLogo.png", 800, 800 , true, true); 
+	 	this.titlePicture = new Image("file:resources/gameLogo.png", 600, 600 , true, true); 
 	 	this.texts = new ArrayList<Text>();
 	}
 //	//sets stage
 	public void setStage() {
         // Draw the images on the canvas
         this.gc.drawImage(Formatting.BACKGROUND, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
-        this.gc.drawImage(this.titlePicture, (Formatting.SCREEN_WIDTH - titlePicture.getWidth())/2, 10); 
+        this.gc.drawImage(this.titlePicture, (Formatting.SCREEN_WIDTH - titlePicture.getWidth())/2, 70); 
         //texts
   		texts.add(new Text(XPOS_TEXT, YPOS_TEXT,"NEW GAME"));
   		texts.add(new Text(XPOS_TEXT, YPOS_TEXT+35,"ABOUT"));
@@ -78,7 +78,7 @@ public class SplashScreen {
 			@Override
 			public void handle(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				t.setFill(Color.LIGHTGREEN);
+				t.setFill(Color.DARKBLUE);
 			}
 		});
 		//changes color when text is hovered out
@@ -95,10 +95,10 @@ public class SplashScreen {
 			public void handle(MouseEvent event) {
 				// when new game is clicked
 				if(t.getText().equals("NEW GAME")) {
-					System.out.println("Load New Game Scene");
+					System.out.println("Load Select Characters");
 //					change scene here
-					GameScene gameScene = new GameScene(splashScene, stage);
-					stage.setScene(gameScene.getScene());
+					ChooseCharacterScene chooseCharacterScene = new ChooseCharacterScene(splashScene, stage);
+					stage.setScene(chooseCharacterScene.getScene());
 				}
 				//when about is clicked
 				else if(t.getText().equals("ABOUT")) {
