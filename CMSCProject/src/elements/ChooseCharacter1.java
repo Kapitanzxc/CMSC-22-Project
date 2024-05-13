@@ -29,6 +29,7 @@ public class ChooseCharacter1 extends AnimationTimer{
 	private int characterP1;
 	private int animationCount;
 	private long previousTime;
+	private boolean nextCharacter;
 
 	// Constructor
 	public ChooseCharacter1(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage) {
@@ -36,6 +37,7 @@ public class ChooseCharacter1 extends AnimationTimer{
 		this.stage = stage;
 		this.characterP1 = Formatting.KNIGHT;
 		this.animationCount = 0;
+		this.nextCharacter = false;
 		this.previousTime = System.nanoTime();
 		this.gc = gc;
 		this.characterP1Scene = theScene;
@@ -49,7 +51,12 @@ public class ChooseCharacter1 extends AnimationTimer{
 	@Override
 	public void handle(long currentTime) {
 		// Show the selection of characters per frame
-		showCharacters(currentTime);
+		if (nextCharacter == false) {
+			showCharacters(currentTime);
+		} else {
+			player2Selection(this.characterP1);
+		}
+		
 	}
 	
 //	Reads user input
@@ -75,7 +82,19 @@ public class ChooseCharacter1 extends AnimationTimer{
 		}
 		
 		if (code == KeyCode.SPACE) {
-			player2Selection(this.characterP1);
+			this.nextCharacter = true;
+			if (this.characterP1 == Formatting.KNIGHT) {
+				System.out.println("Player 1 chosen Knight");
+			} 
+			else if (this.characterP1 == Formatting.ORC) {
+				System.out.println("Player 1 chosen Orc");
+			}
+			else if (this.characterP1 == Formatting.SWORDWOMAN) {
+				System.out.println("Player 1 chosen SwordWoman");
+			}
+			else if (this.characterP1 == Formatting.WIZARD) {
+				System.out.println("Player 1 chosen Wizard");
+			}
 		}
 		
 		System.out.println(code+" key pressed.");
@@ -113,11 +132,11 @@ public class ChooseCharacter1 extends AnimationTimer{
 				}
 			}
 
-			else if (this.characterP1 == Formatting.SWORDSWOMAN) {
+			else if (this.characterP1 == Formatting.SWORDWOMAN) {
 				if (this.animationCount == 1) {
-					this.gc.drawImage(Formatting.P1SWORDSWOMAN1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+					this.gc.drawImage(Formatting.P1SWORDWOMAN1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 				} else {
-					this.gc.drawImage(Formatting.P1SWORDSWOMAN2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+					this.gc.drawImage(Formatting.P1SWORDWOMAN2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 				}
 			}
 			else if (this.characterP1 == Formatting.WIZARD) {
