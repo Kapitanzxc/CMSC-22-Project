@@ -11,6 +11,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -46,6 +48,7 @@ public class DeveloperScene {
 		homeButton.setTranslateY(7);
 		homeButton.setPrefSize(26,27);
 		homeButton.setGraphic(imgViewHome);
+		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BGCOLOR, null, null)));
 		homeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -59,8 +62,6 @@ public class DeveloperScene {
 		this.root.getChildren().add(homeButton);
 
 	}
-	
-	
 	
 	public Scene getScene() {
 		return developerScene;

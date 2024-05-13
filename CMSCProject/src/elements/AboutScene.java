@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -47,6 +49,7 @@ public class AboutScene {
 		rightButton.setTranslateX(Formatting.XPOS_TEXT+68);
 		rightButton.setTranslateY(Formatting.YPOS_TEXT);
 		rightButton.setPrefSize(Formatting.RIGHT_BUTTON.getWidth(),Formatting.RIGHT_BUTTON.getHeight());
+		rightButton.setBackground(new Background(new BackgroundFill(Formatting.BEIGE, null, null)));
 		rightButton.setGraphic(imgView);
 
 //		Adding Event
@@ -67,6 +70,7 @@ public class AboutScene {
 		homeButton.setTranslateX(7);
 		homeButton.setTranslateY(7);
 		homeButton.setPrefSize(Formatting.HOME_BUTTON.getWidth(),Formatting.HOME_BUTTON.getHeight());
+		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BGCOLOR, null, null)));
 		homeButton.setGraphic(imgViewHome);
 //		Adding Event
 		homeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {

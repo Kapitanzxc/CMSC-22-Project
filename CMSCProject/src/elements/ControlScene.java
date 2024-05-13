@@ -11,6 +11,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -47,6 +49,7 @@ public class ControlScene {
 		rightButton.setTranslateX(Formatting.XPOS_TEXT+68);
 		rightButton.setTranslateY(Formatting.YPOS_TEXT);
 		rightButton.setPrefSize(Formatting.RIGHT_BUTTON.getWidth(),Formatting.RIGHT_BUTTON.getHeight() );
+		rightButton.setBackground(new Background(new BackgroundFill(Formatting.BEIGE, null, null)));
 		rightButton.setGraphic(imgView);
 		rightButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -66,6 +69,7 @@ public class ControlScene {
 		leftButton.setTranslateX(Formatting.XPOS_TEXT-100);
 		leftButton.setTranslateY(Formatting.YPOS_TEXT);
 		leftButton.setPrefSize(Formatting.LEFT_BUTTON.getWidth(),Formatting.LEFT_BUTTON.getHeight() );
+		leftButton.setBackground(new Background(new BackgroundFill(Formatting.BEIGE, null, null)));
 		leftButton.setGraphic(imgView1);
 		leftButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -85,6 +89,7 @@ public class ControlScene {
 		homeButton.setTranslateX(7);
 		homeButton.setTranslateY(7);
 		homeButton.setPrefSize(Formatting.HOME_BUTTON.getWidth(),Formatting.HOME_BUTTON.getHeight() );
+		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BGCOLOR, null, null)));
 		homeButton.setGraphic(imgViewHome);
 		homeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override

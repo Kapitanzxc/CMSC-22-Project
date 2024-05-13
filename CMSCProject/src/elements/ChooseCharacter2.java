@@ -24,9 +24,13 @@ public class ChooseCharacter2 extends AnimationTimer{
 	private int characterP2;
 	private int animationCount;
 	private long previousTime;
+	private int player1;
+	private boolean nextCharacter;
 
 	// Constructor
 	public ChooseCharacter2(GraphicsContext gc, Scene theScene,  Stage stage, Scene menuScene, int player1) {
+		this.nextCharacter = false;
+		this.player1 = player1;
 		this.stage = stage;
 		this.characterP2 = Formatting.KNIGHT;
 		this.animationCount = 0;
@@ -43,6 +47,11 @@ public class ChooseCharacter2 extends AnimationTimer{
 	@Override
 	public void handle(long currentTime) {
 		// Show the selection of characters per frame
+		if (this.nextCharacter == false) {
+			showCharacters(currentTime);
+		} else {
+			gameplayScene();;
+		}
 		showCharacters(currentTime);
 	}
 	
@@ -68,7 +77,19 @@ public class ChooseCharacter2 extends AnimationTimer{
 		}
 		
 		if (code == KeyCode.SPACE || code == KeyCode.ENTER) {
-			gameplayScene(this.characterP2);
+			this.nextCharacter = true;
+			if (this.characterP2 == Formatting.KNIGHT) {
+				System.out.println("Player 2 chosen Knight");
+			} 
+			else if (this.characterP2 == Formatting.ORC) {
+				System.out.println("Player 2 chosen Orc");
+			}
+			else if (this.characterP2 == Formatting.SWORDWOMAN) {
+				System.out.println("Player 2 chosen SwordWoman");
+			}
+			else if (this.characterP2 == Formatting.WIZARD) {
+				System.out.println("Player 2 chosen Wizard");
+			}
 		}
 		
 		System.out.println(code+" key pressed.");
@@ -102,11 +123,11 @@ public class ChooseCharacter2 extends AnimationTimer{
 					this.gc.drawImage(Formatting.P2ORC2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 				}
 			}
-			else if (this.characterP2 == Formatting.SWORDSWOMAN) {
+			else if (this.characterP2 == Formatting.SWORDWOMAN) {
 				if (this.animationCount == 1) {
-					this.gc.drawImage(Formatting.P2SWORDSWOMAN1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+					this.gc.drawImage(Formatting.P2SWORDWOMAN1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 				} else {
-					this.gc.drawImage(Formatting.P2SWORDSWOMAN2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+					this.gc.drawImage(Formatting.P2SWORDWOMAN2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 				}
 			}
 			
@@ -121,10 +142,10 @@ public class ChooseCharacter2 extends AnimationTimer{
 		}
 	}
 //	Proceed to gameplayScene after selecting a character
-	public void gameplayScene (int player1) {
+	public void gameplayScene () {
 		this.stop();
 		System.out.println("Load game scene");
-		GameScene gameScene = new GameScene(this.menuScene, this.stage, player1, this.characterP2);
+		GameScene gameScene = new GameScene(this.menuScene, this.stage, this.player1, this.characterP2);
 		FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), this.characterP2Scene.getRoot());
 		    fadeOut.setFromValue(1.0);
 		    fadeOut.setToValue(0.0);

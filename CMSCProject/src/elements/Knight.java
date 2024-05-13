@@ -13,8 +13,8 @@ public class Knight extends Sprite{
 	private int animationCountDie;
 	private int animationCountWalk;
 // 	Constructor
-	public Knight(int x, int y, long previousTime){
-		super(x,y, 0.20, 0.18, 0.53, 0.05);
+	public Knight(int x, int y, int playerNumber, long previousTime){
+		super(Formatting.KNIGHT, playerNumber, x,y, 0.20, 0.18, 0.53, 0.05,0,1,1);
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;
@@ -36,9 +36,9 @@ public class Knight extends Sprite{
 				this.animationCountIdle ++;
 				if (getDirection() == 1) {
 					this.idleRight();
-					} else {
-						this.idleLeft();
-					}
+				} else {
+					this.idleLeft();
+				}
 				
 				previousTimeIdle = currentTime;
 			}
@@ -90,7 +90,7 @@ public class Knight extends Sprite{
 				}
 			}
 //		Attack animation
-		if(this.getAttack() && checkAlive() && player2.checkAlive()) {
+		if(this.getAttack() && checkAlive()) {
 			if (this.getDirection() == 1) {
 				this.attackRightAnimation(currentTime, player2);
 				this.previousTimeDie = currentTime;
@@ -151,7 +151,7 @@ public class Knight extends Sprite{
 			else if (animationCountAttack == 3) {
 				this.img = Formatting.KnightRAttack3;
 //				Checks if the weapon and character collides
-				if (this.getCollisionChecker() == false) {
+				if (this.getCollisionChecker() == false && player2.checkAlive()) {
 					this.checkCollision(this, player2, currentTime, player2.getDirection());
 				}
 			}
@@ -170,7 +170,6 @@ public class Knight extends Sprite{
 	}
 	
 	public void attackLeftAnimation(long currentTime, Sprite player2) {
-		this.setDX(0);
 		this.setDY(0);
 		// TODO Auto-generated method stub
 		if(currentTime - this.previousTimeAttack >= (142 * 1000000)) {
@@ -181,13 +180,14 @@ public class Knight extends Sprite{
 			} 
 			else if (animationCountAttack == 2) {
 				this.img = Formatting.KnightLAttack2;
-//				Checks if the weapon and character collides
-				if (this.getCollisionChecker() == false) {
-					this.checkCollision(this, player2, currentTime, player2.getDirection());
-				}
+				
 			}
 			else if (animationCountAttack == 3) {
 				this.img = Formatting.KnightLAttack3;
+//				Checks if the weapon and character collides
+				if (this.getCollisionChecker() == false && player2.checkAlive()) {
+					this.checkCollision(this, player2, currentTime, player2.getDirection());
+				}
 			}
 			else if (animationCountAttack == 4) {
 				this.img = Formatting.KnightLAttack4;
@@ -199,7 +199,6 @@ public class Knight extends Sprite{
 				this.attack = false;
 				this.setCollisionChecker(false);
 			}
-			
 			this.previousTimeAttack = currentTime;
 		}
 	}
@@ -303,6 +302,31 @@ public class Knight extends Sprite{
 		}
 		else if (animationCountWalk == 8) {
 			this.img = Formatting.KnightLWalk8;
+		}
+	}
+	
+//	Animation for hitting opponent
+	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
+		if (getHit() == true && this.checkAlive()) {
+			if (direction == 1) {
+				this.img = Formatting.KnightRHit1;
+				System.out.println("Hit Animation Finished");
+				this.hit = false;
+//				Decreases health
+				this.setHealth(attacker.getAttackPoints()); 
+				System.out.println("Player Health Remaining: " + this.health);
+			} else {
+				this.img = Formatting.KnightLHit1;
+				System.out.println("Hit Animation Finished");
+				this.hit = false;
+//				Decreases health
+				this.setHealth(attacker.getAttackPoints()); 
+				System.out.println("Player Health Remaining: " + this.health);
+			}
+		} else if (this.getDirection() == 1){
+			this.img = Formatting.KnightRIdle1;
+		} else {
+			this.img = Formatting.KnightLIdle1;
 		}
 	}
 	

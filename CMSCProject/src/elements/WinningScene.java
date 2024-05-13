@@ -24,7 +24,7 @@ public class WinningScene {
 	private Scene winningScene;
 
 	// Constructor
-	public WinningScene(Scene menuScene, Stage stage) {
+	public WinningScene(Scene menuScene, Stage stage, int playerWinner) {
 		// Initialize variables
 		this.stage = stage;
 		this.root = new Group();
@@ -34,7 +34,12 @@ public class WinningScene {
 		this.gc = canvas.getGraphicsContext2D();
 		
 		// Draw Background
-		this.gc.drawImage(Formatting.KNIGHTVICTORY, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+		if (playerWinner == Formatting.KNIGHT) {
+			this.gc.drawImage(Formatting.KNIGHTVICTORY, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+		} 
+		else if (playerWinner == Formatting.SWORDWOMAN) {
+			this.gc.drawImage(Formatting.SWVICTORY, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+		}
 		
 //		Back to menu text
 		Text backToMenu = new Text(Formatting.SCREEN_WIDTH/2 + 250, Formatting.SCREEN_HEIGHT - 50,"Back To Menu");
