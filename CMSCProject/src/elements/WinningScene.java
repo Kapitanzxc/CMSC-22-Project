@@ -40,6 +40,12 @@ public class WinningScene {
 		else if (playerWinner == Formatting.SWORDWOMAN) {
 			this.gc.drawImage(Formatting.SWVICTORY, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		}
+		else if (playerWinner == Formatting.WIZARD) {
+			this.gc.drawImage(Formatting.WIZVICTORY, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+		}
+		else if (playerWinner == Formatting.ORC) {
+			this.gc.drawImage(Formatting.ORCVICTORY, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+		}
 		
 //		Back to menu text
 		Text backToMenu = new Text(Formatting.SCREEN_WIDTH/2 + 250, Formatting.SCREEN_HEIGHT - 50,"Back To Menu");

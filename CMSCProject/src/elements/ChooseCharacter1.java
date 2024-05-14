@@ -46,8 +46,6 @@ public class ChooseCharacter1 extends AnimationTimer{
 		this.handleKeyPressEvent();
 	}
 	
-
-
 	@Override
 	public void handle(long currentTime) {
 		// Show the selection of characters per frame
@@ -152,7 +150,7 @@ public class ChooseCharacter1 extends AnimationTimer{
 //	Proceed to player2secelction after selecting a character
 	public void player2Selection (int player1) {
 		this.stop();
-		System.out.println("Choose player 2!");
+		System.out.println("Choose player 2!" );
 		ChooseCharacter2 chooseCharacter2 = new ChooseCharacter2(this.gc, this.characterP1Scene,  this.stage, this.menuScene, player1);
 		chooseCharacter2.start();
 	}

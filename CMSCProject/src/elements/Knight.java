@@ -14,7 +14,15 @@ public class Knight extends Sprite{
 	private int animationCountWalk;
 // 	Constructor
 	public Knight(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.KNIGHT, playerNumber, x,y, 0.20, 0.18, 0.53, 0.05,0,1,1);
+		super(Formatting.KNIGHT, playerNumber, x,y, 
+				0.20, 0.18, 
+				0.55,
+				0.34, 0.77,
+				0.55, 0.05,
+				0.1,
+				0.4, 0.95,
+				0,1,
+				1);
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;
@@ -22,7 +30,7 @@ public class Knight extends Sprite{
 		this.previousTimeLWalk = previousTime;
 		this.animationCountAttack = 1;
 		this.animationCountIdle = 1;
-		this.animationCountDie = 1;
+		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
 		this.loadImage(Formatting.KnightRIdle1);
 //		this.loadImage(Formatting.PIXEL);

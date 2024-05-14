@@ -54,8 +54,8 @@ public class GameTimer extends AnimationTimer {
         switch (playerType) {
             case Formatting.KNIGHT:
                 return new Knight(x, y, playerNum, System.nanoTime());
-//            case Formatting.ORC:
-//                return new Orc(x, y, playerNum, System.nanoTime());
+            case Formatting.ORC:
+               return new Orc(x, y, playerNum, System.nanoTime());
             case Formatting.SWORDWOMAN:
                 return new SwordWoman(x, y, playerNum, System.nanoTime());
             case Formatting.WIZARD:

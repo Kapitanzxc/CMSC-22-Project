@@ -29,18 +29,32 @@ public abstract class Sprite {
 	private double widthROffset;
 	private double heightOffset;
 	private boolean showBoxes;
+	private double hitboxW;
+	private double hitboxH;
+	private double attackW;
+	private double attackH;
+	private double xLOffset;
+	private double attackLWOffset;
 	
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
     private static final int MAX_HEALTH = 100;
 //	Constructor
 	public Sprite(int characterID, int playerNumber, int xPos, int yPos, 
-			double xOffset, double yOffset, double attackWOffset, double attackHOffset,
+			double xOffset, double yOffset,
+			double xLOffset,
+			double hitBoxW, double hitBoxH,
+			double attackWOffset, double attackHOffset,
+			double attackLWOffset,
+			double attackW, double attackH,
 			double widthLOffset, double widthROffset,
 			double heightOffset){
 	
 		this.x = (int) (xPos + this.width * xOffset);
 		this.y = (int) (yPos + this.height + yOffset);
+		this.hitboxW = hitBoxW;
+		this.hitboxH = hitBoxH;
+		this.xLOffset = xLOffset;
 		this.widthLOffset = widthLOffset;
 		this.widthROffset = widthROffset;
 		this.heightOffset = heightOffset;
@@ -57,6 +71,9 @@ public abstract class Sprite {
 		this.yOffset = yOffset;
 		this.attackWOffset = attackWOffset;
 		this.attackHOffset = attackHOffset;
+		this.attackLWOffset = attackLWOffset;
+		this.attackW = attackW;
+		this.attackH = attackH;
 		this.hitbox = new Rectangle (this.x, this.y, 0 , 0);
 		this.attackbox = new Rectangle (this.x, this.y, 0,0);
 		this.previousTimeDie = System.nanoTime();
@@ -68,6 +85,7 @@ public abstract class Sprite {
 	protected abstract boolean dieAnimation(long nanoTime);
 	protected abstract void animation(long nanoTime, Sprite player2);
 	protected abstract void hitAnimation(long currentTime, Sprite player1, int direction2);
+	
 	
 	//method to set the object's image
 	protected void loadImage(Image img){
@@ -108,14 +126,16 @@ public abstract class Sprite {
             gc.fillRect(88, 30, HEALTHWIDTH, HEALTHHEIGHT);
             gc.setFill(Color.GREEN);
             gc.fillRect(88, 30, HEALTHWIDTH * healthPercentage, HEALTHHEIGHT);
-            
 			if (this.characterID == Formatting.KNIGHT) {
 				gc.drawImage(Formatting.KnightLHealthBar, 10, 10);  
 			} 
+			else if (this.characterID == Formatting.ORC) {
+				gc.drawImage(Formatting.OrcLHealthBar, 10, 10);  
+			}
 			else if (this.characterID == Formatting.SWORDWOMAN) {
 				gc.drawImage(Formatting.SWLHealthBar, 10, 10);  
 			} 
-			else if (this.characterID == Formatting.SWORDWOMAN) {
+			else if (this.characterID == Formatting.WIZARD) {
 				gc.drawImage(Formatting.WizLHealthBar, 10, 10);  
 			}
 			
@@ -124,6 +144,7 @@ public abstract class Sprite {
             gc.setFont(Formatting.FONT_STYLE_22);
             // Render text
             gc.fillText(""+this.attackPoints, 120, 65);
+            
 		} else {
 			// Health Bar
             gc.setFill(Color.GREEN);
@@ -134,12 +155,16 @@ public abstract class Sprite {
 			if (this.characterID == Formatting.KNIGHT) {
 				gc.drawImage(Formatting.KnightRHealthBar, 959, 10);   
 			} 
+			else if (this.characterID == Formatting.ORC) {
+				gc.drawImage(Formatting.OrcRHealthBar, 959, 10);
+			}
 			else if (this.characterID == Formatting.SWORDWOMAN) {
 				gc.drawImage(Formatting.SWRHealthBar, 959, 10);  
 			} 
-			else if (this.characterID == Formatting.SWORDWOMAN) {
+			else if (this.characterID == Formatting.WIZARD) {
 				gc.drawImage(Formatting.WizRHealthBar, 959, 10);  
 			} 
+			
 			// Set font and color
             gc.setFill(Color.WHITE);
             gc.setFont(Formatting.FONT_STYLE_22);
@@ -171,61 +196,41 @@ public abstract class Sprite {
 		}
 		
 	}
+	
 //	Swapping hitboxes when the character faced opposite direction
 	private void hitboxRUpdate() {
 		// TODO Auto-generated method stub
 		this.hitbox.x = (int) (this.x + this.width * this.xOffset);
 		this.hitbox.y = (int) (this.y + this.height * this.yOffset);
-		if (this.characterID == Formatting.WIZARD ) {
-			this.hitbox.width = (int) (this.width/10);
-		} else {
-			this.hitbox.width = this.width/2;	
-		}		
-		this.hitbox.height = (int) (this.height - this.height * this.yOffset);
+		this.hitbox.width = (int) (this.width * this.hitboxW);
+		this.hitbox.height = (int) (this.height * this.hitboxH);
 	}
 	
 	private void attackboxRUpdate() {
 		// TODO Auto-generated method stub
 		this.attackbox.x = (int) (this.x + this.width * this.attackWOffset);
-		if (this.characterID == Formatting.WIZARD ) {
-			this.attackbox.y = (int) (this.y + this.height * 0.41);	
-			this.attackbox.width = (int) (this.width*0.29);	
-			this.attackbox.height = (int) (this.height*0.57);
-		} else {
-			this.attackbox.y = this.y;	
-			this.attackbox.width = this.width/2;	
-			this.attackbox.height = this.height;
-		}	
+		this.attackbox.y = (int) (this.y + this.height * this.attackHOffset);	
+		this.attackbox.width = (int) (this.width * this.attackW);	
+		this.attackbox.height = (int) (this.height * this.attackH);
+		
 	}
 	
 	private void hitboxLUpdate() {
 		// TODO Auto-generated method stub
-		if (this.characterID != Formatting.WIZARD) {
-			this.hitbox.x = (int) (this.x + this.width * this.attackWOffset);
-			this.hitbox.y = this.y;
-			this.hitbox.width = this.width/2;	
-			this.hitbox.height = (int) (this.height - this.height * this.yOffset);
-		} else {
-			hitboxRUpdate();
-		}
+		this.hitbox.x = (int) (this.x + this.width * this.xLOffset);
+		this.hitbox.y = (int) (this.y + this.height * this.yOffset);
+		this.hitbox.width = (int) (this.width * this.hitboxW);
+		this.hitbox.height = (int) (this.height * this.hitboxH);
 	}
 	
 	private void attackboxLUpdate() {
 		// TODO Auto-generated method stub
-		if (this.characterID != Formatting.WIZARD) {
-			this.attackbox.x = (int) (this.x + this.width * this.xOffset);
-			this.attackbox.y = (int) (this.y + this.height * this.yOffset);
-			this.attackbox.width = this.width/2;	
-			this.attackbox.height = this.height;
-		} else {
-			this.attackbox.x = (int) (this.x + this.width * 0.035);
-			this.attackbox.y = (int) (this.y + this.height * 0.41);	
-			this.attackbox.width = (int) (this.width*0.29);	
-			this.attackbox.height = (int) (this.height*0.57);
-		}
+		this.attackbox.x = (int) (this.x + this.width * this.attackLWOffset);
+		this.attackbox.y = (int) (this.y + this.height * this.attackHOffset);	
+		this.attackbox.width = (int) (this.width * this.attackW);	
+		this.attackbox.height = (int) (this.height * this.attackH);
 		
 	}
-	
 
 //	Method for checking collision
 	public void checkCollision(Sprite player1, Sprite player2, long currentTime, int direction) {
