@@ -42,7 +42,8 @@ public class PowerUp extends Sprite {
 	
 //	Map boundaries (+20, -20)
 	public static int spawnY() {
-		int randY = random.nextInt(111,600);
+		int randY = random.nextInt(105,611);
+		
 		return randY;
 	}
 	
@@ -50,38 +51,34 @@ public class PowerUp extends Sprite {
 		int randX = 0;
 		
 //		north
-		if (y >= 111 && y <= 187) {
-			randX = random.nextInt(323, 851);
+		if (y >= 105 && y <= 179) {
+			randX = random.nextInt(350, 851);
 //		north 2
-		} else if (y >= 188 && y <= 260) {
-			randX = random.nextInt(250, 948);
+		} else if (y >= 180 && y <= 249) {
+			randX = random.nextInt(250, 951);
 //		middle
-		} else if (y >= 261 && y <= 294) {
-			randX = random.nextInt(154, 1050);
+		} else if (y >= 250 && y <= 289) {
+			randX = random.nextInt(150, 1051);
 //		middle 2 (contains pillars)
-		} else if (y >= 295 && y <= 430){
+		} else if (y >= 290 && y <= 379){
 			int rand = random.nextInt(1, 4);
 			
 			if(rand == 1) {
-				randX = random.nextInt(154, 279);
+				randX = random.nextInt(150, 291);
 			} else if (rand == 2) {
-				randX = random.nextInt(447, 843);
+				randX = random.nextInt(390, 831);
 			} else {
-				randX = random.nextInt(447, 843);
+				randX = random.nextInt(930, 1051);
 			}
-			
-//		middle 3
-		} else if (y >= 431 && y <= 377){
-			randX = random.nextInt(154, 1050);
 //		south 1
-		} else if (y >= 378 && y <= 466) {
-			randX = random.nextInt(200, 1004);
+		} else if (y >= 380 && y <= 469) {
+			randX = random.nextInt(270, 1006);
 //		south 2
-		} else if (y >= 467 && y <= 540) {
-			randX = random.nextInt(306, 903);
+		} else if (y >= 470 && y <= 544) {
+			randX = random.nextInt(300, 906);
 //		south 3
 		} else {
-			randX = random.nextInt(404, 797);
+			randX = random.nextInt(400, 796);
 		}
 		
 		return randX;
@@ -111,7 +108,7 @@ public class PowerUp extends Sprite {
     		if (this.type == Formatting.FRAGMENT) {
     			player.setAttackPoints(this.add);
     		} else if (this.type == Formatting.DOUBLEDAMAGE) {
-    			
+    			// double damage
     		} else if (this.type == Formatting.HEAL) {
     			if(player.getHealth() < 100) {
     				player.setHealthAdd(this.add);

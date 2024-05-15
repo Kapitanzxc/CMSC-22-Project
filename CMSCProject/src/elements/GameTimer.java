@@ -32,7 +32,8 @@ public class GameTimer extends AnimationTimer {
 	private int animationCountTimer;
 	private long previousTimerBG;
 	private Image timerBGimg;
-	
+
+//	****************
 //	Power-ups
 	private ArrayList<PowerUp> fragmentPowerUps, specialPowerUps;
 	private int spawnX, spawnY;
@@ -44,6 +45,7 @@ public class GameTimer extends AnimationTimer {
 	private final static int UPTIME_SPOWERUP = 10;
 	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
+//	****************
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
 		this.player1Code = player1;
@@ -60,13 +62,15 @@ public class GameTimer extends AnimationTimer {
 //		Creating two players
 		this.player1 = createPlayer(player1, 500, 100, 1);
         this.player2 = createPlayer(player2, 600, 100, 2);
-        
+
+//    	****************
 //      Power Ups
         this.startFPowerUpSpawn = System.nanoTime();
         this.startSPowerUpSpawn = System.nanoTime();
         this.fragmentPowerUps = new ArrayList<PowerUp>();
         this.specialPowerUps = new ArrayList<PowerUp>();
         this.initialSpawn = true;
+//    	****************
 
 //		call method to handle key click event
 		this.handleKeyPressEvent();
@@ -141,12 +145,14 @@ public class GameTimer extends AnimationTimer {
 		this.gc.drawImage(Formatting.MAP, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		timer(currentNanoTime);
 
+//		****************
 //		Spawning Fragment Power-ups
 		spawnFragmentPowerUps(currentNanoTime);
 //		Spawning Special Power-ups
 		spawnSpecialPowerUps(currentNanoTime);
 //		Rendering Power-ups
 		renderPowerUps();
+//		****************
 
 //		Check players movement and update it accordingly
 		this.player1.move();
@@ -160,11 +166,14 @@ public class GameTimer extends AnimationTimer {
 //		Draw structure
 		this.gc.drawImage(Formatting.TOWER, 307, 202);
 		this.gc.drawImage(Formatting.TOWER, 844, 202);
-		
+
+//		****************
 //		Deletes Power-ups (by collecting and expiration)
 		deletePowerUps(currentNanoTime);
+//		****************
 	}
-	
+
+//	****************
 	private void generateFragmentPowerUps(int numFragments){
 // 		Create fragment type power-ups
         for (int i = fragmentPowerUps.size(); i < numFragments; i++) {
@@ -263,6 +272,7 @@ public class GameTimer extends AnimationTimer {
 			}
 		}		
 	}
+//	****************
 	
 	//method that will move the chracter depending on the key pressed
 	private void moveCharacter(KeyCode ke) {
