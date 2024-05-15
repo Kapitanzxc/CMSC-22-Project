@@ -1,6 +1,8 @@
 package elements;
 
 
+import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
@@ -30,6 +32,20 @@ public class GameTimer extends AnimationTimer {
 	private int animationCountTimer;
 	private long previousTimerBG;
 	private Image timerBGimg;
+
+//	****************
+//	Power-ups
+	private ArrayList<PowerUp> fragmentPowerUps, specialPowerUps;
+	private int spawnX, spawnY;
+	private long startFPowerUpSpawn, startSPowerUpSpawn;
+	private boolean initialSpawn;
+	
+	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
+	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
+	private final static int UPTIME_SPOWERUP = 10;
+	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
+	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
+//	****************
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
 		this.player1Code = player1;
@@ -47,7 +63,16 @@ public class GameTimer extends AnimationTimer {
 		this.player1 = createPlayer(player1, 500, 100, 1);
         this.player2 = createPlayer(player2, 600, 100, 2);
 
-		//call method to handle key click event
+//    	****************
+//      Power Ups
+        this.startFPowerUpSpawn = System.nanoTime();
+        this.startSPowerUpSpawn = System.nanoTime();
+        this.fragmentPowerUps = new ArrayList<PowerUp>();
+        this.specialPowerUps = new ArrayList<PowerUp>();
+        this.initialSpawn = true;
+//    	****************
+
+//		call method to handle key click event
 		this.handleKeyPressEvent();
 	}
 	private Sprite createPlayer(int playerType, int x, int y, int playerNum) {
@@ -64,15 +89,18 @@ public class GameTimer extends AnimationTimer {
 //            	Reference: https://rollbar.com/blog/how-to-throw-illegalargumentexception-in-java/
             	throw new IllegalArgumentException("Invalid player type: " + playerType);
         }
-	 }
+	}
+	
 	@Override
 	public void handle(long currentNanoTime) {
 //		Runs the gameplay and checks game over situation
 		if (!this.gameOver) {
 //			Run gameplay 
 			gameplay(currentNanoTime);
+			
 //			Check if one player is already dead
 			if (!player1.checkAlive() || !player2.checkAlive()) {
+				
 //				If dead: Finish the die animation
 				if (!player1.checkAlive()) {
 					this.gameOver = player1.dieAnimation(System.nanoTime());
@@ -109,7 +137,6 @@ public class GameTimer extends AnimationTimer {
     }
 	
 	private void gameplay(long currentNanoTime) {
-		// TODO Auto-generated method stub
 //		Resets the screen and draw the map
 		this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		gc.setFill(Color.BLACK); 
@@ -117,7 +144,17 @@ public class GameTimer extends AnimationTimer {
 		timerBackground(currentNanoTime);
 		this.gc.drawImage(Formatting.MAP, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		timer(currentNanoTime);
-		// Check players movement and update it accordingly
+
+//		****************
+//		Spawning Fragment Power-ups
+		spawnFragmentPowerUps(currentNanoTime);
+//		Spawning Special Power-ups
+		spawnSpecialPowerUps(currentNanoTime);
+//		Rendering Power-ups
+		renderPowerUps();
+//		****************
+
+//		Check players movement and update it accordingly
 		this.player1.move();
 		this.player2.move();
 //		Shows players respective animations
@@ -129,7 +166,113 @@ public class GameTimer extends AnimationTimer {
 //		Draw structure
 		this.gc.drawImage(Formatting.TOWER, 307, 202);
 		this.gc.drawImage(Formatting.TOWER, 844, 202);
+
+//		****************
+//		Deletes Power-ups (by collecting and expiration)
+		deletePowerUps(currentNanoTime);
+//		****************
 	}
+
+//	****************
+	private void generateFragmentPowerUps(int numFragments){
+// 		Create fragment type power-ups
+        for (int i = fragmentPowerUps.size(); i < numFragments; i++) {
+            spawnY = PowerUp.spawnY();
+            spawnX = PowerUp.spawnX(spawnY);
+            PowerUp fragment = new PowerUp(spawnX, spawnY, 1, System.nanoTime(), 0, 1);
+            this.fragmentPowerUps.add(fragment);
+        }
+	}
+	
+	private void generateSpecialPowerUps() {        
+//		Create special type power-ups
+        for (int i = 0; i < NUM_SPECIAL_POWERUP; i++) {
+        	spawnY = PowerUp.spawnY();
+            spawnX = PowerUp.spawnX(spawnY);
+            PowerUp special = new PowerUp(spawnX, spawnY, i+2, System.nanoTime(), 8000*1000000, 10);
+            this.specialPowerUps.add(special);
+        }
+	}
+	
+	private void spawnFragmentPowerUps(long currentNanoTime) {
+	    // Initial Spawn of Fragment Power-ups
+	    if (this.initialSpawn) {
+	        this.generateFragmentPowerUps(NUM_FRAGMENT_POWERUP); // generates power ups
+	        this.startFPowerUpSpawn = System.nanoTime(); // resets time to compare again until the spawn delay
+	        this.initialSpawn = false;
+	    } else {
+	        // Elapsed time from spawn to current (in seconds)
+	        double spawnElapsedTime = (currentNanoTime - this.startFPowerUpSpawn) / 1000000000.0;
+
+	        // Respawn every 5 seconds (if fragments < 20)
+	        if (spawnElapsedTime > SPAWNDELAY_FPOWERUP) {
+	            this.generateFragmentPowerUps(NUM_FRAGMENT_POWERUP); // generates power ups
+	            this.startFPowerUpSpawn = currentNanoTime; // resets time to compare again until the spawn delay
+	        }
+	    }
+
+	    collectPowerUps(currentNanoTime); // check if collides with player or not
+	}
+	
+	private void spawnSpecialPowerUps(long currentNanoTime) {
+//		Elapsed time from spawn to current (in seconds)
+		double spawnElapsedTime = (currentNanoTime - this.startSPowerUpSpawn) / 1000000000.0;
+        
+// 		Spawn special power-ups
+   		if (spawnElapsedTime > SPAWNDELAY_SPOWERUP) {
+     	  	this.generateSpecialPowerUps(); // generates power ups
+     	  	this.startSPowerUpSpawn = System.nanoTime(); // resets time to compare again until 10 seconds elapsed
+   		}
+   		
+//   	Check if a special power up collides with a player or not
+   		collectPowerUps(currentNanoTime);
+	}
+	
+//  Render power-ups
+	private void renderPowerUps() {
+		for (PowerUp special : this.specialPowerUps) {	        
+	        special.render(this.gc);
+	    }
+		
+		for (PowerUp fragment : this.fragmentPowerUps) {
+			fragment.render(this.gc);
+		}
+	}
+	
+	private void collectPowerUps(long currentNanoTime) {
+		for(int i = 0; i < this.specialPowerUps.size(); i++){
+	        PowerUp special = this.specialPowerUps.get(i);
+	        if (special.getAlive()){
+	        	special.checkPowerUpCollision(this.player1);
+	        	special.checkPowerUpCollision(this.player2);
+	        } else {
+//	        	Removes special power ups if idle for 10 seconds or picked up
+	        	this.specialPowerUps.remove(i);
+	        }
+	    }
+		
+		for(int i = 0; i < this.fragmentPowerUps.size(); i++){
+	        PowerUp fragment = this.fragmentPowerUps.get(i);
+	        if (fragment.getAlive()){
+	        	fragment.checkPowerUpCollision(this.player1);
+	        	fragment.checkPowerUpCollision(this.player2);
+	        } else {
+//	        	Removes fragments that are picked up 
+	        	this.fragmentPowerUps.remove(i);
+	        }
+	    }
+	}
+	
+//	Delete special power-ups that is idle for 10 seconds
+	private void deletePowerUps(long currentNanoTime) {		
+		for(int i = 0; i < this.specialPowerUps.size(); i++){
+			if (((currentNanoTime-this.startSPowerUpSpawn) / 1000000000.0) >= UPTIME_SPOWERUP){ // checks if 5 seconds have elapsed
+				this.specialPowerUps.get(i).setAlive(false);
+				this.specialPowerUps.remove(i); // removed from the array list
+			}
+		}		
+	}
+//	****************
 	
 	//method that will move the chracter depending on the key pressed
 	private void moveCharacter(KeyCode ke) {

@@ -47,6 +47,19 @@ public class Formatting {
 	public static final Image TIMER9 = new Image("file:resources/TimerEffect/Timer9.png", 180, 173,true,true);
 	public static final Image TIMER10 = new Image("file:resources/TimerEffect/Timer10.png", 180, 173,true,true);
 
+//	****************
+//	Power Up Codes
+	public static final int FRAGMENT = 1;
+	public static final int DOUBLEDAMAGE = 2;
+	public static final int HEAL = 3;
+	public static final int SPEEDBOOST = 4;	
+
+//	Power ups
+	public static final Image PFRAGMENT = new Image("file:resources/PowerUp/fragment.png", 20, 20, true, true);
+	public static final Image PDOUBLEDAMAGE = new Image("file:resources/PowerUp/attack.png", 40, 40, true, true);
+	public static final Image PHEAL = new Image("file:resources/PowerUp/heal.png", 40, 40, true, true);
+	public static final Image PSPEEDBOOST = new Image("file:resources/PowerUp/speed.png", 40, 40, true, true);
+//	****************
 	
 //	Font Styles
 	public static final Font FONT_STYLE_26 = Font.loadFont("file:resources/PrStart.ttf", 26);
@@ -86,7 +99,6 @@ public class Formatting {
 	public static final Image P2WIZARD2 = new Image("file:resources/ChooseCharacter/Player2/P2Wiz2.jpg", 7000, 2917,true,true);
 	
 //	Characters
-	
 	public static final double CHARACTER_WIDTH = 55;
 	public static final double CHARACTER_HEIGHT = 44;
 	public static final double CHARACTER_WIDTHW = 180;
