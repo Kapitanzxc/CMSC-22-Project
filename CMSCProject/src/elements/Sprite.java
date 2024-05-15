@@ -357,6 +357,14 @@ public abstract class Sprite {
 		return (int) this.img.getHeight();
 	}
 	
+	public boolean getAlive() {
+		return this.alive;
+	}
+	
+	public int getPlayerNumber() {
+		return this.playerNumber;
+	}
+	
 	public boolean getAttack(){
 		return this.attack;
 	}
@@ -385,13 +393,30 @@ public abstract class Sprite {
 		return direction;
 	}
 	
-//	Setters 
+//	Setters
+	public void setAlive(boolean state) {
+		this.alive = state;
+	}
+	
+	public void setAttackPoints (int additional) {
+		this.attackPoints += 1;
+	}
+	
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 	
 	public void setHealth(int damage) {
 		this.health -= damage;
+	}
+	
+	public void setHealthAdd(int additional) {
+//		Max health = 100
+		if(this.health + additional > 100) {
+			this.health = 100;
+		} else {
+			this.health += additional;
+		}
 	}
 	
 	public void setVisible(boolean visible) {
