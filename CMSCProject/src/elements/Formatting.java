@@ -33,6 +33,8 @@ public class Formatting {
 	public static final Image SWLHealthBar = new Image("file:resources/HealthBar/LSWHealthBar.png", 231, 72,true,true);
 	public static final Image WizRHealthBar = new Image("file:resources/HealthBar/RWizHealthBar.png", 231, 72,true,true);
 	public static final Image WizLHealthBar = new Image("file:resources/HealthBar/LWizHealthBar.png", 231, 72,true,true);
+	public static final Image OrcRHealthBar = new Image("file:resources/HealthBar/ROrcHealthBar.png", 231, 72,true,true);
+	public static final Image OrcLHealthBar = new Image("file:resources/HealthBar/LOrcHealthBar.png", 231, 72,true,true);
 	
 	public static final Image TIMER1 = new Image("file:resources/TimerEffect/Timer1.png", 180, 173,true,true);
 	public static final Image TIMER2 = new Image("file:resources/TimerEffect/Timer2.png", 180, 173,true,true);
@@ -101,6 +103,8 @@ public class Formatting {
 	public static final double CHARACTER_HEIGHT = 44;
 	public static final double CHARACTER_WIDTHW = 180;
 	public static final double CHARACTER_HEIGHTW = 52;
+	public static final double CHARACTER_WIDTHO = 63;
+	public static final double CHARACTER_HEIGHTO = 63;
 	
 //	Knight
 	public static final Image KnightRIdle1 = new Image("file:resources/Knight/Idle/RKnightIdle1.png", CHARACTER_WIDTH, CHARACTER_HEIGHT,true,true);
@@ -277,11 +281,72 @@ public class Formatting {
 	public static final Image WizLWalk6 = new Image("file:resources/Wizard/Walk/LWizWalk6.png", CHARACTER_WIDTHW, CHARACTER_HEIGHTW,true,true);
 	public static final Image WizLWalk7 = new Image("file:resources/Wizard/Walk/LWizWalk7.png", CHARACTER_WIDTHW, CHARACTER_HEIGHTW,true,true);
 	public static final Image WizLWalk8 = new Image("file:resources/Wizard/Walk/LWizWalk8.png", CHARACTER_WIDTHW, CHARACTER_HEIGHTW,true,true);
+
+//	Orc
+	public static final Image OrcRIdle1 = new Image("file:resources/Orc/Idle/ROrcIdle1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRIdle2 = new Image("file:resources/Orc/Idle/ROrcIdle2.png",  CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRIdle3 = new Image("file:resources/Orc/Idle/ROrcIdle3.png",   CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRIdle4 = new Image("file:resources/Orc/Idle/ROrcIdle4.png",   CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
 	
+	public static final Image OrcLIdle1 = new Image("file:resources/Orc/Idle/LOrcIdle1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLIdle2 = new Image("file:resources/Orc/Idle/LOrcIdle2.png",  CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLIdle3 = new Image("file:resources/Orc/Idle/LOrcIdle3.png",   CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLIdle4 = new Image("file:resources/Orc/Idle/LOrcIdle4.png",   CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	
+	public static final Image OrcRAttack1 = new Image("file:resources/Orc/Attack/ROrcAttack1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRAttack2 = new Image("file:resources/Orc/Attack/ROrcAttack2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRAttack3 = new Image("file:resources/Orc/Attack/ROrcAttack3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRAttack4 = new Image("file:resources/Orc/Attack/ROrcAttack4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRAttack5 = new Image("file:resources/Orc/Attack/ROrcAttack5.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRAttack6 = new Image("file:resources/Orc/Attack/ROrcAttack6.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRAttack7 = new Image("file:resources/Orc/Attack/ROrcAttack7.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image OrcLAttack1 = new Image("file:resources/Orc/Attack/LOrcAttack1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLAttack2 = new Image("file:resources/Orc/Attack/LOrcAttack2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLAttack3 = new Image("file:resources/Orc/Attack/LOrcAttack3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLAttack4 = new Image("file:resources/Orc/Attack/LOrcAttack4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLAttack5 = new Image("file:resources/Orc/Attack/LOrcAttack5.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLAttack6 = new Image("file:resources/Orc/Attack/LOrcAttack6.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLAttack7 = new Image("file:resources/Orc/Attack/LOrcAttack7.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+
+	public static final Image OrcRHit1 = new Image("file:resources/Orc/Hit/ROrcHit1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLHit1 = new Image("file:resources/Orc/Hit/LOrcHit1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image OrcRDie1 = new Image("file:resources/Orc/Die/ROrcDie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRDie2 = new Image("file:resources/Orc/Die/ROrcDie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRDie3 = new Image("file:resources/Orc/Die/ROrcDie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRDie4 = new Image("file:resources/Orc/Die/ROrcDie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image OrcLDie1 = new Image("file:resources/Orc/Die/LOrcDie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLDie2 = new Image("file:resources/Orc/Die/LOrcDie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLDie3 = new Image("file:resources/Orc/Die/LOrcDie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLDie4 = new Image("file:resources/Orc/Die/LOrcDie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	
+	public static final Image OrcRWalk1 = new Image("file:resources/Orc/Walk/ROrcWalk1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRWalk2 = new Image("file:resources/Orc/Walk/ROrcWalk2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRWalk3 = new Image("file:resources/Orc/Walk/ROrcWalk3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRWalk4 = new Image("file:resources/Orc/Walk/ROrcWalk4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRWalk5 = new Image("file:resources/Orc/Walk/ROrcWalk5.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRWalk6 = new Image("file:resources/Orc/Walk/ROrcWalk6.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRWalk7 = new Image("file:resources/Orc/Walk/ROrcWalk7.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcRWalk8 = new Image("file:resources/Orc/Walk/ROrcWalk8.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image OrcLWalk1 = new Image("file:resources/Orc/Walk/LOrcWalk1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLWalk2 = new Image("file:resources/Orc/Walk/LOrcWalk2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLWalk3 = new Image("file:resources/Orc/Walk/LOrcWalk3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLWalk4 = new Image("file:resources/Orc/Walk/LOrcWalk4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLWalk5 = new Image("file:resources/Orc/Walk/LOrcWalk5.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLWalk6 = new Image("file:resources/Orc/Walk/LOrcWalk6.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLWalk7 = new Image("file:resources/Orc/Walk/LOrcWalk7.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image OrcLWalk8 = new Image("file:resources/Orc/Walk/LOrcWalk8.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
 
 //	Winner
 	public static final Image KNIGHTVICTORY = new Image("file:resources/KnightVictory.jpg",7000, 2917,true,true);
 	public static final Image SWVICTORY = new Image("file:resources/SWVictory.jpg",7000, 2917,true,true);
+	public static final Image WIZVICTORY = new Image("file:resources/WizVictory.jpg",7000, 2917,true,true);
+	public static final Image ORCVICTORY = new Image("file:resources/OrcVictory.jpg",7000, 2917,true,true);
 
 	
 	

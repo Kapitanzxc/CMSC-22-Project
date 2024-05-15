@@ -14,7 +14,16 @@ public class Wizard extends Sprite {
 // 	Constructor
 	
 	public Wizard(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.WIZARD, playerNumber, x,y, 0.45, 0.30, 0.68, 0.46,0.375,0.55,0.28);
+		super(Formatting.WIZARD, playerNumber, x,y, 
+				0.45, 0.30, 
+				0.45,
+				0.1, 0.64,
+				0.68, 0.46,
+				0.025,
+				0.24, 0.62,
+				0.375,0.55,
+				0.28);
+		
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;
