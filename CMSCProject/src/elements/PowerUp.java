@@ -11,7 +11,7 @@ public class PowerUp extends Sprite {
 	private int add;
 	
 	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration, int add) {
-		super(1, 0, xPos, yPos, 0, 0, 0, 0, 0, 0, 0);
+		super(1, 0, xPos, yPos, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 		
 		this.type = type;
 		this.duration = duration;

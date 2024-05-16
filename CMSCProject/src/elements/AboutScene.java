@@ -1,6 +1,5 @@
 package elements;
 
-import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -8,32 +7,22 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AboutScene {
 //	Attributes
 	private Group root;
-	private Stage stage;
 	private Scene aboutScene;
-	private Scene menuScene;
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private ArrayList<Text> texts;
-	
-
 	// Constructor
 	public AboutScene(Scene menuScene, Stage stage) {
-		this.stage = stage;
 		this.root = new Group();
 		this.aboutScene = new Scene(this.root,Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
-		this.menuScene = menuScene;
 		this.canvas = new Canvas(Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
 		

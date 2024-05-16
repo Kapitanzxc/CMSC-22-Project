@@ -3,9 +3,7 @@ package elements;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -13,18 +11,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class ChooseCharacter2 extends AnimationTimer{
-//	Attributes
-	private Group root;
 	private Stage stage;
-	private Scene aboutScene;
-	private Scene menuScene;
-	private Canvas canvas;
-	private Scene characterP2Scene;
+	private Scene menuScene, characterP2Scene;
 	private GraphicsContext gc;
-	private int characterP2;
-	private int animationCount;
+	private int characterP2,animationCount,player1;
 	private long previousTime;
-	private int player1;
 	private boolean nextCharacter;
 
 	// Constructor
@@ -68,79 +59,91 @@ public class ChooseCharacter2 extends AnimationTimer{
 	}
 //	Change image whenever the user input a code
 	public void nextCharacter(KeyCode code) {
-		if (code == KeyCode.RIGHT || code == KeyCode.D) {
-    		this.characterP2 ++;
-    	} 
-		
-		if (code == KeyCode.LEFT || code == KeyCode.A) {
-			this.characterP2 --;
-		}
-		
-		if (code == KeyCode.SPACE || code == KeyCode.ENTER) {
-			this.nextCharacter = true;
-			if (this.characterP2 == Formatting.KNIGHT) {
-				System.out.println("Player 2 chosen Knight");
-			} 
-			else if (this.characterP2 == Formatting.ORC) {
-				System.out.println("Player 2 chosen Orc");
-			}
-			else if (this.characterP2 == Formatting.SWORDWOMAN) {
-				System.out.println("Player 2 chosen SwordWoman");
-			}
-			else if (this.characterP2 == Formatting.WIZARD) {
-				System.out.println("Player 2 chosen Wizard");
-			}
-		}
-		
-		System.out.println(code+" key pressed.");
+	    switch (code) {
+	        case RIGHT, D:
+	            this.characterP2++;
+	            break;
+	        case LEFT, A:
+	            this.characterP2--;
+	            break;
+	        case SPACE, ENTER:
+	            this.nextCharacter = true;
+	            switch (this.characterP2) {
+	                case Formatting.KNIGHT:
+	                    System.out.println("Player 2 chosen Knight");
+	                    break;
+	                case Formatting.ORC:
+	                    System.out.println("Player 2 chosen Orc");
+	                    break;
+	                case Formatting.SWORDWOMAN:
+	                    System.out.println("Player 2 chosen SwordWoman");
+	                    break;
+	                case Formatting.WIZARD:
+	                    System.out.println("Player 2 chosen Wizard");
+	                    break;
+	            }
+		default:
+			System.out.println("Invalid key pressed.");
+			break;
+	            
+	    }
+
+	    System.out.println(code + " key pressed.");
 	}
+
 //	Function for rendering the images
 	public void showCharacters(long currentTime) {
-//		Algorithm for looping through the characters
-		if (this.characterP2 > 4) {
-			this.characterP2 = 1;
-		} else if (this.characterP2 <= 0){
-			this.characterP2 = 4;
-		}
+	    // Algorithm for looping through the characters
+	    if (this.characterP2 > 4) {
+	        this.characterP2 = 1;
+	    } else if (this.characterP2 <= 0) {
+	        this.characterP2 = 4;
+	    }
 
-		if (currentTime - previousTime > 250 * 1000000) {
-//			Clears the canvas
-			this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
-			this.animationCount ++;
-			this.animationCount %= 3;
-//			Check the current selection then display it
-			if (this.characterP2 == Formatting.KNIGHT) {
-				if (this.animationCount == 1) {
-					this.gc.drawImage(Formatting.P2KNIGHT1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				} else {
-					this.gc.drawImage(Formatting.P2KNIGHT2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				}
-			}
-			else if (this.characterP2 == Formatting.ORC) {
-				if (this.animationCount == 1) {
-					this.gc.drawImage(Formatting.P2ORC1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				} else {
-					this.gc.drawImage(Formatting.P2ORC2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				}
-			}
-			else if (this.characterP2 == Formatting.SWORDWOMAN) {
-				if (this.animationCount == 1) {
-					this.gc.drawImage(Formatting.P2SWORDWOMAN1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				} else {
-					this.gc.drawImage(Formatting.P2SWORDWOMAN2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				}
-			}
-			
-			else if (this.characterP2 == Formatting.WIZARD) {
-				if (this.animationCount == 1) {
-					this.gc.drawImage(Formatting.P2WIZARD1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				} else {
-					this.gc.drawImage(Formatting.P2WIZARD2, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-				}
-			}
-			this.previousTime = currentTime;
-		}
+	    if (currentTime - previousTime > 250 * 1000000) {
+	        // Clears the canvas
+	        this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	        this.animationCount++;
+	        this.animationCount %= 3;
+
+	        // Check the current selection then display it
+	        switch (this.characterP2) {
+	            case Formatting.KNIGHT:
+	                if (this.animationCount == 1) {
+	                    this.gc.drawImage(Formatting.P2KNIGHT1, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                } else {
+	                    this.gc.drawImage(Formatting.P2KNIGHT2, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                }
+	                break;
+	            case Formatting.ORC:
+	                if (this.animationCount == 1) {
+	                    this.gc.drawImage(Formatting.P2ORC1, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                } else {
+	                    this.gc.drawImage(Formatting.P2ORC2, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                }
+	                break;
+	            case Formatting.SWORDWOMAN:
+	                if (this.animationCount == 1) {
+	                    this.gc.drawImage(Formatting.P2SWORDWOMAN1, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                } else {
+	                    this.gc.drawImage(Formatting.P2SWORDWOMAN2, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                }
+	                break;
+	            case Formatting.WIZARD:
+	                if (this.animationCount == 1) {
+	                    this.gc.drawImage(Formatting.P2WIZARD1, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                } else {
+	                    this.gc.drawImage(Formatting.P2WIZARD2, 0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+	                }
+	                break;
+	            default:
+	                System.out.println("Invalid character selected");
+	                break;
+	        }
+	        this.previousTime = currentTime;
+	    }
 	}
+
 //	Proceed to gameplayScene after selecting a character
 	public void gameplayScene () {
 		this.stop();

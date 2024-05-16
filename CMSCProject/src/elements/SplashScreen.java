@@ -1,6 +1,5 @@
 package elements;
 
-import java.awt.Font;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
@@ -9,12 +8,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.FontWeight;
 //import javafx.scene.input.MouseEvent;
 //import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -91,32 +87,28 @@ public class SplashScreen {
 		});
 		//changes scene when text is clicked
 		t.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				// when new game is clicked
-				if(t.getText().equals("NEW GAME")) {
-					System.out.println("Load Select Characters");
-//					change scene here
-					ChooseCharacterScene chooseCharacterScene = new ChooseCharacterScene(splashScene, stage);
-					stage.setScene(chooseCharacterScene.getScene());
-				}
-				//when about is clicked
-				else if(t.getText().equals("ABOUT")) {
-					System.out.println("Load About Scene");
-//					change scene here
-					AboutScene aboutScene = new AboutScene(splashScene, stage);
-					stage.setScene(aboutScene.getScene());
-				}
-				//when developers is clicked
-				else {
-					System.out.println("Load Developer Scene");
-//					change scene here
-					DeveloperScene developerScene = new DeveloperScene(splashScene, stage);
-					stage.setScene(developerScene.getScene());
-				}
-			}
-			
+		    @Override
+		    public void handle(MouseEvent event) {
+		        switch (t.getText()) {
+		            case "NEW GAME":
+		                System.out.println("Load Select Characters");
+		                ChooseCharacterScene chooseCharacterScene = new ChooseCharacterScene(splashScene, stage);
+		                stage.setScene(chooseCharacterScene.getScene());
+		                break;
+		            case "ABOUT":
+		                System.out.println("Load About Scene");
+		                AboutScene aboutScene = new AboutScene(splashScene, stage);
+		                stage.setScene(aboutScene.getScene());
+		                break;
+		            default:
+		                System.out.println("Load Developer Scene");
+		                DeveloperScene developerScene = new DeveloperScene(splashScene, stage);
+		                stage.setScene(developerScene.getScene());
+		                break;
+		        }
+		    }
 		});
+
 			
 //		
 	}

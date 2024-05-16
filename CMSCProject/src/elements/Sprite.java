@@ -4,41 +4,22 @@ import java.awt.Rectangle;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public abstract class Sprite {
 //	Attributes
 	protected Image img;
-	private int characterID;
-	protected int x, y, dx, dy, width, height, health, attackPoints;
-	private double characterLWidth;
-	private double characterRWidth;
-	private double characterHeight;
-	private boolean visible, alive;
-	protected boolean attack;
-	protected boolean hit;
-	private boolean collisionChecker;
-	private double xOffset, yOffset, attackWOffset, attackHOffset;
+	private int characterID,playerNumber;
+	protected int x, y, dx, dy, width, height, health, attackPoints, direction;
+	private double xOffset, yOffset, attackWOffset, attackHOffset, characterLWidth, characterRWidth, widthLOffset, widthROffset, hitboxW, hitboxH, attackW, attackH, xLOffset, attackLWOffset;
+	private boolean visible, alive, collisionChecker, showBoxes;
+	protected boolean attack,hit;
 	public Rectangle hitbox, attackbox;
-	private int animationCountDie;
-	private long previousTimeDie;
-	private int direction;
-	private int playerNumber;
-	private double widthLOffset;
-	private double widthROffset;
-	private double heightOffset;
-	private boolean showBoxes;
-	private double hitboxW;
-	private double hitboxH;
-	private double attackW;
-	private double attackH;
-	private double xLOffset;
-	private double attackLWOffset;
 	
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
     private static final int MAX_HEALTH = 100;
+    
 //	Constructor
 	public Sprite(int characterID, int playerNumber, int xPos, int yPos, 
 			double xOffset, double yOffset,
@@ -57,7 +38,6 @@ public abstract class Sprite {
 		this.xLOffset = xLOffset;
 		this.widthLOffset = widthLOffset;
 		this.widthROffset = widthROffset;
-		this.heightOffset = heightOffset;
 		this.characterID = characterID;
 		this.playerNumber = playerNumber;
 		this.health = 100;
@@ -76,8 +56,7 @@ public abstract class Sprite {
 		this.attackH = attackH;
 		this.hitbox = new Rectangle (this.x, this.y, 0 , 0);
 		this.attackbox = new Rectangle (this.x, this.y, 0,0);
-		this.previousTimeDie = System.nanoTime();
-		this.animationCountDie = 1;
+		System.nanoTime();
 		this.collisionChecker = false;
 		this.direction = 1;
 	}
@@ -101,7 +80,6 @@ public abstract class Sprite {
 			flipHitbox(gc);
 			this.characterLWidth =  this.width * this.widthLOffset;
 			this.characterRWidth =  this.width * this.widthROffset;
-			this.characterHeight = this.height * this.heightOffset ;
 		} 
 		
 		gc.drawImage(this.img, this.x, this.y);   
@@ -118,72 +96,69 @@ public abstract class Sprite {
 	
 	
 	public void renderHealthBar(GraphicsContext gc) {
-		double healthPercentage = (double) this.health / MAX_HEALTH;
-		
-		if (this.playerNumber == 1) {
-			 // Health Bar
-            gc.setFill(Formatting.DARKBLUE);
-            gc.fillRect(88, 30, HEALTHWIDTH, HEALTHHEIGHT);
-            gc.setFill(Color.GREEN);
-            gc.fillRect(88, 30, HEALTHWIDTH * healthPercentage, HEALTHHEIGHT);
-			if (this.characterID == Formatting.KNIGHT) {
-				gc.drawImage(Formatting.KnightLHealthBar, 10, 10);  
-			} 
-			else if (this.characterID == Formatting.ORC) {
-				gc.drawImage(Formatting.OrcLHealthBar, 10, 10);  
-			}
-			else if (this.characterID == Formatting.SWORDWOMAN) {
-				gc.drawImage(Formatting.SWLHealthBar, 10, 10);  
-			} 
-			else if (this.characterID == Formatting.WIZARD) {
-				gc.drawImage(Formatting.WizLHealthBar, 10, 10);  
-			}
-			
-			// Set font and color
-            gc.setFill(Color.WHITE);
-            gc.setFont(Formatting.FONT_STYLE_22);
-            // Render text
-            gc.fillText(""+this.attackPoints, 120, 65);
-            
-		} else {
-			// Health Bar
-            gc.setFill(Color.GREEN);
-            gc.fillRect(966, 30, HEALTHWIDTH, HEALTHHEIGHT);
-            gc.setFill(Formatting.DARKBLUE);
-            gc.fillRect(966, 30, HEALTHWIDTH * (healthPercentage - 1)*-1, HEALTHHEIGHT);
-            
-			if (this.characterID == Formatting.KNIGHT) {
-				gc.drawImage(Formatting.KnightRHealthBar, 959, 10);   
-			} 
-			else if (this.characterID == Formatting.ORC) {
-				gc.drawImage(Formatting.OrcRHealthBar, 959, 10);
-			}
-			else if (this.characterID == Formatting.SWORDWOMAN) {
-				gc.drawImage(Formatting.SWRHealthBar, 959, 10);  
-			} 
-			else if (this.characterID == Formatting.WIZARD) {
-				gc.drawImage(Formatting.WizRHealthBar, 959, 10);  
-			} 
-			
-			// Set font and color
-            gc.setFill(Color.WHITE);
-            gc.setFont(Formatting.FONT_STYLE_22);
-            // Render text depending to number of digits
-            if (this.attackPoints >= 1000) {
-            	gc.fillText(""+this.attackPoints, 1041, 65);
-            } 
-            else if (this.attackPoints >= 100){
-            	gc.fillText(""+this.attackPoints, 1050, 65);
-            }
-            else if (this.attackPoints >= 10){
-            	gc.fillText(""+this.attackPoints, 1063, 65);
-            } else {
-            	gc.fillText(""+this.attackPoints, 1073, 65);
-            }
-		}
+	    double healthPercentage = (double) this.health / MAX_HEALTH;
+
+	    if (this.playerNumber == 1) {
+	        // Health Bar
+	        gc.setFill(Formatting.DARKBLUE);
+	        gc.fillRect(88, 30, HEALTHWIDTH, HEALTHHEIGHT);
+	        gc.setFill(Color.GREEN);
+	        gc.fillRect(88, 30, HEALTHWIDTH * healthPercentage, HEALTHHEIGHT);
+	        switch (this.characterID) {
+	            case Formatting.KNIGHT:
+	                gc.drawImage(Formatting.KnightLHealthBar, 10, 10);  
+	                break;
+	            case Formatting.ORC:
+	                gc.drawImage(Formatting.OrcLHealthBar, 10, 10);  
+	                break;
+	            case Formatting.SWORDWOMAN:
+	                gc.drawImage(Formatting.SWLHealthBar, 10, 10);  
+	                break;
+	            case Formatting.WIZARD:
+	                gc.drawImage(Formatting.WizLHealthBar, 10, 10);  
+	                break;
+	        }
+	        // Set font and color
+	        gc.setFill(Color.WHITE);
+	        gc.setFont(Formatting.FONT_STYLE_22);
+	        // Render text
+	        gc.fillText(""+this.attackPoints, 120, 65);
+	    } else {
+	        // Health Bar
+	        gc.setFill(Color.GREEN);
+	        gc.fillRect(966, 30, HEALTHWIDTH, HEALTHHEIGHT);
+	        gc.setFill(Formatting.DARKBLUE);
+	        gc.fillRect(966, 30, HEALTHWIDTH * (healthPercentage - 1)*-1, HEALTHHEIGHT);
+	        switch (this.characterID) {
+	            case Formatting.KNIGHT:
+	                gc.drawImage(Formatting.KnightRHealthBar, 959, 10);   
+	                break;
+	            case Formatting.ORC:
+	                gc.drawImage(Formatting.OrcRHealthBar, 959, 10);
+	                break;
+	            case Formatting.SWORDWOMAN:
+	                gc.drawImage(Formatting.SWRHealthBar, 959, 10);  
+	                break;
+	            case Formatting.WIZARD:
+	                gc.drawImage(Formatting.WizRHealthBar, 959, 10);  
+	                break;
+	        }
+	        // Set font and color
+	        gc.setFill(Color.WHITE);
+	        gc.setFont(Formatting.FONT_STYLE_22);
+	        // Render text depending on the number of digits
+	        if (this.attackPoints >= 1000) {
+	            gc.fillText(""+this.attackPoints, 1041, 65);
+	        } else if (this.attackPoints >= 100){
+	            gc.fillText(""+this.attackPoints, 1050, 65);
+	        } else if (this.attackPoints >= 10){
+	            gc.fillText(""+this.attackPoints, 1063, 65);
+	        } else {
+	            gc.fillText(""+this.attackPoints, 1073, 65);
+	        }
+	    }
 	}
-	
-	
+
 	
 //	Update hitbox
 	private void flipHitbox(GraphicsContext gc) {

@@ -17,20 +17,13 @@ import javafx.util.Duration;
 
 public class GameTimer extends AnimationTimer {
 //	Attributes
-	private Scene gameScene;
+	private Scene gameScene,menuScene;
 	private GraphicsContext gc;
 	private Stage stage;
-	private Scene menuScene;
 	private boolean gameOver;
-	private Sprite player1;
-	private Sprite player2;
-	private int playerWinner;
-	private int player1Code;
-	private int player2Code;
-	private long previousTimerTime;
-	private long time;
-	private int animationCountTimer;
-	private long previousTimerBG;
+	private Sprite player1,player2;
+	private int playerWinner,player1Code,player2Code,animationCountTimer;
+	private long previousTimerTime,time,previousTimerBG;
 	private Image timerBGimg;
 
 //	****************
@@ -130,7 +123,7 @@ public class GameTimer extends AnimationTimer {
 		gameScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             public void handle(KeyEvent e){
             	KeyCode code = e.getCode();
-                stopCharacter(code);
+                moveCharacter(code);
         		
             }
         });
@@ -276,60 +269,52 @@ public class GameTimer extends AnimationTimer {
 	
 	//method that will move the chracter depending on the key pressed
 	private void moveCharacter(KeyCode ke) {
-		if(ke==KeyCode.W) {
-			this.player1.setDY(-2);                 
-		}
-		if(ke==KeyCode.A) {
-			this.player1.setDX(-2);
-		}
-		if(ke==KeyCode.S) {
-			this.player1.setDY(2);
-		}
-		if(ke==KeyCode.D) {
-			this.player1.setDX(2);
-		}
-		if(ke==KeyCode.UP) {
-			this.player2.setDY(-2);                 
-		}
-		if(ke==KeyCode.LEFT) {
-			this.player2.setDX(-2);
-		}
-		if(ke==KeyCode.DOWN) {
-			this.player2.setDY(2);
-		}
-		if(ke==KeyCode.RIGHT) {
-			this.player2.setDX(2);
-		}
-		if(ke==KeyCode.F) {
-			this.player1.setAttack(true);
-		}	
-		if(ke==KeyCode.K) {
-			this.player2.setAttack(true);
-		}
-		if(ke==KeyCode.SPACE) {
-			int x =  this.player2.x + this.player2.width;
-			int y = this.player2.y + this.player2.height;
-			System.out.println("X: " + x + " Y: " + y);
-		}
-		
-		if(ke==KeyCode.Y) {
-			this.player1.setShowBoxes(!this.player1.isShowBoxes());
-			this.player2.setShowBoxes(!this.player2.isShowBoxes());
-		}
-		System.out.println(ke+" key pressed.");
-   	}
-	
-	// Set dx and dy to 0 when character is not moving
-	private void stopCharacter(KeyCode ke){
-		if (ke == KeyCode.W || ke == KeyCode.A|| ke == KeyCode.S || ke == KeyCode.D) {
-			this.player1.setDX(0);
-			this.player1.setDY(0);
-		}
-		if (ke == KeyCode.UP || ke == KeyCode.LEFT|| ke == KeyCode.DOWN || ke == KeyCode.RIGHT) {
-			this.player2.setDX(0);
-			this.player2.setDY(0);
-		}
+	    switch (ke) {
+	        case W:
+	            this.player1.setDY(-2);
+	            break;
+	        case A:
+	            this.player1.setDX(-2);
+	            break;
+	        case S:
+	            this.player1.setDY(2);
+	            break;
+	        case D:
+	            this.player1.setDX(2);
+	            break;
+	        case UP:
+	            this.player2.setDY(-2);
+	            break;
+	        case LEFT:
+	            this.player2.setDX(-2);
+	            break;
+	        case DOWN:
+	            this.player2.setDY(2);
+	            break;
+	        case RIGHT:
+	            this.player2.setDX(2);
+	            break;
+	        case F:
+	            this.player1.setAttack(true);
+	            break;
+	        case K:
+	            this.player2.setAttack(true);
+	            break;
+	        case SPACE:
+	            int x = this.player2.x + this.player2.width;
+	            int y = this.player2.y + this.player2.height;
+	            System.out.println("X: " + x + " Y: " + y);
+	            break;
+	        case Y:
+	            this.player1.setShowBoxes(!this.player1.isShowBoxes());
+	            this.player2.setShowBoxes(!this.player2.isShowBoxes());
+	            break;
+	        default:
+	            System.out.println(ke + " key pressed.");
+	            break;
+	    }
 	}
+
 	
 	private void timer(long currentTime) {
 	    if (currentTime - this.previousTimerTime >= 1000 * 1000000) {
@@ -353,45 +338,47 @@ public class GameTimer extends AnimationTimer {
 	}
 	
 //	Frames for timer background
-	public void timerBackground (long currentTime) {
-		if (currentTime - this.previousTimerBG >= 100 * 1000000) {
-			this.animationCountTimer ++;
-			this.animationCountTimer %= 11;
-			if (animationCountTimer == 1 || animationCountTimer == 0) {
-				this.timerBGimg = Formatting.TIMER1;
-			} 
-			else if (animationCountTimer == 2) {
-				this.timerBGimg = Formatting.TIMER2;
-			} 
-			else if (animationCountTimer == 3) {
-				this.timerBGimg = Formatting.TIMER3;
-			} 
-			else if (animationCountTimer == 4) {
-				this.timerBGimg = Formatting.TIMER4;
-			} 
-			else if (animationCountTimer == 5) {
-				this.timerBGimg = Formatting.TIMER5;
-			} 
-			else if (animationCountTimer == 6) {
-				this.timerBGimg = Formatting.TIMER6;
-			} 
-			else if (animationCountTimer == 7) {
-				this.timerBGimg = Formatting.TIMER7;
-			} 
-			else if (animationCountTimer == 8) {
-				this.timerBGimg = Formatting.TIMER8;
-			} 
-			else if (animationCountTimer == 9) {
-				this.timerBGimg = Formatting.TIMER9;
-			} 
-			else if (animationCountTimer == 10) {
-				this.timerBGimg = Formatting.TIMER10;
-			} 
-			
-			this.previousTimerBG = currentTime;
-		}
-		this.gc.drawImage(this.timerBGimg, 524, -20);;	
+	public void timerBackground(long currentTime) {
+	    if (currentTime - this.previousTimerBG >= 100 * 1000000) {
+	        this.animationCountTimer++;
+	        this.animationCountTimer %= 11;
+	        switch (animationCountTimer) {
+	            case 1:
+	                this.timerBGimg = Formatting.TIMER1;
+	                break;
+	            case 2:
+	                this.timerBGimg = Formatting.TIMER2;
+	                break;
+	            case 3:
+	                this.timerBGimg = Formatting.TIMER3;
+	                break;
+	            case 4:
+	                this.timerBGimg = Formatting.TIMER4;
+	                break;
+	            case 5:
+	                this.timerBGimg = Formatting.TIMER5;
+	                break;
+	            case 6:
+	                this.timerBGimg = Formatting.TIMER6;
+	                break;
+	            case 7:
+	                this.timerBGimg = Formatting.TIMER7;
+	                break;
+	            case 8:
+	                this.timerBGimg = Formatting.TIMER8;
+	                break;
+	            case 9:
+	                this.timerBGimg = Formatting.TIMER9;
+	                break;
+	            case 10:
+	                this.timerBGimg = Formatting.TIMER10;
+	                break;
+	        }
+	        this.previousTimerBG = currentTime;
+	    }
+	    this.gc.drawImage(this.timerBGimg, 524, -20);
 	}
+
 	
 //	End game method
 	private void endGame() {

@@ -1,7 +1,5 @@
 package elements;
 
-import java.util.ArrayList;
-
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -13,27 +11,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ControlScene {
 //	Attributes
 	private Group root;
-	private Stage stage;
 	private Scene controlScene;
-	private Scene parentScene;
-	private Scene menuScene;
 	private Canvas canvas;
 	private GraphicsContext gc;
 	
 	// Constructor
 	public ControlScene(Scene menuScene, Scene parentScene, Stage stage) {
-		// Initialize variables
-		this.stage = stage;
 		this.root = new Group();
 		this.controlScene = new Scene(this.root,Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
-		this.menuScene = menuScene;
-		this.parentScene = parentScene;
 		this.canvas = new Canvas(Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
 		

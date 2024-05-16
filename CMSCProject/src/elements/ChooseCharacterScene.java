@@ -10,8 +10,7 @@ import javafx.stage.Stage;
 public class ChooseCharacterScene {
 	private Group root;
 	private Stage stage;
-	private Scene chooseCharacterScene;
-	private Scene menuScene;
+	private Scene chooseCharacterScene,menuScene;
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private ChooseCharacter1 chooseCharacter1;

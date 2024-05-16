@@ -3,15 +3,8 @@ package elements;
 // Knight Character
 public class Knight extends Sprite{
 //	Attributes for animation
-	private long previousTimeIdle;
-	private long previousTimeAttack;
-	private long previousTimeDie;
-	private long previousTimeRWalk;
-	private long previousTimeLWalk;
-	public int animationCountIdle;
-	private int animationCountAttack;
-	private int animationCountDie;
-	private int animationCountWalk;
+	private long previousTimeIdle,previousTimeAttack,previousTimeDie,previousTimeRWalk,previousTimeLWalk;
+	public int animationCountIdle,animationCountAttack,animationCountDie,animationCountWalk;
 // 	Constructor
 	public Knight(int x, int y, int playerNumber, long previousTime){
 		super(Formatting.KNIGHT, playerNumber, x,y, 
@@ -98,245 +91,267 @@ public class Knight extends Sprite{
 				}
 			}
 //		Attack animation
-		if(this.getAttack() && checkAlive()) {
-			if (this.getDirection() == 1) {
-				this.attackRightAnimation(currentTime, player2);
-				this.previousTimeDie = currentTime;
-			} else {
-				this.attackLeftAnimation(currentTime, player2);
-				this.previousTimeDie = currentTime;
-			}
-		}
+	    if (this.getAttack() && checkAlive()) {
+	        switch (this.getDirection()) {
+	            case 1:
+	                this.attackRightAnimation(currentTime, player2);
+	                this.previousTimeDie = currentTime;
+	                break;
+	            case 2:
+	                this.attackLeftAnimation(currentTime, player2);
+	                this.previousTimeDie = currentTime;
+	                break;
+	        }
+	    }
 	}
 
 //	Image frames
-	public void idleRight () {
-		this.animationCountIdle %= 5;
-		if (animationCountIdle == 1) {
-			this.img = Formatting.KnightRIdle1;
-		} 
-		else if (animationCountIdle == 2) {
-			this.img = Formatting.KnightRIdle2;
-		}
-		else if (animationCountIdle == 3) {
-			this.img = Formatting.KnightRIdle3;
-		}
-		else if (animationCountIdle == 4) {
-			this.img = Formatting.KnightRIdle4;
-		}
+	public void idleRight() {
+	    this.animationCountIdle %= 5;
+	    switch (animationCountIdle) {
+	        case 1:
+	            this.img = Formatting.KnightRIdle1;
+	            break;
+	        case 2:
+	            this.img = Formatting.KnightRIdle2;
+	            break;
+	        case 3:
+	            this.img = Formatting.KnightRIdle3;
+	            break;
+	        case 4:
+	            this.img = Formatting.KnightRIdle4;
+	            break;
+	    }
 	}
-	
-	public void idleLeft () {
-		this.animationCountIdle %= 5;
-		if (animationCountIdle == 1) {
-			this.img = Formatting.KnightLIdle1;
-		} 
-		else if (animationCountIdle == 2) {
-			this.img = Formatting.KnightLIdle2;
-		}
-		else if (animationCountIdle == 3) {
-			this.img = Formatting.KnightLIdle3;
-		}
-		else if (animationCountIdle == 4) {
-			this.img = Formatting.KnightLIdle4;
-		}
+
+	public void idleLeft() {
+	    this.animationCountIdle %= 5;
+	    switch (animationCountIdle) {
+	        case 1:
+	            this.img = Formatting.KnightLIdle1;
+	            break;
+	        case 2:
+	            this.img = Formatting.KnightLIdle2;
+	            break;
+	        case 3:
+	            this.img = Formatting.KnightLIdle3;
+	            break;
+	        case 4:
+	            this.img = Formatting.KnightLIdle4;
+	            break;
+	    }
 	}
+
 	
 	public void attackRightAnimation(long currentTime, Sprite player2) {
-		this.setDX(0);
-		this.setDY(0);
-		// TODO Auto-generated method stub
-		if(currentTime - this.previousTimeAttack >= (142 * 1000000)) {
-			this.animationCountAttack ++;
-			this.animationCountAttack %= 6;
-			if (animationCountAttack == 1) {
-				this.img = Formatting.KnightRAttack1;
-			} 
-			else if (animationCountAttack == 2) {
-				this.img = Formatting.KnightRAttack2;
-				
-			}
-			else if (animationCountAttack == 3) {
-				this.img = Formatting.KnightRAttack3;
-//				Checks if the weapon and character collides
-				if (this.getCollisionChecker() == false && player2.checkAlive()) {
-					this.checkCollision(this, player2, currentTime, player2.getDirection());
-				}
-			}
-			else if (animationCountAttack == 4) {
-				this.img = Formatting.KnightRAttack4;
-		
-			}
-			else if (animationCountAttack == 5) {
-				this.img = Formatting.KnightRAttack5;
-				System.out.println("Attack Animation Finished");
-				this.attack = false;
-				this.setCollisionChecker(false);
-			}
-			this.previousTimeAttack = currentTime;
-		}
+	    this.setDX(0);
+	    this.setDY(0);
+	    // TODO Auto-generated method stub
+	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
+	        this.animationCountAttack++;
+	        this.animationCountAttack %= 6;
+	        switch (animationCountAttack) {
+	            case 1:
+	                this.img = Formatting.KnightRAttack1;
+	                break;
+	            case 2:
+	                this.img = Formatting.KnightRAttack2;
+	                break;
+	            case 3:
+	                this.img = Formatting.KnightRAttack3;
+	                // Checks if the weapon and character collides
+	                if (this.getCollisionChecker() == false && player2.checkAlive()) {
+	                    this.checkCollision(this, player2, currentTime, player2.getDirection());
+	                }
+	                break;
+	            case 4:
+	                this.img = Formatting.KnightRAttack4;
+	                break;
+	            case 5:
+	                this.img = Formatting.KnightRAttack5;
+	                System.out.println("Attack Animation Finished");
+	                this.attack = false;
+	                this.setCollisionChecker(false);
+	                break;
+	        }
+	        this.previousTimeAttack = currentTime;
+	    }
 	}
+
 	
 	public void attackLeftAnimation(long currentTime, Sprite player2) {
-		this.setDY(0);
-		// TODO Auto-generated method stub
-		if(currentTime - this.previousTimeAttack >= (142 * 1000000)) {
-			this.animationCountAttack ++;
-			this.animationCountAttack %= 6;
-			if (animationCountAttack == 1) {
-				this.img = Formatting.KnightLAttack1;
-			} 
-			else if (animationCountAttack == 2) {
-				this.img = Formatting.KnightLAttack2;
-				
-			}
-			else if (animationCountAttack == 3) {
-				this.img = Formatting.KnightLAttack3;
-//				Checks if the weapon and character collides
-				if (this.getCollisionChecker() == false && player2.checkAlive()) {
-					this.checkCollision(this, player2, currentTime, player2.getDirection());
-				}
-			}
-			else if (animationCountAttack == 4) {
-				this.img = Formatting.KnightLAttack4;
-		
-			}
-			else if (animationCountAttack == 5) {
-				this.img = Formatting.KnightLAttack5;
-				System.out.println("Attack Animation Finished");
-				this.attack = false;
-				this.setCollisionChecker(false);
-			}
-			this.previousTimeAttack = currentTime;
-		}
+	    this.setDY(0);
+	    // TODO Auto-generated method stub
+	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
+	        this.animationCountAttack++;
+	        this.animationCountAttack %= 6;
+	        switch (animationCountAttack) {
+	            case 1:
+	                this.img = Formatting.KnightLAttack1;
+	                break;
+	            case 2:
+	                this.img = Formatting.KnightLAttack2;
+	                break;
+	            case 3:
+	                this.img = Formatting.KnightLAttack3;
+	                // Checks if the weapon and character collides
+	                if (this.getCollisionChecker() == false && player2.checkAlive()) {
+	                    this.checkCollision(this, player2, currentTime, player2.getDirection());
+	                }
+	                break;
+	            case 4:
+	                this.img = Formatting.KnightLAttack4;
+	                break;
+	            case 5:
+	                this.img = Formatting.KnightLAttack5;
+	                System.out.println("Attack Animation Finished");
+	                this.attack = false;
+	                this.setCollisionChecker(false);
+	                break;
+	        }
+	        this.previousTimeAttack = currentTime;
+	    }
 	}
+
 //	Dying animation
 	public boolean dieAnimation(long currentTime) {
-		if(currentTime - this.previousTimeDie>= (1000 * 1000000)) {
-			this.animationCountDie ++;
-			this.animationCountDie %= 5;
-			if (this.getDirection() == 1) {
-				if (animationCountDie == 1) {
-					this.img = Formatting.KnightRDie1;
-				} 
-				else if (animationCountDie == 2) {
-					this.img = Formatting.KnightRDie2;
-				}
-				else if (animationCountDie == 3) {
-					this.img = Formatting.KnightRDie3;
-				} 
-				else if (animationCountDie == 4) {
-//					If character dies, return true (game is over)
-					System.out.println("Dying Animation Finished");
-					this.setVisible(false);
-					return true;
-				}
-			} else {
-				if (animationCountDie == 1) {
-					this.img = Formatting.KnightLDie1;
-				} 
-				else if (animationCountDie == 2) {
-					this.img = Formatting.KnightLDie2;
-				}
-				else if (animationCountDie == 3) {
-					this.img = Formatting.KnightLDie3;
-				}
-				else if (animationCountDie == 4) {
-//					If character dies, return true (game is over)
-					System.out.println("Dying Animation Finished");
-					this.setVisible(false);
-					return true;
-				}
-			}
-			this.previousTimeDie = currentTime;
-			
-		}
-		
-		return false;
+	    if (currentTime - this.previousTimeDie >= (1000 * 1000000)) {
+	        this.animationCountDie++;
+	        this.animationCountDie %= 5;
+	        switch (this.getDirection()) {
+	            case 1:
+	                switch (animationCountDie) {
+	                    case 1:
+	                        this.img = Formatting.KnightRDie1;
+	                        break;
+	                    case 2:
+	                        this.img = Formatting.KnightRDie2;
+	                        break;
+	                    case 3:
+	                        this.img = Formatting.KnightRDie3;
+	                        break;
+	                    case 4:
+	                        System.out.println("Dying Animation Finished");
+	                        this.setVisible(false);
+	                        return true;
+	                }
+	                break;
+	            default:
+	                switch (animationCountDie) {
+	                    case 1:
+	                        this.img = Formatting.KnightLDie1;
+	                        break;
+	                    case 2:
+	                        this.img = Formatting.KnightLDie2;
+	                        break;
+	                    case 3:
+	                        this.img = Formatting.KnightLDie3;
+	                        break;
+	                    case 4:
+	                        System.out.println("Dying Animation Finished");
+	                        this.setVisible(false);
+	                        return true;
+	                }
+	                break;
+	        }
+	        this.previousTimeDie = currentTime;
+	    }
+	    return false;
 	}
+
 	
 //	Frames for walking to right
-	public void walkRight () {
-		this.animationCountWalk %= 9;
-		if (animationCountWalk == 1) {
-			this.img = Formatting.KnightRWalk1;
-		} 
-		else if (animationCountWalk == 2) {
-			this.img = Formatting.KnightRWalk2;
-		}
-		else if (animationCountWalk == 3) {
-			this.img = Formatting.KnightRWalk3;
-		}
-		else if (animationCountWalk == 4) {
-			this.img = Formatting.KnightRWalk4;
-		}
-		else if (animationCountWalk == 5) {
-			this.img = Formatting.KnightRWalk5;
-		}
-		else if (animationCountWalk == 6) {
-			this.img = Formatting.KnightRWalk6;
-		}
-		else if (animationCountWalk == 7) {
-			this.img = Formatting.KnightRWalk7;
-		}
-		else if (animationCountWalk == 8) {
-			this.img = Formatting.KnightRWalk8;
-		}
+	public void walkRight() {
+	    this.animationCountWalk %= 9;
+	    switch (animationCountWalk) {
+	        case 1:
+	            this.img = Formatting.KnightRWalk1;
+	            break;
+	        case 2:
+	            this.img = Formatting.KnightRWalk2;
+	            break;
+	        case 3:
+	            this.img = Formatting.KnightRWalk3;
+	            break;
+	        case 4:
+	            this.img = Formatting.KnightRWalk4;
+	            break;
+	        case 5:
+	            this.img = Formatting.KnightRWalk5;
+	            break;
+	        case 6:
+	            this.img = Formatting.KnightRWalk6;
+	            break;
+	        case 7:
+	            this.img = Formatting.KnightRWalk7;
+	            break;
+	        case 8:
+	            this.img = Formatting.KnightRWalk8;
+	            break;
+	    }
 	}
+
 	
 //	Frames for walking to left
-	public void walkLeft () {
-		this.animationCountWalk %= 9;
-		if (animationCountWalk == 1) {
-			this.img = Formatting.KnightLWalk1;
-		} 
-		else if (animationCountWalk == 2) {
-			this.img = Formatting.KnightLWalk2;
-		}
-		else if (animationCountWalk == 3) {
-			this.img = Formatting.KnightLWalk3;
-		}
-		else if (animationCountWalk == 4) {
-			this.img = Formatting.KnightLWalk4;
-		}
-		else if (animationCountWalk == 5) {
-			this.img = Formatting.KnightLWalk5;
-		}
-		else if (animationCountWalk == 6) {
-			this.img = Formatting.KnightLWalk6;
-		}
-		else if (animationCountWalk == 7) {
-			this.img = Formatting.KnightLWalk7;
-		}
-		else if (animationCountWalk == 8) {
-			this.img = Formatting.KnightLWalk8;
-		}
+	public void walkLeft() {
+	    this.animationCountWalk %= 9;
+	    switch (animationCountWalk) {
+	        case 1:
+	            this.img = Formatting.KnightLWalk1;
+	            break;
+	        case 2:
+	            this.img = Formatting.KnightLWalk2;
+	            break;
+	        case 3:
+	            this.img = Formatting.KnightLWalk3;
+	            break;
+	        case 4:
+	            this.img = Formatting.KnightLWalk4;
+	            break;
+	        case 5:
+	            this.img = Formatting.KnightLWalk5;
+	            break;
+	        case 6:
+	            this.img = Formatting.KnightLWalk6;
+	            break;
+	        case 7:
+	            this.img = Formatting.KnightLWalk7;
+	            break;
+	        case 8:
+	            this.img = Formatting.KnightLWalk8;
+	            break;
+	    }
 	}
+
 	
 //	Animation for hitting opponent
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
-		if (getHit() == true && this.checkAlive()) {
-			if (direction == 1) {
-				this.img = Formatting.KnightRHit1;
-				System.out.println("Hit Animation Finished");
-				this.hit = false;
-//				Decreases health
-				this.setHealth(attacker.getAttackPoints()); 
-				System.out.println("Player Health Remaining: " + this.health);
-			} else {
-				this.img = Formatting.KnightLHit1;
-				System.out.println("Hit Animation Finished");
-				this.hit = false;
-//				Decreases health
-				this.setHealth(attacker.getAttackPoints()); 
-				System.out.println("Player Health Remaining: " + this.health);
-			}
-		} else if (this.getDirection() == 1){
-			this.img = Formatting.KnightRIdle1;
-		} else {
-			this.img = Formatting.KnightLIdle1;
-		}
+	    if (getHit() == true && this.checkAlive()) {
+	        switch (direction) {
+	            case 1:
+	                this.img = Formatting.KnightRHit1;
+	                System.out.println("Hit Animation Finished");
+	                this.hit = false;
+	                // Decreases health
+	                this.setHealth(attacker.getAttackPoints());
+	                System.out.println("Player Health Remaining: " + this.health);
+	                break;
+	            default:
+	                this.img = Formatting.KnightLHit1;
+	                System.out.println("Hit Animation Finished");
+	                this.hit = false;
+	                // Decreases health
+	                this.setHealth(attacker.getAttackPoints());
+	                System.out.println("Player Health Remaining: " + this.health);
+	                break;
+	        }
+	    } else if (this.getDirection() == 1) {
+	        this.img = Formatting.KnightRIdle1;
+	    } else {
+	        this.img = Formatting.KnightLIdle1;
+	    }
 	}
+
 	
 
 	
