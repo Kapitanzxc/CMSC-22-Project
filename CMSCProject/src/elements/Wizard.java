@@ -14,8 +14,7 @@ public class Wizard extends Sprite {
 				0.68, 0.46,
 				0.025,
 				0.24, 0.62,
-				0.375,0.55,
-				0.28);
+				0.375,0.55);
 		
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;

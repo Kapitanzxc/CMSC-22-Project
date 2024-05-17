@@ -87,7 +87,7 @@ public class GameTimer extends AnimationTimer {
 	@Override
 	public void handle(long currentNanoTime) {
 //		Runs the gameplay and checks game over situation
-		if (!this.gameOver) {
+		if (!this.gameOver && this.time > 0) {
 //			Run gameplay 
 			gameplay(currentNanoTime);
 			
@@ -106,8 +106,12 @@ public class GameTimer extends AnimationTimer {
 				}
 			}
 //		End the game 
+		} else if (this.gameOver){
+//			One of the players died
+			endGame(0);
 		} else {
-			endGame();
+//			Game finishes because of time
+			endGame(1);
 		}
 	}
 	
@@ -123,11 +127,12 @@ public class GameTimer extends AnimationTimer {
 		gameScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             public void handle(KeyEvent e){
             	KeyCode code = e.getCode();
-                moveCharacter(code);
+            	stopCharacter(code);
         		
             }
         });
     }
+	
 	
 	private void gameplay(long currentNanoTime) {
 //		Resets the screen and draw the map
@@ -138,14 +143,12 @@ public class GameTimer extends AnimationTimer {
 		this.gc.drawImage(Formatting.MAP, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		timer(currentNanoTime);
 
-//		****************
 //		Spawning Fragment Power-ups
 		spawnFragmentPowerUps(currentNanoTime);
 //		Spawning Special Power-ups
 		spawnSpecialPowerUps(currentNanoTime);
 //		Rendering Power-ups
 		renderPowerUps();
-//		****************
 
 //		Check players movement and update it accordingly
 		this.player1.move();
@@ -160,13 +163,10 @@ public class GameTimer extends AnimationTimer {
 		this.gc.drawImage(Formatting.TOWER, 307, 202);
 		this.gc.drawImage(Formatting.TOWER, 844, 202);
 
-//		****************
 //		Deletes Power-ups (by collecting and expiration)
 		deletePowerUps(currentNanoTime);
-//		****************
 	}
 
-//	****************
 	private void generateFragmentPowerUps(int numFragments){
 // 		Create fragment type power-ups
         for (int i = fragmentPowerUps.size(); i < numFragments; i++) {
@@ -265,7 +265,6 @@ public class GameTimer extends AnimationTimer {
 			}
 		}		
 	}
-//	****************
 	
 	//method that will move the chracter depending on the key pressed
 	private void moveCharacter(KeyCode ke) {
@@ -315,6 +314,17 @@ public class GameTimer extends AnimationTimer {
 	    }
 	}
 
+	// Set dx and dy to 0 when character is not moving
+	private void stopCharacter(KeyCode ke){
+		if (ke == KeyCode.W || ke == KeyCode.A|| ke == KeyCode.S || ke == KeyCode.D) {
+			this.player1.setDX(0);
+			this.player1.setDY(0);
+		}
+		if (ke == KeyCode.UP || ke == KeyCode.LEFT|| ke == KeyCode.DOWN || ke == KeyCode.RIGHT) {
+			this.player2.setDX(0);
+			this.player2.setDY(0);
+		}
+	}
 	
 	private void timer(long currentTime) {
 	    if (currentTime - this.previousTimerTime >= 1000 * 1000000) {
@@ -380,8 +390,9 @@ public class GameTimer extends AnimationTimer {
 	}
 
 	
+	
 //	End game method
-	private void endGame() {
+	private void endGame(int winningType) {
 //		Stop the timer
 	 this.stop();
 //	    Reference: https://stackoverflow.com/questions/24978278/fade-in-fade-out-a-screen-in-javafx
@@ -389,9 +400,25 @@ public class GameTimer extends AnimationTimer {
 	    fadeOut.setFromValue(1.0);
 	    fadeOut.setToValue(0.0);
 	    fadeOut.setOnFinished(event -> {
+	    	WinningScene winningScene;
 	        // Proceed to winning scene
-	        WinningScene winningScene = new WinningScene(this.menuScene, this.stage, this.playerWinner);
-	        stage.setScene(winningScene.getScene());
+	    	if (winningType == 0) {
+//	    		When one of the players die:
+	    		winningScene = new WinningScene(this.menuScene, this.stage, this.playerWinner);
+//	  	    Victory by time
+	    	} else {
+//	    		Checks whose player have the greater amount of attack points
+	    		if (player1.attackPoints > player2.attackPoints) {
+	    			winningScene = new WinningScene(this.menuScene, this.stage, this.player1Code);
+	    		} else if (player2.attackPoints > player1.attackPoints) {
+	    			 winningScene = new WinningScene(this.menuScene, this.stage, this.player2Code);
+//	    		If draw:
+	    		} else {
+	    			winningScene = new WinningScene(this.menuScene, this.stage, 0);
+	    		}
+	    		
+	    	}
+	    	stage.setScene(winningScene.getScene());
 	    });
 	    
 	    fadeOut.play();

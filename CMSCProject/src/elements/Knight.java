@@ -14,8 +14,7 @@ public class Knight extends Sprite{
 				0.55, 0.05,
 				0.1,
 				0.4, 0.95,
-				0,1,
-				1);
+				0,1);
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;

@@ -9,16 +9,15 @@ import javafx.scene.paint.Color;
 public abstract class Sprite {
 //	Attributes
 	protected Image img;
-	private int characterID,playerNumber;
-	protected int x, y, dx, dy, width, height, health, attackPoints, direction;
+	private int characterID, playerNumber;	
+	protected int x, y, dx, dy, width, height, health, attackPoints, direction,maxHealth;
 	private double xOffset, yOffset, attackWOffset, attackHOffset, characterLWidth, characterRWidth, widthLOffset, widthROffset, hitboxW, hitboxH, attackW, attackH, xLOffset, attackLWOffset;
 	private boolean visible, alive, collisionChecker, showBoxes;
 	protected boolean attack,hit;
 	public Rectangle hitbox, attackbox;
-	
+
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
-    private static final int MAX_HEALTH = 100;
     
 //	Constructor
 	public Sprite(int characterID, int playerNumber, int xPos, int yPos, 
@@ -28,9 +27,10 @@ public abstract class Sprite {
 			double attackWOffset, double attackHOffset,
 			double attackLWOffset,
 			double attackW, double attackH,
-			double widthLOffset, double widthROffset,
-			double heightOffset){
-	
+			double widthLOffset, double widthROffset){
+		
+		this.characterID = characterID;
+		this.playerNumber = playerNumber;
 		this.x = (int) (xPos + this.width * xOffset);
 		this.y = (int) (yPos + this.height + yOffset);
 		this.hitboxW = hitBoxW;
@@ -38,10 +38,9 @@ public abstract class Sprite {
 		this.xLOffset = xLOffset;
 		this.widthLOffset = widthLOffset;
 		this.widthROffset = widthROffset;
-		this.characterID = characterID;
-		this.playerNumber = playerNumber;
+		this.maxHealth = 100;
 		this.health = 100;
-		this.attackPoints = 20;
+		this.attackPoints = 1;
 		this.visible = true;
 		this.alive = true;
 		this.attack = false;
@@ -96,7 +95,7 @@ public abstract class Sprite {
 	
 	
 	public void renderHealthBar(GraphicsContext gc) {
-	    double healthPercentage = (double) this.health / MAX_HEALTH;
+	    double healthPercentage = (double) this.health / this.maxHealth;
 
 	    if (this.playerNumber == 1) {
 	        // Health Bar
@@ -373,6 +372,16 @@ public abstract class Sprite {
 		return direction;
 	}
 	
+	public void addMaxHealth(int add) {
+		this.maxHealth += add;
+		
+	}
+
+	public void addHealth(int add) {
+		this.health += add;
+	}
+
+	
 //	Setters
 	public void setAlive(boolean state) {
 		this.alive = state;
@@ -430,6 +439,7 @@ public abstract class Sprite {
 	public void setShowBoxes(boolean showBoxes) {
 		this.showBoxes = showBoxes;
 	}
+
 
 	
 }

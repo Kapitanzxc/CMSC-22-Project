@@ -14,8 +14,7 @@ public class Orc extends Sprite{
 				0.68, 0.17,
 				0.05,
 				0.32, 0.70,
-				0.375,0.55,
-				0.28);
+				0.375,0.55);
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;

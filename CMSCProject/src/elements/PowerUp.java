@@ -11,7 +11,7 @@ public class PowerUp extends Sprite {
 	private int add;
 	
 	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration, int add) {
-		super(1, 0, xPos, yPos, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+		super(1, 0, xPos, yPos, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
 		
 		this.type = type;
 		this.duration = duration;
@@ -107,10 +107,12 @@ public class PowerUp extends Sprite {
 //    		if else get type of power up
     		if (this.type == Formatting.FRAGMENT) {
     			player.setAttackPoints(this.add);
+    			player.addMaxHealth(this.add);
+    			player.addHealth(this.add);
     		} else if (this.type == Formatting.DOUBLEDAMAGE) {
     			// double damage
     		} else if (this.type == Formatting.HEAL) {
-    			if(player.getHealth() < 100) {
+    			if(player.getHealth() < player.maxHealth) {
     				player.setHealthAdd(this.add);
     			}
     		} else {

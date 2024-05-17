@@ -40,6 +40,10 @@ public class WinningScene {
 		}
 		else if (playerWinner == Formatting.ORC) {
 			this.gc.drawImage(Formatting.ORCVICTORY, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+		} 
+//		Draw
+		else {
+			this.gc.drawImage(Formatting.DRAWBG, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		}
 		
 //		Back to menu text

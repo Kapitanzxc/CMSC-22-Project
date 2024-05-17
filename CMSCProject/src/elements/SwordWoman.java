@@ -14,8 +14,7 @@ public class SwordWoman extends Sprite{
 				0.53, 0.25, 
 				0, 
 				0.44, 0.61,
-				0,1,
-				1);
+				0,1);
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;
