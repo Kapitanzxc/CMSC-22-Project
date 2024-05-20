@@ -25,7 +25,7 @@ public class GameTimer extends AnimationTimer {
 	private int playerWinner,player1Code,player2Code,animationCountTimer;
 	private long previousTimerTime,time,previousTimerBG, previousTimeMonster;
 	private Image timerBGimg;
-	private int numMonster;
+//	private int numMonster;
 
 //	****************
 //	Power-ups
@@ -161,7 +161,7 @@ public class GameTimer extends AnimationTimer {
 //		Spawning Special Power-ups
 		spawnSpecialPowerUps(currentNanoTime);
 		// Spawn Monsters
-		spawnMonsters(this.numMonster, currentNanoTime);
+		spawnMonsters(currentNanoTime);
 //		Rendering Power-ups
 		renderPowerUps();
 		// Rendering Monsters
@@ -243,7 +243,7 @@ public class GameTimer extends AnimationTimer {
    		collectPowerUps(currentNanoTime);
 	}
 	
-	private void spawnMonsters(int numMonster, long currentTime){
+	private void spawnMonsters(long currentTime){
 // 		Spawn monsters
 		long monsterElapsedTime = (currentTime - this.previousTimeMonster) / 1000000000;
 //		if (currentTime - this.previousTimeMonster >= 5000*1000000) {
