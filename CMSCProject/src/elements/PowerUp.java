@@ -2,6 +2,8 @@ package elements;
 
 import java.util.Random;
 
+import characters.Sprite;
+
 public class PowerUp extends Sprite {
 	static Random random = new Random();
 	private int type;
@@ -11,7 +13,7 @@ public class PowerUp extends Sprite {
 	private int add;
 	
 	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration, int add) {
-		super(1, 0, xPos, yPos, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
+		super(1, 0, xPos, yPos, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
 		
 		this.type = type;
 		this.duration = duration;
@@ -20,13 +22,13 @@ public class PowerUp extends Sprite {
 		this.upTime = upTime;
 		
 		if(type == Formatting.FRAGMENT) {
-			loadImage(Formatting.PFRAGMENT);
+			loadImage(Formatting.PFRAGMENT, 20, 20);
 		} else if (type == Formatting.DOUBLEDAMAGE) {
-			loadImage(Formatting.PDOUBLEDAMAGE);
+			loadImage(Formatting.PDOUBLEDAMAGE, 40, 40);
 		} else if (type == Formatting.HEAL) {
-			loadImage(Formatting.PHEAL);
+			loadImage(Formatting.PHEAL, 40, 40);
 		} else {
-			loadImage(Formatting.PSPEEDBOOST);
+			loadImage(Formatting.PSPEEDBOOST, 40, 40);
 		}
  		
 	}
@@ -85,18 +87,18 @@ public class PowerUp extends Sprite {
 	}
 
 	@Override
-	protected boolean dieAnimation(long nanoTime) {
+	public boolean dieAnimation(long nanoTime) {
 		// collect animation?
 		return false;
 	}
 
 	@Override
-	protected void animation(long nanoTime, Sprite player) {
+	public void animation(long nanoTime, Sprite player) {
 		// animation
 	}
 
 	@Override
-	protected void hitAnimation(long currentTime, Sprite player, int direction2) {
+	public void hitAnimation(long currentTime, Sprite player, int direction2) {
 		// 
 	}
 	
@@ -115,7 +117,7 @@ public class PowerUp extends Sprite {
     			// double damage
     		} else if (this.type == Formatting.HEAL) {
     			player.addSpecial(1);
-    			if(player.getHealth() < player.maxHealth) {
+    			if(player.getHealth() < player.getMaxHealth()) {
     				player.setHealthAdd(this.add);
     			}
     		} else {

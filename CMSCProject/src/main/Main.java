@@ -1,8 +1,8 @@
 package main;
 
-import elements.SplashScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import scenes.SplashScreen;
 
 public class Main extends Application{
 	
