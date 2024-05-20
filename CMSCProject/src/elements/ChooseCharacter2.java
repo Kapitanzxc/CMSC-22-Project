@@ -3,10 +3,16 @@ package elements;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -17,18 +23,26 @@ public class ChooseCharacter2 extends AnimationTimer{
 	private int characterP2,animationCount,player1;
 	private long previousTime;
 	private boolean nextCharacter;
+	private Group root;
+	private Canvas canvas;
 
 	// Constructor
-	public ChooseCharacter2(GraphicsContext gc, Scene theScene,  Stage stage, Scene menuScene, int player1) {
+	public ChooseCharacter2(Scene theScene,  Stage stage, Scene menuScene, int player1) {
+		this.root = new Group();
 		this.nextCharacter = false;
 		this.player1 = player1;
 		this.stage = stage;
 		this.characterP2 = Formatting.KNIGHT;
 		this.animationCount = 0;
-		this.previousTime = System.nanoTime();
-		this.gc = gc;
+		this.canvas = new Canvas(Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+		this.gc = canvas.getGraphicsContext2D();
 		this.characterP2Scene = theScene;
 		this.menuScene = menuScene;
+		
+		  // Set the scene's root to the group
+        this.characterP2Scene.setRoot(this.root);
+        this.root.getChildren().add(canvas);
+        
 		// Draw Background (1st frame)
 		this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		this.gc.drawImage(Formatting.P1KNIGHT1, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
@@ -140,9 +154,56 @@ public class ChooseCharacter2 extends AnimationTimer{
 	                System.out.println("Invalid character selected");
 	                break;
 	        }
+	        this.gc.drawImage(Formatting.CCCONTROLS,  0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 	        this.previousTime = currentTime;
 	    }
+	    
+	    // ImageView creation
+	    ImageView knightView = createImageView(Formatting.KNIGHTV, 74, 290);
+	    ImageView swordWomanView = createImageView(Formatting.SWV, 640, 305);
+	    ImageView orcView = createImageView(Formatting.ORCV, 310, 230);
+	    ImageView wizardView = createImageView(Formatting.WIZV, 460, 230);
+
+	    // Text creation and formatting
+	    Text hoverKnight = createHoverText("This is the knight text", 550, 680);
+	    Text hoverOrc = createHoverText("This is the orc text", 550, 680);
+	    Text hoverSW = createHoverText("This is the swordwoman text", 550, 680);
+	    Text hoverWiz = createHoverText("This is the wizard text", 550, 680);
+
+	    // Add hover event handlers
+	    knightView.setOnMouseEntered(event -> hoverKnight.setVisible(true));
+	    knightView.setOnMouseExited(event -> hoverKnight.setVisible(false));
+	    orcView.setOnMouseEntered(event -> hoverOrc.setVisible(true));
+	    orcView.setOnMouseExited(event -> hoverOrc.setVisible(false));
+	    swordWomanView.setOnMouseEntered(event -> hoverSW.setVisible(true));
+	    swordWomanView.setOnMouseExited(event -> hoverSW.setVisible(false));
+	    wizardView.setOnMouseEntered(event -> hoverWiz.setVisible(true));
+	    wizardView.setOnMouseExited(event -> hoverWiz.setVisible(false));
+
+	    // Add all ImageView and Text nodes to the root group
+	    this.root.getChildren().addAll(knightView, swordWomanView, orcView, wizardView, hoverKnight, hoverOrc, hoverSW, hoverWiz);
 	}
+	
+	  // Method to create an ImageView
+    private ImageView createImageView(Image image, double x, double y) {
+        ImageView imageView = new ImageView(image);
+        imageView.setX(x);
+        imageView.setY(y);
+        imageView.setOpacity(0);
+        return imageView;
+    }
+
+    // Method to create a Text with formatting
+    private Text createHoverText(String text, double x, double y) {
+        Text hoverText = new Text(text);
+        hoverText.setVisible(false); // Initially hidden
+        hoverText.setX(x - hoverText.getLayoutBounds().getWidth() / 2);
+        hoverText.setY(y);
+        hoverText.setFill(Color.WHITE);
+        hoverText.setFont(Formatting.FONT_STYLE_22);
+        return hoverText;
+    }
+    
 
 //	Proceed to gameplayScene after selecting a character
 	public void gameplayScene () {

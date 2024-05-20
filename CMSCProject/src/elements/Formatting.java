@@ -49,8 +49,10 @@ public class Formatting {
 
 //	Font Styles
 	public static final Font FONT_STYLE_26 = Font.loadFont("file:resources/PrStart.ttf", 26);
+	public static final Font FONT_STYLE_28 = Font.loadFont("file:resources/Munro.ttf",28);
 	public static final Font FONT_STYLE_25 = Font.loadFont("file:resources/Munro.ttf",25);
 	public static final Font FONT_STYLE_22 = Font.loadFont("file:resources/Munro.ttf",22);
+	public static final Font FONT_STYLE_20 = Font.loadFont("file:resources/Munro.ttf",20);
 	
 	
 	public static final double XPOS_TEXT = SCREEN_WIDTH/2;
@@ -79,6 +81,14 @@ public class Formatting {
 
 
 //	Choose character images
+    public static final Image KNIGHTV = new Image("file:resources/Knight/Idle/RKnightIdle1.png", 320, 215, true, true);
+    public static final Image SWV = new Image("file:resources/SwordWoman/Idle/RSWIdle1.png", 340, 230, true, true);
+    public static final Image ORCV = new Image("file:resources/Orc/Idle/ROrcIdle1.png", 360, 360, true, true);
+    public static final Image WIZV = new Image("file:resources/Wizard/Idle/RWizIdle1.png", 1080, 312, true, true);
+	
+	
+	public static final Image CCCONTROLS = new Image("file:resources/ChooseCharacter/controlscc.png", 7000, 2917,true,true);
+	
 	public static final Image P1KNIGHT1 = new Image("file:resources/ChooseCharacter/Player1/P1Knight1.jpg", 7000, 2917,true,true);
 	public static final Image P1KNIGHT2 = new Image("file:resources/ChooseCharacter/Player1/P1Knight2.jpg", 7000, 2917,true,true);
 	public static final Image P1ORC1 = new Image("file:resources/ChooseCharacter/Player1/P1Orc1.jpg", 7000, 2917,true,true);
@@ -347,6 +357,9 @@ public class Formatting {
 	public static final Image WIZVICTORY = new Image("file:resources/WizVictory.jpg",7000, 2917,true,true);
 	public static final Image ORCVICTORY = new Image("file:resources/OrcVictory.jpg",7000, 2917,true,true);
 	public static final Image DRAWBG = new Image("file:resources/drawBackground.jpg",7000, 2917,true,true);
-	
+	public static final Image GRADIENT = new Image("file:resources/Summary/victoryGradient.png",7000, 2917,true,true);
+	public static final Image HEART = new Image("file:resources/Summary/heart.png",25, 25,true,true);
+	public static final Image SWORD = new Image("file:resources/Summary/sword.png",25, 25,true,true);
+	public static final Image MONSTER = new Image("file:resources/Summary/monster.png",25, 25,true,true);
 	
 }

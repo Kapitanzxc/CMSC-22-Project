@@ -27,7 +27,7 @@ public class ChooseCharacterScene {
 		this.gc = canvas.getGraphicsContext2D();
 		this.root.getChildren().add(canvas);
 		// Initialize chooseCharacter 1 Scene
-		this.chooseCharacter1 = new ChooseCharacter1(this.gc,this.chooseCharacterScene, this.menuScene, this.stage);
+		this.chooseCharacter1 = new ChooseCharacter1(this.chooseCharacterScene, this.menuScene, this.stage);
 		
 	}
 	

@@ -21,9 +21,9 @@ public class GameTimer extends AnimationTimer {
 	private GraphicsContext gc;
 	private Stage stage;
 	private boolean gameOver;
-	private Sprite player1,player2;
-	private int playerWinner,player1Code,player2Code,animationCountTimer;
-	private long previousTimerTime,time,previousTimerBG;
+	private Sprite player1, player2;
+	private int playerWinner, player1Code, player2Code, animationCountTimer, playerWinNum;
+	private long previousTimerTime ,time, previousTimerBG;
 	private Image timerBGimg;
 
 //	****************
@@ -44,6 +44,7 @@ public class GameTimer extends AnimationTimer {
 		this.player1Code = player1;
 		this.player2Code = player2;
 		this.time = 121;
+		this.playerWinNum = 0;
 		this.previousTimerTime = System.nanoTime();
 		this.animationCountTimer = 1;
 		this.previousTimerBG = System.nanoTime();
@@ -99,10 +100,12 @@ public class GameTimer extends AnimationTimer {
 					this.gameOver = player1.dieAnimation(System.nanoTime());
 					this.player1.render(this.gc);
 					this.playerWinner = this.player2Code;
+					this.playerWinNum = 2;
 				} else {
 					this.gameOver = player2.dieAnimation(System.nanoTime());
 					this.player2.render(this.gc);
 					this.playerWinner = this.player1Code;
+					this.playerWinNum = 1;
 				}
 			}
 //		End the game 
@@ -308,6 +311,9 @@ public class GameTimer extends AnimationTimer {
 	            this.player1.setShowBoxes(!this.player1.isShowBoxes());
 	            this.player2.setShowBoxes(!this.player2.isShowBoxes());
 	            break;
+	        case T:
+	            this.time = 3;
+	            break;
 	        default:
 	            System.out.println(ke + " key pressed.");
 	            break;
@@ -404,17 +410,19 @@ public class GameTimer extends AnimationTimer {
 	        // Proceed to winning scene
 	    	if (winningType == 0) {
 //	    		When one of the players die:
-	    		winningScene = new WinningScene(this.menuScene, this.stage, this.playerWinner);
+	    		winningScene = new WinningScene(this.menuScene, this.stage, this.playerWinner, this.playerWinNum, this.player1, this.player2);
 //	  	    Victory by time
 	    	} else {
 //	    		Checks whose player have the greater amount of attack points
 	    		if (player1.attackPoints > player2.attackPoints) {
-	    			winningScene = new WinningScene(this.menuScene, this.stage, this.player1Code);
+	    			this.playerWinNum = 1;
+	    			winningScene = new WinningScene(this.menuScene, this.stage, this.player1Code, this.playerWinNum, this.player1, this.player2);
 	    		} else if (player2.attackPoints > player1.attackPoints) {
-	    			 winningScene = new WinningScene(this.menuScene, this.stage, this.player2Code);
+	    			this.playerWinNum = 2;
+	    			 winningScene = new WinningScene(this.menuScene, this.stage, this.player2Code, this.playerWinNum, this.player1, this.player2);
 //	    		If draw:
 	    		} else {
-	    			winningScene = new WinningScene(this.menuScene, this.stage, 0);
+	    			winningScene = new WinningScene(this.menuScene, this.stage, 0, this.playerWinNum, this.player1, this.player2);
 	    		}
 	    		
 	    	}

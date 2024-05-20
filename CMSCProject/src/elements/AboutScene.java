@@ -72,7 +72,7 @@ public class AboutScene {
 			}	
 			
 		});
-	   
+		
 	 
 		// Load these things
 		this.root.getChildren().add(this.canvas);

@@ -109,13 +109,17 @@ public class PowerUp extends Sprite {
     			player.setAttackPoints(this.add);
     			player.addMaxHealth(this.add);
     			player.addHealth(this.add);
+    			player.addFragments(this.add);
     		} else if (this.type == Formatting.DOUBLEDAMAGE) {
+    			player.addSpecial(1);
     			// double damage
     		} else if (this.type == Formatting.HEAL) {
+    			player.addSpecial(1);
     			if(player.getHealth() < player.maxHealth) {
     				player.setHealthAdd(this.add);
     			}
     		} else {
+    			player.addSpecial(1);
     			// speed boost
     		}
     		

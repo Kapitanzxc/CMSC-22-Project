@@ -10,12 +10,11 @@ public abstract class Sprite {
 //	Attributes
 	protected Image img;
 	private int characterID, playerNumber;	
-	protected int x, y, dx, dy, width, height, health, attackPoints, direction,maxHealth;
+	protected int x, y, dx, dy, width, height, health, attackPoints, direction,maxHealth, fragmentsCollected, monstersKilled, specialCollected;
 	private double xOffset, yOffset, attackWOffset, attackHOffset, characterLWidth, characterRWidth, widthLOffset, widthROffset, hitboxW, hitboxH, attackW, attackH, xLOffset, attackLWOffset;
 	private boolean visible, alive, collisionChecker, showBoxes;
 	protected boolean attack,hit;
 	public Rectangle hitbox, attackbox;
-
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
     
@@ -39,8 +38,11 @@ public abstract class Sprite {
 		this.widthLOffset = widthLOffset;
 		this.widthROffset = widthROffset;
 		this.maxHealth = 100;
-		this.health = 100;
+		this.health = 1;
 		this.attackPoints = 1;
+		this.fragmentsCollected = 0;
+		this.specialCollected = 0;
+		this.monstersKilled = 0;
 		this.visible = true;
 		this.alive = true;
 		this.attack = false;
@@ -55,7 +57,6 @@ public abstract class Sprite {
 		this.attackH = attackH;
 		this.hitbox = new Rectangle (this.x, this.y, 0 , 0);
 		this.attackbox = new Rectangle (this.x, this.y, 0,0);
-		System.nanoTime();
 		this.collisionChecker = false;
 		this.direction = 1;
 	}
@@ -380,8 +381,14 @@ public abstract class Sprite {
 	public void addHealth(int add) {
 		this.health += add;
 	}
-
 	
+	public void addFragments(int add) {
+		this.fragmentsCollected += add;
+	}
+	
+	public void addSpecial(int add) {
+		this.specialCollected += add;
+	}
 //	Setters
 	public void setAlive(boolean state) {
 		this.alive = state;
@@ -439,6 +446,10 @@ public abstract class Sprite {
 	public void setShowBoxes(boolean showBoxes) {
 		this.showBoxes = showBoxes;
 	}
+
+
+
+	
 
 
 	
