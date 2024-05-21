@@ -9,11 +9,15 @@ public class Ogre3 extends Monster{
 	private int direction;
 	
 	public Ogre3(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.OGRE3, 100, 0, 0, 0, 0);
+		super(xPos, yPos, Formatting.OGRE3, 100, 0.225, 0.13, 0.59, 0.75);
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 
-		this.loadImage(Formatting.Lvl3ROgre1, 65, 65);
+		if (direction == 1) {
+			this.loadImage(Formatting.Lvl3ROgre1, 65, 65);
+		} else {
+			this.loadImage(Formatting.Lvl3LOgre1, 65, 65);
+		}
 	
 	}
 	

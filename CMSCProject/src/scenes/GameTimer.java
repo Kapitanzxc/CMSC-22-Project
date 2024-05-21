@@ -437,6 +437,11 @@ public class GameTimer extends AnimationTimer {
 	            this.player1.setShowCBoxes(!this.player1.isShowCBoxes());
 	            this.player2.setShowCBoxes(!this.player2.isShowCBoxes());
 	            break;
+	        case M:
+	        	for (Monster monster: this.monsterArrayList) {
+	        		monster.setShowBoxes(!monster.isShowBoxes());
+	        	}
+	        	break;
 	        default:
 	            System.out.println(ke + " key pressed.");
 	            break;

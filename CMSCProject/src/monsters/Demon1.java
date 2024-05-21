@@ -9,11 +9,17 @@ public class Demon1 extends Monster{
 	private int direction;
 	
 	public Demon1(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.DEMON1, 100, 0, 0, 0, 0);
+		super(xPos, yPos, Formatting.DEMON1, 100, 0.4, 0.71, 0.27, 0.26);
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 
-		this.loadImage(Formatting.Lvl1RDemon1, 65, 65);
+		if (direction == 1) {
+			this.loadImage(Formatting.Lvl1RDemon1, 65, 65);
+		} else {
+			this.loadImage(Formatting.Lvl1LDemon1, 65, 65);
+
+		}
+		
 		
 	}
 	
