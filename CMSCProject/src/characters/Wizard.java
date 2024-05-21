@@ -1,6 +1,9 @@
 package characters;
 
+import java.util.ArrayList;
+
 import elements.Formatting;
+import monsters.Monster;
 
 public class Wizard extends Sprite {
 //	Attributes for animation
@@ -32,7 +35,7 @@ public class Wizard extends Sprite {
 	}
 	
 //	Display images per frames per second
-	public void animation (long currentTime, Sprite player2) {
+	public void animation (long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
 //		Idle Animation
 		if(currentTime - this.previousTimeIdle >= (250 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
 			if (this.getDX() == 0 && this.getDY()==0) {
@@ -95,10 +98,10 @@ public class Wizard extends Sprite {
 //		Attack animation
 		if(this.getAttack() && checkAlive()) {
 			if (this.getDirection() == 1) {
-				this.attackRightAnimation(currentTime, player2);
+				this.attackRightAnimation(currentTime, player2, monsterArrayList);
 				this.previousTimeDie = currentTime;
 			} else {
-				this.attackLeftAnimation(currentTime, player2);
+				this.attackLeftAnimation(currentTime, player2, monsterArrayList);
 				this.previousTimeDie = currentTime;
 			}
 		}
@@ -148,7 +151,7 @@ public class Wizard extends Sprite {
 	}
 
 	
-	public void attackRightAnimation(long currentTime, Sprite player2) {
+	public void attackRightAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
 	    this.setDX(0);
 	    this.setDY(0);
 
@@ -195,14 +198,14 @@ public class Wizard extends Sprite {
 	        }
 
 	        if (animationCountAttack >= 5 && animationCountAttack <= 9 && this.getCollisionChecker() == false && player2.checkAlive()) {
-	            this.checkCollision(this, player2, currentTime, player2.getDirection());
+	            this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	        }
 
 	        this.previousTimeAttack = currentTime;
 	    }
 	}
 
-	public void attackLeftAnimation(long currentTime, Sprite player2) {
+	public void attackLeftAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
 	    this.setDX(0);
 	    this.setDY(0);
 
@@ -249,7 +252,7 @@ public class Wizard extends Sprite {
 	        }
 
 	        if (animationCountAttack >= 5 && animationCountAttack <= 9 && this.getCollisionChecker() == false && player2.checkAlive()) {
-	            this.checkCollision(this, player2, currentTime, player2.getDirection());
+	            this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	        }
 
 	        this.previousTimeAttack = currentTime;

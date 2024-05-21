@@ -9,7 +9,7 @@ public class Demon1 extends Monster{
 	private int direction;
 	
 	public Demon1(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.DEMON1, 100, 0.4, 0.71, 0.27, 0.26);
+		super(xPos, yPos, Formatting.DEMON1, 30, 10, 0.4, 0.71, 0.27, 0.26);
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 

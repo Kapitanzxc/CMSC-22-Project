@@ -9,7 +9,7 @@ public class Zombie3 extends Monster{
 	private int direction;
 	
 	public Zombie3(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.ZOMBIE3, 100, 0.2, 0.26, 0.6, 0.715);
+		super(xPos, yPos, Formatting.ZOMBIE3, 80, 30,  0.2, 0.26, 0.6, 0.715);
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 

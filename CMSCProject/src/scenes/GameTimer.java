@@ -56,6 +56,7 @@ public class GameTimer extends AnimationTimer {
 	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
 	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
+	
 	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
 //	****************
@@ -66,7 +67,7 @@ public class GameTimer extends AnimationTimer {
 	private long startMonsterSpawn;
 	
 	private final static int SPAWNDELAY_MONSTERS = 5; // spawn monster every after 5 seconds
-	private final static int NUM_MONSTER = 10000;	// spawn 6 monsters
+	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
 	private final static int UPTIME_MONSTER = 10;
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
@@ -191,8 +192,8 @@ public class GameTimer extends AnimationTimer {
 		this.player1.move();
 		this.player2.move();
 //		Shows players respective animations
-		this.player1.animation(System.nanoTime(), this.player2);
-		this.player2.animation(System.nanoTime(), this.player1);
+		this.player1.animation(System.nanoTime(), this.player2, this.monsterArrayList);
+		this.player2.animation(System.nanoTime(), this.player1, this.monsterArrayList);
 		// Monster animation
 		animationMonster(currentNanoTime);
 //		Spawning two players
@@ -204,8 +205,8 @@ public class GameTimer extends AnimationTimer {
 
 //		Deletes Power-ups (by collecting and expiration)
 		deletePowerUps(currentNanoTime);
-		// Deleting Monster every 10 seconds
-//		deleteMonsters(currentNanoTime);
+		// Deleting dead monster
+		dieMonster();
 	}
 
 	private void spawnMonsters(long currentTime){
@@ -263,15 +264,6 @@ public class GameTimer extends AnimationTimer {
 	    }
 	}
 	
-//	// Delete Monster
-//		public void dieMonster(long currentNanoTime) {		
-//			for(Monster monster : monsterArrayList){
-//				if (monster.health < 0){ // check monster's health
-//					monster.setVisible(false);
-//				}
-//			}		
-//		}
-	
 	// Delete Monster
 	public void animationMonster(long currentTime) {		
 		for(Monster monster : monsterArrayList){
@@ -279,16 +271,17 @@ public class GameTimer extends AnimationTimer {
 		}
 	}
 	
-
-////	Delete monsters that is idle for 10 seconds
-//	private void deleteMonsters(long currentNanoTime) {		
-//		for(Monster monster : this.monsterArrayList){
-//			if (((currentNanoTime-this.startMonsterSpawn) / 1000000000.0) >= UPTIME_MONSTER){ // checks if 5 seconds have elapsed
-//				monster.setVisible(false);
-//				this.monsterArrayList.remove(monster); // removed from the array list
-//			}
-//		}		
-//	}
+	// Delete Monster
+	public void dieMonster() {		
+		for(int i = 0; i < this.monsterArrayList.size(); i++) {
+	        Monster monster = this.monsterArrayList.get(i);
+	        if (monster.getHealth() <= 0) {
+	            this.monsterArrayList.remove(i);
+	            i--; // adjusting index
+	        }
+	    }
+	}
+	
 	private void generateFragmentPowerUps(int numFragments){
 // 		Create fragment type power-ups
         for (int i = fragmentPowerUps.size(); i < numFragments; i++) {

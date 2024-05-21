@@ -14,17 +14,18 @@ public abstract class Monster{
 	private static Random random = new Random();
 	protected int type;
 	private long duration;
-	private int x, y, width, height, health;
+	private int x, y, width, height, health, reward;
 	private double hitBoxW, hitBoxH;
 	private boolean visible, alive, showBoxes;
 	private Rectangle hitbox;
 	private double xOffset, yOffset;
 
 	
-	public Monster(int xPos, int yPos, int type, int health,
+	public Monster(int xPos, int yPos, int type, int health, int reward,
 			double xOffset, double yOffset,
 			double hitBoxW, double hitBoxH) {
 		this.type = type;
+		this.reward = reward;
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 		this.x = (int) (xPos + this.width * xOffset);				
@@ -125,7 +126,20 @@ public abstract class Monster{
 	public long getDuration() {
 		return this.duration;
 	}
-
+	
+	public int getHealth() {
+		// TODO Auto-generated method stub
+		return this.health;
+	}
+	
+	public Rectangle getHitbox() {
+		return this.hitbox;
+	}
+	
+	public int getReward() {
+		// TODO Auto-generated method stub
+		return this.reward;
+	}
 	public boolean isShowBoxes() {
 		// TODO Auto-generated method stub
 		return this.showBoxes;
@@ -135,6 +149,15 @@ public abstract class Monster{
 		// TODO Auto-generated method stub
 		this.showBoxes = b;
 	}
+
+	public void setHealth(int attackPoints) {
+		// TODO Auto-generated method stub
+		this.health -= attackPoints;
+	}
+
+	
+
+
 	
 
 }

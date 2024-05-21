@@ -1,11 +1,13 @@
 package characters;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import elements.Formatting;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import monsters.Monster;
 
 public abstract class Sprite {
 //	Attributes
@@ -63,7 +65,7 @@ public abstract class Sprite {
 	}
 	
 	public abstract boolean dieAnimation(long nanoTime);
-	public abstract void animation(long nanoTime, Sprite player2);
+	public abstract void animation(long nanoTime, Sprite player2, ArrayList<Monster> monsterArrayList);
 	public abstract void hitAnimation(long currentTime, Sprite player1, int direction2);
 	
 	
@@ -230,18 +232,32 @@ public abstract class Sprite {
 	}
 
 //	Method for checking collision
-	public void checkCollision(Sprite player1, Sprite player2, long currentTime, int direction) {
-		if (player1.attackbox.intersects(player2.hitbox)) {
-			player2.setHit(true);
-			System.out.println("Hit");
-			player2.hitAnimation(currentTime, player1, direction);
+	public void checkCollision(Sprite player1, Sprite player2, long currentTime, int direction, ArrayList<Monster> monsterArrayList) {
+	    // Check collision between player1 and player2
+	    if (player1.attackbox.intersects(player2.hitbox)) {
+	        player2.setHit(true);
+	        System.out.println("Hit");
+	        player2.hitAnimation(currentTime, player1, direction);
 	        // Attack hits the defending player
-	    	player1.setCollisionChecker(true);
+	        player1.setCollisionChecker(true);
 	    } else {
-	    	System.out.println("Miss");
+	        System.out.println("Miss");
 	    }
-	}
-	
+	    
+	    // Check collision between player1 and each monster in the monsterArrayList
+	    for (Monster monster : monsterArrayList) {
+	        if (player1.attackbox.intersects(monster.getHitbox())) {
+	            monster.setHealth(player1.getAttackPoints()); 
+	            if (monster.getHealth() <= 0) {
+	            	player1.monstersKilled += 1;
+	            	player1.attackPoints += monster.getReward();
+	            	player1.addHealth(monster.getReward());
+	            	player1.maxHealth += monster.getReward();
+	            }
+	            System.out.println("Monster Hit");
+	        }
+	    }
+	}	
 
 
 	// Checks if character still alive

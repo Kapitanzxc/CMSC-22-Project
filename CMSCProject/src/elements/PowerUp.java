@@ -1,8 +1,10 @@
 package elements;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import characters.Sprite;
+import monsters.Monster;
 
 public class PowerUp extends Sprite {
 	static Random random = new Random();
@@ -93,7 +95,7 @@ public class PowerUp extends Sprite {
 	}
 
 	@Override
-	public void animation(long nanoTime, Sprite player) {
+	public void animation(long nanoTime, Sprite player, ArrayList<Monster> monsterArrayList) {
 		// animation
 	}
 
