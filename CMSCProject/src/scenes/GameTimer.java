@@ -56,7 +56,6 @@ public class GameTimer extends AnimationTimer {
 	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
 	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
-	private final static int UPTIME_MONSTER = 10;
 	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
 //	****************
@@ -67,7 +66,8 @@ public class GameTimer extends AnimationTimer {
 	private long startMonsterSpawn;
 	
 	private final static int SPAWNDELAY_MONSTERS = 5; // spawn monster every after 5 seconds
-	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
+	private final static int NUM_MONSTER = 10000;	// spawn 6 monsters
+	private final static int UPTIME_MONSTER = 10;
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
 		this.player1Code = player1;
@@ -218,13 +218,13 @@ public class GameTimer extends AnimationTimer {
 			Random random = new Random();
 			
 			for (int i = monsterArrayList.size(); i < NUM_MONSTER; i++) {
-				spawnY = Monster.spawnY();
-				spawnX = Monster.spawnX(spawnY);
+				monsterY = Monster.spawnY();
+				monsterX = Monster.spawnX(monsterY);
 				
 				// Random spawning of monsters
 				int randomType = monsterType[random.nextInt(monsterType.length)];
 				int randomDirection = random.nextInt(1, 3);
-				Monster monster = createMonster(randomType, spawnX, spawnY, randomDirection);
+				Monster monster = createMonster(randomType, monsterX, monsterY, randomDirection);
 				this.monsterArrayList.add(monster);
 			}
 			

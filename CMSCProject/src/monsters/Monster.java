@@ -70,7 +70,7 @@ public abstract class Monster{
 
 //	Map boundaries (+20, -20)
 	public static int spawnY() {
-		int randY = random.nextInt(105,556);
+		int randY = random.nextInt(105,555);
 		
 		return randY;
 	}
@@ -85,30 +85,26 @@ public abstract class Monster{
 		} else if (y >= 180 && y <= 249) {
 			randX = random.nextInt(250, 888);
 //		middle
-		} else if (y >= 250 && y <= 289) {
+		} else if (y >= 250 && y <= 260) {
 			randX = random.nextInt(150, 988);
 //		middle 2 (contains pillars)
-		} else if (y >= 290 && y <= 379){
+		} else if (y >= 261 && y <= 379){
 			int rand = random.nextInt(1, 4);
 			
 			if(rand == 1) {
-				randX = random.nextInt(150, 228);
+				randX = random.nextInt(200, 228);
 			} else if (rand == 2) {
 				randX = random.nextInt(390, 768);
 			} else {
-				randX = random.nextInt(930, 988);
+				randX = random.nextInt(930, 950);
 			}
 //		south 1
 		} else if (y >= 380 && y <= 469) {
-			randX = random.nextInt(270, 943);
+			randX = random.nextInt(270, 870);
 //		south 2
-		} else if (y >= 470 && y <= 544) {
-			randX = random.nextInt(300, 843);
-//		south 3
-		} else {
-			randX = random.nextInt(400, 733);
+		} else if (y >= 470 && y <= 555) {
+			randX = random.nextInt(380, 750);
 		}
-		
 		return randX;
 	}
 	
