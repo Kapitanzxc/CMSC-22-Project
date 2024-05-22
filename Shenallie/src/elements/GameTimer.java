@@ -21,19 +21,13 @@ public class GameTimer extends AnimationTimer {
 	private GraphicsContext gc;
 	private Stage stage;
 	private boolean gameOver;
-<<<<<<< Updated upstream
+
 	private Sprite player1,player2;
 	private int playerWinner,player1Code,player2Code,animationCountTimer;
 	private long previousTimerTime,time,previousTimerBG, previousTimeMonster;
 	private Image timerBGimg;
-//	private int numMonster;
-=======
-	private Sprite player1,player2; 
-	private int playerWinner, player1Code, player2Code, animationCountTimer;
-	private long previousTimerTime,time,previousTimerBG, previousTimeMonster;
-	private Image timerBGimg;
-	
->>>>>>> Stashed changes
+	private int numMonster;
+
 
 //	****************
 //	Power-ups
@@ -46,7 +40,7 @@ public class GameTimer extends AnimationTimer {
 	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
 	private final static int UPTIME_MONSTER = 10;
-	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
+	private final static int NUM_FRAGMENT_POWERUP = 40;	// 40 fragments
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
 //	****************
 	
@@ -55,10 +49,6 @@ public class GameTimer extends AnimationTimer {
 	private int monsterX, monsterY;
 	private long startMonsterSpawn;
 	private boolean initialMonsterSpawn;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 	
 	private final static int SPAWNDELAY_MONSTERS = 5; // spawn monster every after 5 seconds
 	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
@@ -173,11 +163,8 @@ public class GameTimer extends AnimationTimer {
 //		Spawning Special Power-ups
 		spawnSpecialPowerUps(currentNanoTime);
 		// Spawn Monsters
-<<<<<<< Updated upstream
-		spawnMonsters(currentNanoTime);
-=======
-		spawnMonsters(this.numMonster, currentNanoTime);
->>>>>>> Stashed changes
+		//spawnMonsters(currentNanoTime);
+		//spawnMonsters(this.numMonster, currentNanoTime);
 //		Rendering Power-ups
 		renderPowerUps();
 		// Rendering Monsters
@@ -259,11 +246,8 @@ public class GameTimer extends AnimationTimer {
    		collectPowerUps(currentNanoTime);
 	}
 	
-<<<<<<< Updated upstream
-	private void spawnMonsters(long currentTime){
-=======
+	//private void spawnMonsters(long currentTime){
 	private void spawnMonsters(int numMonster, long currentTime){
->>>>>>> Stashed changes
 // 		Spawn monsters
 		long monsterElapsedTime = (currentTime - this.previousTimeMonster) / 1000000000;
 //		if (currentTime - this.previousTimeMonster >= 5000*1000000) {

@@ -9,8 +9,11 @@ public class PowerUp extends Sprite {
 	private int type;
 	private long duration;
 	private long spawnTime;
-	private long upTime;
 	private int add;
+	
+//	**********
+	private static final int POWERUPTIME = 8;
+//	**********
 	
 	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration, int add) {
 		super(1, 0, xPos, yPos, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
@@ -19,16 +22,33 @@ public class PowerUp extends Sprite {
 		this.duration = duration;
 		this.add = add;
 		this.spawnTime = spawnTime;
-		this.upTime = upTime;
 		
+//		loads the image for the correct type
 		if(type == Formatting.FRAGMENT) {
-			loadImage(Formatting.PFRAGMENT, 20, 20);
-		} else if (type == Formatting.DOUBLEDAMAGE) {
-			loadImage(Formatting.PDOUBLEDAMAGE, 40, 40);
+			int rand = random.nextInt(1,9);
+			if(rand == 1) {
+				loadImage(Formatting.BLUEFRAGMENT, 20, 15);
+			} else if(rand == 2) {
+				loadImage(Formatting.DBLUEFRAGMENT, 20, 15);
+			} else if(rand == 3) {
+				loadImage(Formatting.GREENFRAGMENT, 20, 15);
+			} else if(rand == 4) {
+				loadImage(Formatting.ORANGEFRAGMENT, 20, 15);
+			} else if(rand == 5) {
+				loadImage(Formatting.PINKFRAGMENT, 20, 20);
+			} else if(rand == 6) {
+				loadImage(Formatting.PURPLEFRAGMENT, 20, 20);
+			} else if(rand == 7) {
+				loadImage(Formatting.REDFRAGMENT, 20, 15);
+			} else {
+				loadImage(Formatting.YORANGEFRAGMENT, 20, 20);
+			} 
+		} else if (type == Formatting.ATTACKBOOST) {
+			loadImage(Formatting.ABOOST, 40, 40);
 		} else if (type == Formatting.HEAL) {
-			loadImage(Formatting.PHEAL, 40, 40);
+			loadImage(Formatting.PHEAL, 20, 20);
 		} else {
-			loadImage(Formatting.PSPEEDBOOST, 40, 40);
+			loadImage(Formatting.SBOOST, 40, 40);
 		}
  		
 	}
@@ -102,31 +122,66 @@ public class PowerUp extends Sprite {
 		// 
 	}
 	
-	public void checkPowerUpCollision(Sprite player) {
+	public void checkPowerUpCollision(Sprite player, long currentNanoTime) {
+		checkActive(player, currentNanoTime);
+		
 //    	Check collision between player and powerups    	
     	if (player.hitbox.intersects(this.hitbox)) {
     		
 //    		if else get type of power up
     		if (this.type == Formatting.FRAGMENT) {
-    			player.setAttackPoints(this.add);
-    			player.addMaxHealth(this.add);
-    			player.addHealth(this.add);
-    			player.addFragments(this.add);
-    		} else if (this.type == Formatting.DOUBLEDAMAGE) {
-    			player.addSpecial(1);
-    			// double damage
+    			player.addAttackPoints();
+    			player.addMaxHealth();
+    			player.addHealth(1);
+    			player.addFragments();
+    		} else if (this.type == Formatting.ATTACKBOOST) {
+    			player.addSpecial();
+    			// attack boost
+    			player.setAttackBoostActive(true);
+    			player.setAddDamage((int) (player.getAttackPoints()*0.5));
+    			player.setAttackPoints(player.getAttackPoints() + player.getAddDamage());
+    			player.setAttackBoostTime(currentNanoTime);
+    			
     		} else if (this.type == Formatting.HEAL) {
-    			player.addSpecial(1);
+    			player.addSpecial();
     			if(player.getHealth() < player.getMaxHealth()) {
-    				player.setHealthAdd(this.add);
+    				player.addHealth(10);
     			}
     		} else {
-    			player.addSpecial(1);
+    			player.addSpecial();
     			// speed boost
+    			player.setSpeedBoostActive(true);
+    			player.setSpeed(3);
+    			player.setSpeedBoostTime(currentNanoTime);
     		}
     		
     		System.out.println("Player " + player.getPlayerNumber() + " has collected " + this.type + "."); 
-    		this.setAlive(false); // Regen power-up disappears
+    		this.setAlive(false); // Power-up disappears
     	}
+	}
+	
+	public void checkActive(Sprite player, long currentNanoTime) {
+//		attack boost
+		if(player.isAttackBoostActive() == true) {
+			double elapsedAttackTime = (currentNanoTime - player.getAttackBoostTime()) / 1000000000.0;
+			
+			if(elapsedAttackTime > POWERUPTIME) {
+				player.setAttackBoostActive(false);
+    			player.setAttackPoints(player.getAttackPoints()-player.getAddDamage());
+    			player.setAddDamage(0);
+    			player.setAttackBoostTime(0);
+			}
+		}
+		
+//		speed boost
+		if(player.isSpeedBoostActive() == true) {
+			double elapsedSpeedTime = (currentNanoTime - player.getSpeedBoostTime()) / 1000000000.0;
+			
+			if(elapsedSpeedTime > POWERUPTIME) {
+				player.setSpeedBoostActive(false);
+    			player.setSpeed(2);
+    			player.setSpeedBoostTime(0);
+			}
+		}
 	}
 }

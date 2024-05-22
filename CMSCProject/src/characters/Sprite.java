@@ -19,6 +19,16 @@ public abstract class Sprite {
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
     
+//  **********
+	private int speed;
+	private int addDamage;
+	
+	private long speedBoostTime;
+	private long attackBoostTime;
+	private boolean speedBoostActive;
+	private boolean attackBoostActive;
+//	**********
+    
 //	Constructor
 	public Sprite(int characterID, int playerNumber, int xPos, int yPos, int health, 
 			double xOffset, double yOffset,
@@ -60,6 +70,15 @@ public abstract class Sprite {
 		this.attackbox = new Rectangle (this.x, this.y, 0,0);
 		this.collisionChecker = false;
 		this.direction = 1;
+		
+//		**********
+		this.speed = 2;
+		this.speedBoostTime = 0;
+		this.attackBoostTime = 0;
+		this.speedBoostActive = false;
+		this.attackBoostActive = false;
+		this.addDamage = 0;
+//		**********
 	}
 	
 	public abstract boolean dieAnimation(long nanoTime);
@@ -405,29 +424,83 @@ public abstract class Sprite {
 		return this.monstersKilled;
 	}
 	
-	public void addMaxHealth(int add) {
-		this.maxHealth += add;
+//	**********
+	
+//	getters
+	public int getSpeed() {
+		return this.speed;
+	}
+	
+	public boolean isAttackBoostActive () {
+		return this.attackBoostActive;
+	}
+	
+	public boolean isSpeedBoostActive () {
+		return this.speedBoostActive;
+	}
+	
+	public long getAttackBoostTime() {
+		return this.attackBoostTime;
+	}
+	
+	public long getSpeedBoostTime() {
+		return this.speedBoostTime;
+	}
+	
+	public int getAddDamage() {
+		return this.addDamage;
+	}
+	
+//	setters
+	public void addAttackPoints () {
+		this.attackPoints += 1;
+	}
+	
+	public void setAttackPoints (int attackPoints) {
+		this.attackPoints = attackPoints;
+	}
+	
+	public void setAttackBoostActive(boolean active) {
+		this.attackBoostActive = active;
+	}
+	
+	public void setSpeedBoostActive(boolean active) {
+		this.speedBoostActive = active;
+	}
+	
+	public void setAttackBoostTime(long collectTime) {
+		this.attackBoostTime = collectTime;
+	}
+	
+	public void setSpeedBoostTime(long collectTime) {
+		this.speedBoostTime = collectTime;
+	}
+	
+	public void setAddDamage(int addDamage) {
+		this.addDamage = addDamage;
+	}
+	
+	public void addMaxHealth() {
+		this.maxHealth += 1;
 		
 	}
+	
+//	**********
 
 	public void addHealth(int add) {
 		this.health += add;
 	}
 	
-	public void addFragments(int add) {
-		this.fragmentsCollected += add;
+	public void addFragments() {
+		this.fragmentsCollected += 1;
 	}
 	
-	public void addSpecial(int add) {
-		this.specialCollected += add;
+	public void addSpecial() {
+		this.specialCollected += 1;
 	}
 //	Setters
 	public void setAlive(boolean state) {
 		this.alive = state;
-	}
-	
-	public void setAttackPoints (int additional) {
-		this.attackPoints += 1;
 	}
 	
 	public void setDirection(int direction) {
@@ -436,15 +509,6 @@ public abstract class Sprite {
 	
 	public void setHealth(int damage) {
 		this.health -= damage;
-	}
-	
-	public void setHealthAdd(int additional) {
-//		Max health = 100
-		if(this.health + additional > 100) {
-			this.health = 100;
-		} else {
-			this.health += additional;
-		}
 	}
 	
 	public void setVisible(boolean visible) {
@@ -486,6 +550,12 @@ public abstract class Sprite {
 	public void setShowCBoxes(boolean showCBoxes) {
 		this.showCBoxes = showCBoxes;
 	}
+	
+//	**********
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+//	**********
 
 
 	

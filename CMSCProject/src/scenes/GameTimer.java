@@ -57,7 +57,7 @@ public class GameTimer extends AnimationTimer {
 	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
 	private final static int UPTIME_MONSTER = 10;
-	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
+	private final static int NUM_FRAGMENT_POWERUP = 40;	// 40 fragments
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
 //	****************
 	
@@ -98,6 +98,7 @@ public class GameTimer extends AnimationTimer {
 //		call method to handle key click event
 		this.handleKeyPressEvent();
 	}
+	
 	private Sprite createPlayer(int playerType, int x, int y, int playerNum) {
         switch (playerType) {
             case Formatting.KNIGHT:
@@ -156,6 +157,7 @@ public class GameTimer extends AnimationTimer {
 			}
 			
 		});
+		
 		gameScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
             public void handle(KeyEvent e){
             	KeyCode code = e.getCode();
@@ -360,8 +362,8 @@ public class GameTimer extends AnimationTimer {
 		for(int i = 0; i < this.specialPowerUps.size(); i++){
 	        PowerUp special = this.specialPowerUps.get(i);
 	        if (special.getAlive()){
-	        	special.checkPowerUpCollision(this.player1);
-	        	special.checkPowerUpCollision(this.player2);
+	        	special.checkPowerUpCollision(this.player1, currentNanoTime);
+	        	special.checkPowerUpCollision(this.player2, currentNanoTime);
 	        } else {
 //	        	Removes special power ups if idle for 10 seconds or picked up
 	        	this.specialPowerUps.remove(i);
@@ -371,8 +373,8 @@ public class GameTimer extends AnimationTimer {
 		for(int i = 0; i < this.fragmentPowerUps.size(); i++){
 	        PowerUp fragment = this.fragmentPowerUps.get(i);
 	        if (fragment.getAlive()){
-	        	fragment.checkPowerUpCollision(this.player1);
-	        	fragment.checkPowerUpCollision(this.player2);
+	        	fragment.checkPowerUpCollision(this.player1, currentNanoTime);
+	        	fragment.checkPowerUpCollision(this.player2, currentNanoTime);
 	        } else {
 //	        	Removes fragments that are picked up 
 	        	this.fragmentPowerUps.remove(i);
@@ -391,32 +393,36 @@ public class GameTimer extends AnimationTimer {
 	}
 	
 
+//	**********
+//	yung set na 2 ginawa kong speed para mapalitan kapag nag speed boost
+//	**********
+
 	//method that will read users input
 	private void keysCharacter(KeyCode ke) {
 	    switch (ke) {
 	        case W:
-	            this.player1.setDY(-2);
+	            this.player1.setDY(-this.player1.getSpeed());
 	            break;
 	        case A:
-	            this.player1.setDX(-2);
+	            this.player1.setDX(-this.player1.getSpeed());
 	            break;
 	        case S:
-	            this.player1.setDY(2);
+	            this.player1.setDY(this.player1.getSpeed());
 	            break;
 	        case D:
-	            this.player1.setDX(2);
+	            this.player1.setDX(this.player1.getSpeed());
 	            break;
 	        case UP:
-	            this.player2.setDY(-2);
+	            this.player2.setDY(-this.player2.getSpeed());
 	            break;
 	        case LEFT:
-	            this.player2.setDX(-2);
+	            this.player2.setDX(-this.player2.getSpeed());
 	            break;
 	        case DOWN:
-	            this.player2.setDY(2);
+	            this.player2.setDY(this.player2.getSpeed());
 	            break;
 	        case RIGHT:
-	            this.player2.setDX(2);
+	            this.player2.setDX(this.player2.getSpeed());
 	            break;
 	        case F:
 	            this.player1.setAttack(true);

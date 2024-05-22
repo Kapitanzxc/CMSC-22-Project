@@ -7,7 +7,6 @@ public class PowerUp extends Sprite {
 	private int type;
 	private long duration;
 	private long spawnTime;
-	private long upTime;
 	private int add;
 	
 	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration, int add) {
@@ -17,16 +16,32 @@ public class PowerUp extends Sprite {
 		this.duration = duration;
 		this.add = add;
 		this.spawnTime = spawnTime;
-		this.upTime = upTime;
 		
 		if(type == Formatting.FRAGMENT) {
-			loadImage(Formatting.PFRAGMENT);
+			int rand = random.nextInt(1,9);
+			if(rand == 1) {
+				loadImage(Formatting.BLUEFRAGMENT);
+			} else if(rand == 2) {
+				loadImage(Formatting.DBLUEFRAGMENT);
+			} else if(rand == 3) {
+				loadImage(Formatting.GREENFRAGMENT);
+			} else if(rand == 4) {
+				loadImage(Formatting.ORANGEFRAGMENT);
+			} else if(rand == 5) {
+				loadImage(Formatting.PINKFRAGMENT);
+			} else if(rand == 6) {
+				loadImage(Formatting.PURPLEFRAGMENT);
+			} else if(rand == 7) {
+				loadImage(Formatting.REDFRAGMENT);
+			} else {
+				loadImage(Formatting.YORANGEFRAGMENT);
+			} 
 		} else if (type == Formatting.DOUBLEDAMAGE) {
-			loadImage(Formatting.PDOUBLEDAMAGE);
+			loadImage(Formatting.DDAMAGE);
 		} else if (type == Formatting.HEAL) {
 			loadImage(Formatting.PHEAL);
 		} else {
-			loadImage(Formatting.PSPEEDBOOST);
+			loadImage(Formatting.SBOOST);
 		}
  		
 	}

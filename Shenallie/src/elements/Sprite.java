@@ -15,7 +15,11 @@ public abstract class Sprite {
 	private boolean visible, alive, collisionChecker, showBoxes;
 	protected boolean attack,hit;
 	public Rectangle hitbox, attackbox;
-
+	
+// *******
+	private int speed;
+// *******	
+	
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
     
@@ -58,6 +62,7 @@ public abstract class Sprite {
 		System.nanoTime();
 		this.collisionChecker = false;
 		this.direction = 1;
+		this.speed = 2;
 	}
 	
 	protected abstract boolean dieAnimation(long nanoTime);

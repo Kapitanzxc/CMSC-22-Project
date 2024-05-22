@@ -93,12 +93,22 @@ public class Formatting {
 	public static final int LDEMON1 = 311;
 	public static final int LDEMON2 = 321;
 	public static final int LDEMON3 = 331;
-	
+
+// ************
 //	Power ups
-	public static final Image PFRAGMENT = new Image("file:resources/PowerUp/fragment.png", 20, 20, true, true);
-	public static final Image PDOUBLEDAMAGE = new Image("file:resources/PowerUp/attack.png", 40, 40, true, true);
-	public static final Image PHEAL = new Image("file:resources/PowerUp/heal.png", 40, 40, true, true);
-	public static final Image PSPEEDBOOST = new Image("file:resources/PowerUp/speed.png", 40, 40, true, true);
+	public static final Image DDAMAGE = new Image("file:resources/PowerUp/Special/DoubleDamage.png", 40, 40, true, true);
+	public static final Image PHEAL = new Image("file:resources/PowerUp/Special/Heal.png", 20, 20, true, true);
+	public static final Image SBOOST = new Image("file:resources/PowerUp/Special/SpeedBoost.png", 40, 40, true, true);
+	
+	public static final Image BLUEFRAGMENT = new Image("file:resources/PowerUp/Fragment/Blue.png", 20, 20, true, true);
+	public static final Image DBLUEFRAGMENT = new Image("file:resources/PowerUp/Fragment/DarkBlue.png", 20, 20, true, true);
+	public static final Image GREENFRAGMENT = new Image("file:resources/PowerUp/Fragment/Green.png", 20, 20, true, true);
+	public static final Image ORANGEFRAGMENT = new Image("file:resources/PowerUp/Fragment/Orange.png", 20, 20, true, true);
+	public static final Image PINKFRAGMENT = new Image("file:resources/PowerUp/Fragment/Pink.png", 20, 20, true, true);
+	public static final Image PURPLEFRAGMENT = new Image("file:resources/PowerUp/Fragment/Purple.png", 20, 20, true, true);
+	public static final Image REDFRAGMENT = new Image("file:resources/PowerUp/Fragment/Red.png", 20, 20, true, true);
+	public static final Image YORANGEFRAGMENT = new Image("file:resources/PowerUp/Fragment/YellowOrange.png", 30, 30, true, true);
+// ************	
 
 
 //	Choose character images

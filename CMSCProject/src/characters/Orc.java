@@ -30,6 +30,10 @@ public class Orc extends Sprite{
 //		this.loadImage(Formatting.PIXEL);
 	}
 	
+//	**********
+//  inadjust ko din yung sa animation ng walking imbis na 2 ginawa kong based sa speed
+//	**********
+	
 //	Display images per frames per second
 	public void animation (long currentTime, Sprite player2) {
 //		Idle Animation
@@ -48,7 +52,7 @@ public class Orc extends Sprite{
 		}
 		// Animation Right Walk
 		if(currentTime - this.previousTimeRWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == 2) {
+			if (this.getDX() == this.getSpeed()) {
 				this.animationCountWalk ++;
 				this.walkRight();
 				this.setDirection(1);
@@ -58,7 +62,7 @@ public class Orc extends Sprite{
 		
 		// Animation Left Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == -2) {
+			if (this.getDX() == -this.getSpeed()) {
 				this.animationCountWalk ++;
 				this.walkLeft();
 				this.setDirection(2);
@@ -68,7 +72,7 @@ public class Orc extends Sprite{
 		
 		// Animation Right Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == 2) {
+			if (this.getDY() == this.getSpeed()) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -81,7 +85,7 @@ public class Orc extends Sprite{
 		
 		// Animation Left Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == -2) {
+			if (this.getDY() == -this.getSpeed()) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
