@@ -38,7 +38,7 @@ public class SplashScreen {
 		this.splashScene = new Scene(this.root,Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		this.canvas = new Canvas(Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
-	 	this.titlePicture = new Image("file:resources/gameLogo.png", 600, 600 , true, true); 
+	 	this.titlePicture = new Image("file:resources/Menu/gameLogo.png", 600, 600 , true, true); 
 	 	this.texts = new ArrayList<Text>();
 	}
 //	//sets stage

@@ -11,21 +11,19 @@ public class Formatting {
 	public static final int SCREEN_WIDTH = 600 * MULTIPLIER;
 	public static final int SCREEN_HEIGHT = 360 * MULTIPLIER;
 //	Menu and map assets
-	public static final Image BACKGROUND = new Image("file:resources/background.jpg", 7000, 2917,true,true);
-	public static final Image ABOUT = new Image("file:resources/about.jpg", 7000, 2917,true,true);
-	public static final Image CONTROLS = new Image("file:resources/controls.jpg", 7000, 2917,true,true);
-	public static final Image REFERENCES = new Image("file:resources/references.jpg", 7000, 2917,true,true);
-	public static final Image DEVELOPERS = new Image("file:resources/developers.jpg", 7000, 2917,true,true);
-	public static final Image HOME_BUTTON = new Image("file:resources/homeButton.png", 39, 40.5,true,true);
-	public static final Image RIGHT_BUTTON = new Image("file:resources/rightButton.png", 31, 32,true,true);
-	public static final Image LEFT_BUTTON = new Image("file:resources/leftButton.png", 31, 32,true,true);
-	public static final Image LEFT_SCROLL = new Image("file:resources/scrollLeft.png", 136.5, 31.5,true,true);
-	public static final Image MIDDLE_SCROLL = new Image("file:resources/scrollMiddle.png",  136.5, 31.5,true,true);
-	public static final Image RIGHT_SCROLL = new Image("file:resources/scrollRight.png",  136.5, 31.5,true,true);
-	public static final Image CHARACTER_R = new Image("file:resources/characterRight.png",  35, 35,true,true);
-	public static final Image MAP = new Image("file:resources/map2.png",  7000, 2917,true,true);
-	public static final Image TOWER = new Image("file:resources/tower.png",  70, 172,true,true);
-	public static final Image PIXEL = new Image("file:resources/pixel.jpg", 1, 1,false,false);
+	public static final Image BACKGROUND = new Image("file:resources/Menu/background.jpg", 7000, 2917,true,true);
+	public static final Image ABOUT = new Image("file:resources/Menu/about.jpg", 7000, 2917,true,true);
+	public static final Image CONTROLS = new Image("file:resources/Menu/controls.jpg", 7000, 2917,true,true);
+	public static final Image REFERENCES = new Image("file:resources/Menu/references.jpg", 7000, 2917,true,true);
+	public static final Image DEVELOPERS = new Image("file:resources/Menu/developers.jpg", 7000, 2917,true,true);
+	public static final Image HOME_BUTTON = new Image("file:resources/Menu/homeButton.png", 39, 40.5,true,true);
+	public static final Image RIGHT_BUTTON = new Image("file:resources/Menu/rightButton.png", 31, 32,true,true);
+	public static final Image LEFT_BUTTON = new Image("file:resources/Menu/leftButton.png", 31, 32,true,true);
+	public static final Image LEFT_SCROLL = new Image("file:resources/Menu/scrollLeft.png", 136.5, 31.5,true,true);
+	public static final Image MIDDLE_SCROLL = new Image("file:resources/Menu/scrollMiddle.png",  136.5, 31.5,true,true);
+	public static final Image RIGHT_SCROLL = new Image("file:resources/Menu/scrollRight.png",  136.5, 31.5,true,true);
+	public static final Image MAP = new Image("file:resources/Menu/map.png",  7000, 2917,true,true);
+
 //	Health Bars and Timer
 	public static final Image KnightRHealthBar = new Image("file:resources/HealthBar/RKnightHealthBar.png", 231, 72,true,true);
 	public static final Image KnightLHealthBar = new Image("file:resources/HealthBar/LKnightHealthBar.png", 231, 72,true,true);
@@ -48,11 +46,11 @@ public class Formatting {
 	public static final Image TIMER10 = new Image("file:resources/TimerEffect/Timer10.png", 180, 173,true,true);
 
 //	Font Styles
-	public static final Font FONT_STYLE_26 = Font.loadFont("file:resources/PrStart.ttf", 26);
-	public static final Font FONT_STYLE_28 = Font.loadFont("file:resources/Munro.ttf",28);
-	public static final Font FONT_STYLE_25 = Font.loadFont("file:resources/Munro.ttf",25);
-	public static final Font FONT_STYLE_22 = Font.loadFont("file:resources/Munro.ttf",22);
-	public static final Font FONT_STYLE_20 = Font.loadFont("file:resources/Munro.ttf",20);
+	public static final Font FONT_STYLE_26 = Font.loadFont("file:resources/Font/PrStart.ttf", 26);
+	public static final Font FONT_STYLE_28 = Font.loadFont("file:resources/Font/Munro.ttf",28);
+	public static final Font FONT_STYLE_25 = Font.loadFont("file:resources/Font/Munro.ttf",25);
+	public static final Font FONT_STYLE_22 = Font.loadFont("file:resources/Font/Munro.ttf",22);
+	public static final Font FONT_STYLE_20 = Font.loadFont("file:resources/Font/Munro.ttf",20);
 	
 	
 	public static final double XPOS_TEXT = SCREEN_WIDTH/2;
@@ -100,9 +98,10 @@ public class Formatting {
     public static final Image ORCV = new Image("file:resources/Orc/Idle/ROrcIdle1.png", 360, 360, true, true);
     public static final Image WIZV = new Image("file:resources/Wizard/Idle/RWizIdle1.png", 1080, 312, true, true);
 	
-	
+//	Controls png
 	public static final Image CCCONTROLS = new Image("file:resources/ChooseCharacter/controlscc.png", 7000, 2917,true,true);
 	
+// 	Select Character Images
 	public static final Image P1KNIGHT1 = new Image("file:resources/ChooseCharacter/Player1/P1Knight1.jpg", 7000, 2917,true,true);
 	public static final Image P1KNIGHT2 = new Image("file:resources/ChooseCharacter/Player1/P1Knight2.jpg", 7000, 2917,true,true);
 	public static final Image P1ORC1 = new Image("file:resources/ChooseCharacter/Player1/P1Orc1.jpg", 7000, 2917,true,true);
@@ -121,12 +120,12 @@ public class Formatting {
 	public static final Image P2WIZARD1 = new Image("file:resources/ChooseCharacter/Player2/P2Wiz1.jpg", 7000, 2917,true,true);
 	public static final Image P2WIZARD2 = new Image("file:resources/ChooseCharacter/Player2/P2Wiz2.jpg", 7000, 2917,true,true);
 	
-//	Characters
-	public static final double CHARACTER_WIDTH = 225;
+//	Characters size
+	public static final double CHARACTER_WIDTH = 342;
 	public static final double CHARACTER_HEIGHT = 175;
 	public static final double CHARACTER_WIDTHW = 800;
 	public static final double CHARACTER_HEIGHTW = 230;
-	public static final double CHARACTER_WIDTHO = 260;
+	public static final double CHARACTER_WIDTHO = 303;
 	public static final double CHARACTER_HEIGHTO = 260;
 	
 //	Knight
@@ -366,104 +365,132 @@ public class Formatting {
 	public static final Image OrcLWalk8 = new Image("file:resources/Orc/Walk/LOrcWalk8.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
 	
 	// Zombie 
-		public static final Image Lvl3RZombie1 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3RZombie2 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3RZombie3 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3RZombie4 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl3LZombie1 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LZombie2 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LZombie3 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LZombie4 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RZombie1 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RZombie2 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RZombie3 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RZombie4 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl1LZombie1 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LZombie2 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LZombie3 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LZombie4 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lv11RZombieHit = new Image("file:resources/Monsters/Zombie/Level 1/RZombieHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lv11LZombieHit = new Image("file:resources/Monsters/Zombie/Level 1/LZombieHIt.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2RZombie1 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2RZombie2 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2RZombie3 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2RZombie4 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2LZombie1 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LZombie2 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LZombie3 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LZombie4 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lv12RZombieHit = new Image("file:resources/Monsters/Zombie/Level 2/RZombieHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lv12LZombieHit = new Image("file:resources/Monsters/Zombie/Level 2/LZombieHIt.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3RZombie1 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3RZombie2 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3RZombie3 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3RZombie4 = new Image("file:resources/Monsters/Zombie/Level 3/RLvl3Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3LZombie1 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LZombie2 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LZombie3 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LZombie4 = new Image("file:resources/Monsters/Zombie/Level 3/LLvl3Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
 
-		public static final Image Lvl2RZombie1 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2RZombie2 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2RZombie3 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2RZombie4 = new Image("file:resources/Monsters/Zombie/Level 2/RLvl2Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl2LZombie1 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LZombie2 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LZombie3 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LZombie4 = new Image("file:resources/Monsters/Zombie/Level 2/LLvl2Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl1RZombie1 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1RZombie2 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1RZombie3 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1RZombie4 = new Image("file:resources/Monsters/Zombie/Level 1/RLvl1Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl1LZombie1 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LZombie2 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LZombie3 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LZombie4 = new Image("file:resources/Monsters/Zombie/Level 1/LLvl1Zombie4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
+	public static final Image Lv13RZombieHit = new Image("file:resources/Monsters/Zombie/Level 3/RZombieHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lv13LZombieHit = new Image("file:resources/Monsters/Zombie/Level 3/LZombieHIt.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	
 	// Ogre
-		public static final Image Lvl1ROgre1 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1ROgre2 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1ROgre3 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1ROgre4 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl1LOgre1 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LOgre2 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LOgre3 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LOgre4 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl2ROgre1 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2ROgre2 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2ROgre3 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2ROgre4 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl2LOgre1 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LOgre2 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LOgre3 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LOgre4 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl3ROgre1 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3ROgre2 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3ROgre3 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3ROgre4 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl3LOgre1 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LOgre2 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LOgre3 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LOgre4 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-
+	public static final Image Lvl1ROgre1 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1ROgre2 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1ROgre3 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1ROgre4 = new Image("file:resources/Monsters/Ogre/Level 1/RLvl1Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl1LOgre1 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LOgre2 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LOgre3 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LOgre4 = new Image("file:resources/Monsters/Ogre/Level 1/LLvl1Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl1ROgreHit = new Image("file:resources/Monsters/Ogre/Level 1/ROgreHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LOgreHit = new Image("file:resources/Monsters/Ogre/Level 1/LOgreHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2ROgre1 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2ROgre2 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2ROgre3 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2ROgre4 = new Image("file:resources/Monsters/Ogre/Level 2/RLvl2Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2LOgre1 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LOgre2 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LOgre3 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LOgre4 = new Image("file:resources/Monsters/Ogre/Level 2/LLvl2Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2ROgreHit = new Image("file:resources/Monsters/Ogre/Level 2/ROgreHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LOgreHit = new Image("file:resources/Monsters/Ogre/Level 2/LOgreHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3ROgre1 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3ROgre2 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3ROgre3 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3ROgre4 = new Image("file:resources/Monsters/Ogre/Level 3/RLvl3Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3LOgre1 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LOgre2 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LOgre3 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LOgre4 = new Image("file:resources/Monsters/Ogre/Level 3/LLvl3Ogre4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3ROgreHit = new Image("file:resources/Monsters/Ogre/Level 3/ROgreHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LOgreHit = new Image("file:resources/Monsters/Ogre/Level 3/LOgreHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
 	// Demon
-		public static final Image Lvl1RDemon1 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1RDemon2 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1RDemon3 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1RDemon4 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RDemon1 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RDemon2 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RDemon3 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RDemon4 = new Image("file:resources/Monsters/Demon/Level 1/RLvl1Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl1LDemon1 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LDemon2 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LDemon3 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LDemon4 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
 
-		public static final Image Lvl1LDemon1 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LDemon2 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LDemon3 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl1LDemon4 = new Image("file:resources/Monsters/Demon/Level 1/LLvl1Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl2RDemon1 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2RDemon2 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2RDemon3 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2RDemon4 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl2LDemon1 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LDemon2 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LDemon3 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl2LDemon4 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl3RDemon1 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3RDemon2 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3RDemon3 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3RDemon4 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		
-		public static final Image Lvl3LDemon1 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LDemon2 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LDemon3 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
-		public static final Image Lvl3LDemon4 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1RDemonHit = new Image("file:resources/Monsters/Demon/Level 1/RDemonHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl1LDemonHit = new Image("file:resources/Monsters/Demon/Level 1/lDemonHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2RDemon1 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2RDemon2 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2RDemon3 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2RDemon4 = new Image("file:resources/Monsters/Demon/Level 2/RLvl2Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2LDemon1 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LDemon2 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LDemon3 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LDemon4 = new Image("file:resources/Monsters/Demon/Level 2/LLvl2Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl2RDemonHit = new Image("file:resources/Monsters/Demon/Level 2/RDemonHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl2LDemonHit = new Image("file:resources/Monsters/Demon/Level 2/lDemonHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3RDemon1 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3RDemon2 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3RDemon3 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3RDemon4 = new Image("file:resources/Monsters/Demon/Level 3/RLvl3Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3LDemon1 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon1.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LDemon2 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon2.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LDemon3 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon3.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LDemon4 = new Image("file:resources/Monsters/Demon/Level 3/LLvl3Demon4.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	
+	public static final Image Lvl3RDemonHit = new Image("file:resources/Monsters/Demon/Level 3/RDemonHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
+	public static final Image Lvl3LDemonHit = new Image("file:resources/Monsters/Demon/Level 3/lDemonHit.png", CHARACTER_WIDTHO, CHARACTER_HEIGHTO,true,true);
 
 //	Winner
-	public static final Image KNIGHTVICTORY = new Image("file:resources/KnightVictory.jpg",7000, 2917,true,true);
-	public static final Image SWVICTORY = new Image("file:resources/SWVictory.jpg",7000, 2917,true,true);
-	public static final Image WIZVICTORY = new Image("file:resources/WizVictory.jpg",7000, 2917,true,true);
-	public static final Image ORCVICTORY = new Image("file:resources/OrcVictory.jpg",7000, 2917,true,true);
-	public static final Image DRAWBG = new Image("file:resources/drawBackground.jpg",7000, 2917,true,true);
+	public static final Image KNIGHTVICTORY = new Image("file:resources/Victory/KnightVictory.jpg",7000, 2917,true,true);
+	public static final Image SWVICTORY = new Image("file:resources/Victory/SWVictory.jpg",7000, 2917,true,true);
+	public static final Image WIZVICTORY = new Image("file:resources/Victory/WizVictory.jpg",7000, 2917,true,true);
+	public static final Image ORCVICTORY = new Image("file:resources/Victory/OrcVictory.jpg",7000, 2917,true,true);
+	public static final Image DRAWBG = new Image("file:resources/Victory/drawBackground.jpg",7000, 2917,true,true);
 	public static final Image GRADIENT = new Image("file:resources/Summary/victoryGradient.png",7000, 2917,true,true);
 	public static final Image HEART = new Image("file:resources/Summary/heart.png",25, 25,true,true);
 	public static final Image SWORD = new Image("file:resources/Summary/sword.png",25, 25,true,true);

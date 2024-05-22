@@ -6,6 +6,7 @@ import elements.Formatting;
 import monsters.Monster;
 
 public class SwordWoman extends Sprite{
+	
 //	Attributes for animation
 	private long previousTimeIdle,previousTimeAttack,previousTimeDie,previousTimeRWalk,previousTimeLWalk;
 	public int animationCountIdle,animationCountAttack,animationCountDie,animationCountWalk;
@@ -13,13 +14,12 @@ public class SwordWoman extends Sprite{
 // 	Constructor
 	public SwordWoman(int x, int y, int playerNumber, long previousTime){
 		super(Formatting.SWORDWOMAN, playerNumber, x,y, 100,  
-				0.17, 0.20, 
-				0.52,
-				0.35, 0.7,
-				0.53, 0.25, 
-				0, 
-				0.44, 0.61,
-				0,1);
+				0.42, 0.20, 
+				0.22, 0.7,
+				0.7, 0.25, 
+				0.08, 
+				0.3, 0.61);
+//		Variables for animation
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;
@@ -29,8 +29,8 @@ public class SwordWoman extends Sprite{
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
-		this.loadImage(Formatting.SWRIdle1, 55, 44);
-//		this.loadImage(Formatting.PIXEL);
+//		Load Sword Woman Image
+		this.loadImage(Formatting.SWRIdle1, 84, 44);
 	}
 	
 //	Display images per frames per second
@@ -147,11 +147,12 @@ public class SwordWoman extends Sprite{
 	    }
 	}
 
-	
+//  Image frames for attacking (right)
 	public void attackRightAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
-	    this.setDX(0);
+//		Setting dx and dy to zero to stop the character from moving
+		this.setDX(0);
 	    this.setDY(0);
-	    // TODO Auto-generated method stub
+//	    Run animation
 	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
 	        this.animationCountAttack++;
 	        this.animationCountAttack %= 7;
@@ -164,7 +165,7 @@ public class SwordWoman extends Sprite{
 	                break;
 	            case 3:
 	                this.img = Formatting.SWRAttack3;
-	                // Checks if the weapon and character collide
+	                // Checks if the weapon (attackbox) and other character collides
 	                if (this.getCollisionChecker() == false && player2.checkAlive()) {
 	                    this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	                }
@@ -177,6 +178,7 @@ public class SwordWoman extends Sprite{
 	                break;
 	            case 6:
 	                this.img = Formatting.SWRAttack6;
+//	            	Last animation, set everything to false for reset
 	                System.out.println("Attack Animation Finished");
 	                this.attack = false;
 	                this.setCollisionChecker(false);
@@ -188,10 +190,12 @@ public class SwordWoman extends Sprite{
 	    }
 	}
 
-	
+//  Image frames for attacking (left) 
 	public void attackLeftAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
+//		Setting dx and dy to zero to stop the character from moving
 	    this.setDY(0);
-	    // TODO Auto-generated method stub
+	    this.setDX(0);
+//	    Run animation
 	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
 	        this.animationCountAttack++;
 	        this.animationCountAttack %= 7;
@@ -204,7 +208,7 @@ public class SwordWoman extends Sprite{
 	                break;
 	            case 3:
 	                this.img = Formatting.SWLAttack3;
-	                // Checks if the weapon and character collide
+	             // Checks if the weapon (attackbox) and character collides
 	                if (this.getCollisionChecker() == false && player2.checkAlive()) {
 	                    this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	                }
@@ -217,6 +221,7 @@ public class SwordWoman extends Sprite{
 	                break;
 	            case 6:
 	                this.img = Formatting.SWLAttack6;
+//	            	Last animation, set everything to false for reset
 	                System.out.println("Attack Animation Finished");
 	                this.attack = false;
 	                this.setCollisionChecker(false);
@@ -230,10 +235,12 @@ public class SwordWoman extends Sprite{
 
 //	Dying animation
 	public boolean dieAnimation(long currentTime) {
+//		Run animation
 	    if (currentTime - this.previousTimeDie >= (1000 * 1000000)) {
 	        this.animationCountDie++;
 	        this.animationCountDie %= 6;
 	        if (this.getDirection() == 1) {
+//		        Run animation depending on its direction
 	            switch (animationCountDie) {
 	                case 1:
 	                    this.img = Formatting.SWRDie1;
@@ -245,11 +252,11 @@ public class SwordWoman extends Sprite{
 	                    this.img = Formatting.SWRDie3;
 	                    break;
 	                case 4:
-	                    // If character dies, return true (game is over)
 	                    this.img = Formatting.SWRDie4;
 	                    break;
 	                case 5:
 	                    System.out.println("Dying Animation Finished");
+//                       Set the character to invisible
 	                    this.setVisible(false);
 	                    return true;
 	                default:
@@ -267,11 +274,11 @@ public class SwordWoman extends Sprite{
 	                    this.img = Formatting.SWLDie3;
 	                    break;
 	                case 4:
-	                    // If character dies, return true (game is over)
 	                    this.img = Formatting.SWLDie4;
 	                    break;
 	                case 5:
 	                    System.out.println("Dying Animation Finished");
+//                      Set the character to invisible
 	                    this.setVisible(false);
 	                    return true;
 	                default:
@@ -350,10 +357,12 @@ public class SwordWoman extends Sprite{
 	            break;
 	    }
 	}
+	
+	
 
-
-//	Animation for hitting opponent
+//	Animation when hit
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
+//		Animation when hit (left and right)
 	    if (getHit() && checkAlive()) {
 	        switch (direction) {
 	            case 1:
@@ -366,8 +375,36 @@ public class SwordWoman extends Sprite{
 	        System.out.println("Hit Animation Finished");
 	        this.hit = false;
 	        // Decreases health
-	        this.setHealth(attacker.getAttackPoints());
+	        this.setHealth(this.health - attacker.getAttackPoints());
 	        System.out.println("Player Health Remaining: " + this.health);
+//	    If not hit, show idle animation
+	    } else {
+	        if (this.getDirection() == 1) {
+	            this.img = Formatting.SWRIdle1;
+	        } else {
+	            this.img = Formatting.SWLIdle1;
+	        }
+	    }
+	}
+	
+//	Animation for when hit by monster
+	public void hitAnimationMonster(long currentTime, Monster monster,  int direction) {
+//		Animation when hit (left and right)
+	    if (getHit() && checkAlive()) {
+	        switch (direction) {
+	            case 1:
+	                this.img = Formatting.SWRHit1;
+	                break;
+	            default:
+	                this.img = Formatting.SWLHit1;
+	                break;
+	        }
+	        System.out.println("Hit Animation Finished");
+	        this.hit = false;
+	        // Decreases health
+	        this.setHealth(this.health -  monster.getReward());
+	        System.out.println("Player Health Remaining: " + this.health);
+//	    If not hit, show idle animation
 	    } else {
 	        if (this.getDirection() == 1) {
 	            this.img = Formatting.SWRIdle1;
