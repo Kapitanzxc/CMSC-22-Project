@@ -125,7 +125,7 @@ public class PowerUp extends Sprite {
 	public void checkPowerUpCollision(Sprite player, long currentNanoTime) {
 		checkActive(player, currentNanoTime);
 		
-//    	Check collision between player and powerups    	
+//    	Check collision between player and powerups
     	if (player.hitbox.intersects(this.hitbox)) {
     		
 //    		if else get type of power up
