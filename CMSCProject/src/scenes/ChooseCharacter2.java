@@ -167,11 +167,11 @@ public class ChooseCharacter2 extends AnimationTimer{
 	    ImageView orcView = createImageView(Formatting.ORCV, 280, 250, 379, 325);
 	    ImageView wizardView = createImageView(Formatting.WIZV, 510, 240, 1000, 287);
 
-	    // Text creation and formatting
-	    Text hoverKnight = createHoverText("This is the knight text", 550, 680);
-	    Text hoverOrc = createHoverText("This is the orc text", 550, 680);
-	    Text hoverSW = createHoverText("This is the swordwoman text", 550, 680);
-	    Text hoverWiz = createHoverText("This is the wizard text", 550, 680);
+	 // Text creation and formatting
+	    Text hoverKnight = createHoverText("Starts with high attack power, making him a formidable melee fighter", 550, 680);
+	    Text hoverOrc = createHoverText("Boasts superior starting health, allowing him to endure more damage in battle", 550, 680);
+	    Text hoverSW = createHoverText("The fastest character, excelling in speed and agility on the battlefield", 550, 680);
+	    Text hoverWiz = createHoverText("Specializes in long-range attacks, casting powerful fireballs to strike enemies from a distance", 550, 680);
 
 	    // Add hover event handlers
 	    knightView.setOnMouseEntered(event -> hoverKnight.setVisible(true));
