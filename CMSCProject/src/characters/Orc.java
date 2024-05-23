@@ -13,7 +13,8 @@ public class Orc extends Sprite{
 	
 // 	Constructor
 	public Orc(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.ORC, playerNumber, x,y,100, 
+		super(Formatting.ORC, playerNumber, x,y, 
+				250, 1, 2,
 				0.38, 0.23, 
 				0.26, 0.47,
 				0.66, 0.17,

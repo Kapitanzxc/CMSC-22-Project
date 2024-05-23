@@ -14,7 +14,8 @@ public class Knight extends Sprite{
 	
 // 	Constructor
 	public Knight(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.KNIGHT, playerNumber, x,y, 100,  
+		super(Formatting.KNIGHT, playerNumber, x,y, 
+				100, 15, 2,
 				0.42, 0.18, 
 				0.20, 0.77,
 				0.7, 0.05,

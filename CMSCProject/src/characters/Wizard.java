@@ -13,7 +13,8 @@ public class Wizard extends Sprite {
 
 	// 	Constructor
 	public Wizard(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.WIZARD, playerNumber, x,y, 100,
+		super(Formatting.WIZARD, playerNumber, x,y, 
+				100, 1, 2,
 				0.45, 0.30, 
 				0.1, 0.64,
 				0.68, 0.46,

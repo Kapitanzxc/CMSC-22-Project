@@ -13,7 +13,8 @@ public class SwordWoman extends Sprite{
 	
 // 	Constructor
 	public SwordWoman(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.SWORDWOMAN, playerNumber, x,y, 100,  
+		super(Formatting.SWORDWOMAN, playerNumber, x,y, 
+				100, 1, 3,
 				0.42, 0.20, 
 				0.22, 0.7,
 				0.7, 0.25, 

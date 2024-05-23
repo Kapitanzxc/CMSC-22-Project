@@ -14,7 +14,7 @@ public class PowerUp extends Sprite {
 	
 	
 	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration) {
-		super(0, 0, xPos, yPos, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0);
+		super(0, 0, xPos, yPos, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0);
 		
 		this.type = type;
 		this.duration = duration;
@@ -114,7 +114,7 @@ public class PowerUp extends Sprite {
     			player.addSpecial();
     			// speed boost
     			player.setSpeedBoostActive(true);
-    			player.setSpeed(3);
+    			player.setSpeed(player.getSpeed() + 1);
     			player.setSpeedBoostTime(currentNanoTime);
     			typeFragment = "Speed Boost";
     		}
@@ -145,7 +145,7 @@ public class PowerUp extends Sprite {
 			
 			if(elapsedSpeedTime > POWERUPTIME) {
 				player.setSpeedBoostActive(false);
-    			player.setSpeed(2);
+    			player.setSpeed(player.getSpeed() - 1);
     			player.setSpeedBoostTime(0);
 			}
 		}

@@ -31,7 +31,8 @@ public abstract class Sprite {
     private static final int HEALTHHEIGHT = 6;
     
 //	Constructor
-	public Sprite(int characterID, int playerNumber, int xPos, int yPos, int health, 
+	public Sprite(int characterID, int playerNumber, int xPos, int yPos, 
+			int health, int attackPoints, int speed,
 			double xOffset, double yOffset,
 			double hitBoxW, double hitBoxH,
 			double attackWOffset, double attackHOffset,
@@ -42,7 +43,7 @@ public abstract class Sprite {
 		this.playerNumber = playerNumber; // If player 1 or 2
 		this.maxHealth = 100;   // initial max health
 		this.health = health;   // health of a character
-		this.attackPoints = 1;  // initial attack points
+		this.attackPoints = attackPoints;  // initial attack points
 		this.xOffset = xOffset;  // How far is the body from the left
 		this.yOffset = yOffset;  // How far is the body from the above
 		this.x =  xPos;	// X coordinate
@@ -70,7 +71,7 @@ public abstract class Sprite {
 		this.hitbox = new Rectangle (this.x, this.y, 0 , 0);
 		this.attackbox = new Rectangle (this.x, this.y, 0,0);
 //		Powerups attributes
-		this.speed = 2;
+		this.speed = speed;
 		this.speedBoostTime = 0;
 		this.attackBoostTime = 0;
 		this.speedBoostActive = false;
