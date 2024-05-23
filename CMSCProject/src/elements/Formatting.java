@@ -67,7 +67,7 @@ public class Formatting {
 
 //	Power Up Codes
 	public static final int FRAGMENT = 1;
-	public static final int DOUBLEDAMAGE = 2;
+	public static final int ATTACKBOOST = 2;
 	public static final int HEAL = 3;
 	public static final int SPEEDBOOST = 4;	
 	
@@ -86,10 +86,18 @@ public class Formatting {
 	public static final int DEMON3 = 33;
 
 //	Power ups
-	public static final Image PFRAGMENT = new Image("file:resources/PowerUp/fragment.png", 20, 20, true, true);
-	public static final Image PDOUBLEDAMAGE = new Image("file:resources/PowerUp/attack.png", 40, 40, true, true);
-	public static final Image PHEAL = new Image("file:resources/PowerUp/heal.png", 40, 40, true, true);
-	public static final Image PSPEEDBOOST = new Image("file:resources/PowerUp/speed.png", 40, 40, true, true);
+	public static final Image ABOOST = new Image("file:resources/PowerUp/Special/AttackBoost.png", 40, 50, true, true);
+	public static final Image PHEAL = new Image("file:resources/PowerUp/Special/Heal.png",40, 37, true, true);
+	public static final Image SBOOST = new Image("file:resources/PowerUp/Special/SpeedBoost.png", 40, 40, true, true);
+	
+	public static final Image BLUEFRAGMENT = new Image("file:resources/PowerUp/Fragment/Blue.png", 20, 20, true, true);
+	public static final Image DBLUEFRAGMENT = new Image("file:resources/PowerUp/Fragment/DarkBlue.png", 20, 20, true, true);
+	public static final Image GREENFRAGMENT = new Image("file:resources/PowerUp/Fragment/Green.png", 20, 20, true, true);
+	public static final Image ORANGEFRAGMENT = new Image("file:resources/PowerUp/Fragment/Orange.png", 20, 20, true, true);
+	public static final Image PINKFRAGMENT = new Image("file:resources/PowerUp/Fragment/Pink.png", 20, 20, true, true);
+	public static final Image PURPLEFRAGMENT = new Image("file:resources/PowerUp/Fragment/Purple.png", 20, 20, true, true);
+	public static final Image REDFRAGMENT = new Image("file:resources/PowerUp/Fragment/Red.png", 20, 20, true, true);
+	public static final Image YORANGEFRAGMENT = new Image("file:resources/PowerUp/Fragment/YellowOrange.png", 20, 20, true, true);
 
 
 //	Choose character images
@@ -494,6 +502,6 @@ public class Formatting {
 	public static final Image GRADIENT = new Image("file:resources/Summary/victoryGradient.png",7000, 2917,true,true);
 	public static final Image HEART = new Image("file:resources/Summary/heart.png",25, 25,true,true);
 	public static final Image SWORD = new Image("file:resources/Summary/sword.png",25, 25,true,true);
-	public static final Image MONSTER = new Image("file:resources/Summary/monster.png",25, 25,true,true);
+	public static final Image MONSTER = new Image("file:resources/Summary/monster.png",30, 30,true,true);
 	
 }

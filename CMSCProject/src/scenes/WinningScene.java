@@ -229,8 +229,8 @@ public class WinningScene {
                 double x2 = 655;
                 double y = 440;
                 
-                gc.drawImage(Formatting.HEART, x, y);
-                gc.drawImage(Formatting.HEART, x2, y);
+                gc.drawImage(Formatting.BLUEFRAGMENT, x-4, y-5, 30, 25);
+                gc.drawImage(Formatting.BLUEFRAGMENT, x-4, y-5, 30, 25);
                 
 //                Display text
                 Text player1frag = new Text(x + 30, y + 18, "Fragments collected: " + player1.getFragmentsCollected()); 
@@ -254,8 +254,8 @@ public class WinningScene {
                 double x2 = 655;
                 double y = 480;
                 
-                gc.drawImage(Formatting.HEART, x, y);
-                gc.drawImage(Formatting.HEART, x2, y);
+                gc.drawImage(Formatting.ABOOST, x-4, y-7, 30, 40);
+                gc.drawImage(Formatting.ABOOST, x2-4, y-7, 30, 40);
                 
 //                Display text
                 Text player1frag = new Text(x + 30, y + 18, "Power Ups Collected: " + player1.getSpecialCollected()); 
@@ -279,8 +279,8 @@ public class WinningScene {
                 double x2 = 655;
                 double y = 520;
                 
-                gc.drawImage(Formatting.MONSTER, x, y);
-                gc.drawImage(Formatting.MONSTER, x2, y);
+                gc.drawImage(Formatting.MONSTER, x-4, y-4);
+                gc.drawImage(Formatting.MONSTER, x2-4, y-4);
                 
 //                Display text
                 Text player1frag = new Text(x + 30, y + 18, "Monsters killed: " + player1.getMonstersKilled()); 

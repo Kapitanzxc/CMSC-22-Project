@@ -27,7 +27,7 @@ public class Orc extends Sprite{
 		this.previousTimeLWalk = previousTime;
 		this.animationCountAttack = 1;
 		this.animationCountIdle = 1;
-		this.animationCountDie = 1;
+		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
 //		Load Orc Image
 		this.loadImage(Formatting.OrcRIdle1, 73, 63);
@@ -37,7 +37,7 @@ public class Orc extends Sprite{
 	public void animation (long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
 //		Idle Animation
 		if(currentTime - this.previousTimeIdle >= (250 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == 0 && this.getDY()==0) {
+			if (this.getDX() == 0 && this.getDY()== 0) {
 				this.animationCountIdle ++;
 				if (getDirection() == 1) {
 					this.idleRight();
@@ -51,7 +51,7 @@ public class Orc extends Sprite{
 		}
 		// Animation Right Walk
 		if(currentTime - this.previousTimeRWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == 2) {
+			if (this.getDX() >= 2) {
 				this.animationCountWalk ++;
 				this.walkRight();
 				this.setDirection(1);
@@ -61,7 +61,7 @@ public class Orc extends Sprite{
 		
 		// Animation Left Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == -2) {
+			if (this.getDX() <= -2) {
 				this.animationCountWalk ++;
 				this.walkLeft();
 				this.setDirection(2);
@@ -71,7 +71,7 @@ public class Orc extends Sprite{
 		
 		// Animation Right Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == 2) {
+			if (this.getDY() >= 2) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -84,7 +84,7 @@ public class Orc extends Sprite{
 		
 		// Animation Left Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == -2) {
+			if (this.getDY() <= -2) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -95,20 +95,19 @@ public class Orc extends Sprite{
 				}
 			}
 //		Attack animation
-		if (this.getAttack() && checkAlive()) {
-		    switch (this.getDirection()) {
-		        case 1:
-		            this.attackRightAnimation(currentTime, player2, monsterArrayList);
-		            this.previousTimeDie = currentTime;
-		            break;
-		        default:
-		            this.attackLeftAnimation(currentTime, player2, monsterArrayList);
-		            this.previousTimeDie = currentTime;
-		            break;
-		    }
-		}
-		}
-
+	    if (this.getAttack() && checkAlive()) {
+	        switch (this.getDirection()) {
+	            case 1:
+	                this.attackRightAnimation(currentTime, player2, monsterArrayList);
+	                this.previousTimeDie = currentTime;
+	                break;
+	            case 2:
+	                this.attackLeftAnimation(currentTime, player2, monsterArrayList);
+	                this.previousTimeDie = currentTime;
+	                break;
+	        }
+	    }
+	}
 
 //	Image frames for Idle
 	public void idleRight() {
@@ -260,6 +259,9 @@ public class Orc extends Sprite{
 	                        this.img = Formatting.OrcRDie3;
 	                        break;
 	                    case 4:
+	                        this.img = Formatting.OrcRDie4;
+	                        break;
+	                    case 5:
 	                        System.out.println("Dying Animation Finished");
 //	                        Set the character to invisible
 	                        this.setVisible(false);
@@ -278,6 +280,9 @@ public class Orc extends Sprite{
 	                        this.img = Formatting.OrcLDie3;
 	                        break;
 	                    case 4:
+	                        this.img = Formatting.OrcLDie4;
+	                        break;
+	                    case 5:
 	                        System.out.println("Dying Animation Finished");
 //	                        Set the character to invisible
 	                        this.setVisible(false);

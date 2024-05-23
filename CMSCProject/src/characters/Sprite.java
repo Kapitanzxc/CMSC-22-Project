@@ -19,6 +19,14 @@ public abstract class Sprite {
 	protected boolean attack,hit;
 	public Rectangle hitbox, attackbox;
 	
+//	For powerups
+	private int speed;
+	private int addDamage;
+	private long speedBoostTime;
+	private long attackBoostTime;
+	private boolean speedBoostActive;
+	private boolean attackBoostActive;
+	
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
     
@@ -61,6 +69,13 @@ public abstract class Sprite {
 		this.setShowBoxes(false);
 		this.hitbox = new Rectangle (this.x, this.y, 0 , 0);
 		this.attackbox = new Rectangle (this.x, this.y, 0,0);
+//		Powerups attributes
+		this.speed = 2;
+		this.speedBoostTime = 0;
+		this.attackBoostTime = 0;
+		this.speedBoostActive = false;
+		this.attackBoostActive = false;
+		this.addDamage = 0;
 	}
 	
 //	Abstract methods
@@ -139,10 +154,22 @@ public abstract class Sprite {
 	                break;
 	        }
 	        // Set font and color
-	        gc.setFill(Color.WHITE);
+//	        Set font to red if attackboost is active, else, white
+	        if (this.attackBoostActive) {
+	        	gc.setFill(Color.RED);
+	        } else {
+	        	gc.setFill(Color.WHITE);
+	        }
 	        gc.setFont(Formatting.FONT_STYLE_22);
 	        // Render text (attack points)
 	        gc.fillText(""+this.attackPoints, 120, 65);
+	        
+
+//	        If speedboost is active, draw this icon
+	        if (this.speedBoostActive) {
+	        	gc.drawImage(Formatting.SBOOST, 165, 43, 30, 30);
+	        }
+	       
 	        
 	    } else {
 	    	
@@ -173,7 +200,12 @@ public abstract class Sprite {
 	        }
 	        
 	        // Set font and color
-	        gc.setFill(Color.WHITE);
+//	        Set font to red if attackboost is active, else, white
+	        if (this.attackBoostActive) {
+	        	gc.setFill(Color.RED);
+	        } else {
+	        	gc.setFill(Color.WHITE);
+	        }
 	        gc.setFont(Formatting.FONT_STYLE_22);
 	        
 	        // Render text depending on the number of digits
@@ -186,6 +218,12 @@ public abstract class Sprite {
 	        } else {
 	            gc.fillText(""+this.attackPoints, 1073, 65);
 	        }
+	        
+//	        If speedboost is active, draw this icon
+	        if (this.speedBoostActive) {
+	        	gc.drawImage(Formatting.SBOOST, 1005, 43, 30, 30);
+	        }
+	       
 	    }
 	}
 
@@ -244,6 +282,8 @@ public abstract class Sprite {
 	    // Check collision between player1 and each monster in the monsterArrayList
 	    for (Monster monster : monsterArrayList) {
 	        if (player1.attackbox.intersects(monster.getHitbox())) {
+	        	monster.setHit(true);
+	        	monster.setHitTime(currentTime);
 //	        	Monster hit animation
 	        	monster.hitAnimation();
 	        	player1.setCollisionChecker(true);
@@ -399,6 +439,30 @@ public abstract class Sprite {
 		return this.monstersKilled;
 	}
 	
+	public int getSpeed() {
+		return this.speed;
+	}
+	
+	public boolean isAttackBoostActive () {
+		return this.attackBoostActive;
+	}
+	
+	public boolean isSpeedBoostActive () {
+		return this.speedBoostActive;
+	}
+	
+	public long getAttackBoostTime() {
+		return this.attackBoostTime;
+	}
+	
+	public long getSpeedBoostTime() {
+		return this.speedBoostTime;
+	}
+	
+	public int getAddDamage() {
+		return this.addDamage;
+	}
+	
 	public void addMaxHealth(int add) {
 		this.maxHealth += add;
 		
@@ -420,8 +484,8 @@ public abstract class Sprite {
 		this.alive = state;
 	}
 	
-	public void setAttackPoints (int additional) {
-		this.attackPoints += 1;
+	public void setAttackPoints (int attackPoints) {
+		this.attackPoints = attackPoints;
 	}
 	
 	public void setDirection(int direction) {
@@ -439,6 +503,14 @@ public abstract class Sprite {
 		} else {
 			this.health += additional;
 		}
+	}
+	
+	public void addFragments() {
+		this.fragmentsCollected += 1;
+	}
+	
+	public void addSpecial() {
+		this.specialCollected += 1;
 	}
 	
 	public void setVisible(boolean visible) {
@@ -480,7 +552,39 @@ public abstract class Sprite {
 	public void setShowCBoxes(boolean showCBoxes) {
 		this.showCBoxes = showCBoxes;
 	}
-
+	
+	public void addAttackPoints () {
+		this.attackPoints += 1;
+	}
+	
+	public void setAttackBoostActive(boolean active) {
+		this.attackBoostActive = active;
+	}
+	
+	public void setSpeedBoostActive(boolean active) {
+		this.speedBoostActive = active;
+	}
+	
+	public void setAttackBoostTime(long collectTime) {
+		this.attackBoostTime = collectTime;
+	}
+	
+	public void setSpeedBoostTime(long collectTime) {
+		this.speedBoostTime = collectTime;
+	}
+	
+	public void setAddDamage(int addDamage) {
+		this.addDamage = addDamage;
+	}
+	
+	public void addMaxHealth() {
+		this.maxHealth += 1;
+		
+	}
+	
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
 
 	
 

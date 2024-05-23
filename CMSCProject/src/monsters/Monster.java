@@ -11,10 +11,10 @@ public abstract class Monster{
 	protected Image img;
 	private static Random random = new Random();
 	protected int type;
-	private long attackLastTime;
+	private long attackLastTime, hitTime;
 	private int x, y, width, height, health, reward, attackTime, maxHealth;
 	private double hitBoxW, hitBoxH, xOffset, yOffset;
-	private boolean visible, showBoxes;
+	private boolean visible, showBoxes, hit;
 	private Rectangle hitbox;
 	
 	public Monster(int xPos, int yPos, int type, int health, int reward,
@@ -34,6 +34,8 @@ public abstract class Monster{
 		this.maxHealth = health; // monsters max health
 		this.showBoxes = false; // for showing monster hitbox
 		this.visible = true; // if monster is still visible or not
+		this.hit = false; // if monster is under attack
+		this.hitTime = System.nanoTime();
 		this.hitbox = new Rectangle (this.x, this.y, 0 , 0); // hitbox rectangle
 	}
 	
@@ -47,14 +49,14 @@ public abstract class Monster{
 	}
 	
 //	Render monster image
-	public void render(GraphicsContext gc){
+	public void render(GraphicsContext gc, long currentTime){
 		if (this.visible) {
 //			If visible, update hitbox
 			hitbox();
 //			Draw the monster
 			gc.drawImage(this.img, this.x, this.y, this.width, this.height);
 //			Show health bar
-			renderHealthBar(gc);
+			renderHealthBar(gc, currentTime);
 		}
 		
 //		Show hitboxes when toggled
@@ -65,28 +67,39 @@ public abstract class Monster{
     }
 	
 //	Method for rendering health bar
-	private void renderHealthBar(GraphicsContext gc) {
-//		Width, height, and health percentage
-        double healthBarWidth = this.hitbox.width;
-        double healthBarHeight = 5;
-        double healthPercentage = (double) this.health / this.maxHealth;
-        double healthBar = healthBarWidth * healthPercentage;
-        
-//      Black for background
-        gc.setFill(Color.BLACK);
-//      Draw the background (height depending on the level of the monster)
-        if (this.reward == 30) {
-        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 13, healthBar, healthBarHeight);
-        } else {
-        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 8, healthBar, healthBarHeight);
-        }
-//      Draw the health bar (height depending on the level of the monster)
-        gc.setFill(Color.RED);
-        if (this.reward == 30) {
-        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 13, healthBar, healthBarHeight);
-        } else {
-        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 8, healthBar, healthBarHeight);
-        }
+	private void renderHealthBar(GraphicsContext gc, long currentTime) {
+		
+//		Render health bar once hit
+		if (this.hit) {
+//			Width, height, and health percentage
+	        double healthBarWidth = this.hitbox.width;
+	        double healthBarHeight = 5;
+	        double healthPercentage = (double) this.health / this.maxHealth;
+	        double healthBar = healthBarWidth * healthPercentage;
+	        
+//	      Black for background
+	        gc.setFill(Color.BLACK);
+//	      Draw the background (height depending on the level of the monster)
+	        if (this.reward == 30) {
+	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 13, healthBar, healthBarHeight);
+	        } else {
+	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 8, healthBar, healthBarHeight);
+	        }
+//	      Draw the health bar (height depending on the level of the monster)
+	        gc.setFill(Color.RED);
+	        if (this.reward == 30) {
+	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 13, healthBar, healthBarHeight);
+	        } else {
+	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 8, healthBar, healthBarHeight);
+	        }
+		}
+		
+//		If monster is not under attack within 3 seconds, hide the health bar
+		long monsterLastHit = (currentTime - this.hitTime) / 1000000000;
+		if (monsterLastHit >= 3) {
+		    this.hit = false;
+		}
+		
        
     }
 	 
@@ -129,8 +142,15 @@ public abstract class Monster{
 		}
 		return randX;
 	}
-
+	
 //	getters
+	public int getX() {
+		return this.x;
+	}
+	public int getY() {
+		return this.y;
+	}
+	
 	public int getType() {
 		return this.type;
 	}
@@ -173,6 +193,14 @@ public abstract class Monster{
 
 	public void setLastAttackTime(long time) {
 		this.attackLastTime = time;
+	}
+	
+	public void setHit(boolean hit) {
+		this.hit = hit;
+	}
+	
+	public void setHitTime(long time) {
+		this.hitTime = time;
 	}
 	
 // 	Unimplemented methods

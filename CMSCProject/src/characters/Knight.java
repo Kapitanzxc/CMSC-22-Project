@@ -39,7 +39,7 @@ public class Knight extends Sprite{
 	public void animation (long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
 //		Idle Animation
 		if(currentTime - this.previousTimeIdle >= (250 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == 0 && this.getDY()==0) {
+			if (this.getDX() == 0 && this.getDY()== 0) {
 				this.animationCountIdle ++;
 				if (getDirection() == 1) {
 					this.idleRight();
@@ -53,7 +53,7 @@ public class Knight extends Sprite{
 		}
 		// Animation Right Walk
 		if(currentTime - this.previousTimeRWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == 2) {
+			if (this.getDX() >= 2) {
 				this.animationCountWalk ++;
 				this.walkRight();
 				this.setDirection(1);
@@ -63,7 +63,7 @@ public class Knight extends Sprite{
 		
 		// Animation Left Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == -2) {
+			if (this.getDX() <= -2) {
 				this.animationCountWalk ++;
 				this.walkLeft();
 				this.setDirection(2);
@@ -73,7 +73,7 @@ public class Knight extends Sprite{
 		
 		// Animation Right Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == 2) {
+			if (this.getDY() >= 2) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -86,7 +86,7 @@ public class Knight extends Sprite{
 		
 		// Animation Left Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == -2) {
+			if (this.getDY() <= -2) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();

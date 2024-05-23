@@ -54,6 +54,8 @@ public class GameTimer extends AnimationTimer {
 	private ArrayList<PowerUp> fragmentPowerUps, specialPowerUps;
 	private int spawnX, spawnY;
 	private long startFPowerUpSpawn, startSPowerUpSpawn;
+
+	
 	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
 	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
@@ -63,8 +65,9 @@ public class GameTimer extends AnimationTimer {
 	// Monsters
 	private ArrayList<Monster> monsterArrayList;
 	private int monsterX, monsterY;
-	private final static int SPAWNDELAY_MONSTERS = 5; // spawn monster every after 5 seconds
+	private final static int SPAWNDELAY_MONSTERS = 8; // spawn monster every after 8 seconds
 	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
+	private static final double MIN_DISTANCE_BETWEEN_MONSTERS = 6; // minimum distance between monsters
 
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
@@ -188,7 +191,7 @@ public class GameTimer extends AnimationTimer {
 //		Rendering Power-ups
 		renderPowerUps();
 		// Rendering Monsters
-		renderMonsters();
+		renderMonsters(currentNanoTime);
 		
 //		Check players movement and update it accordingly
 		this.player1.move(this.mapBoundaries);
@@ -220,31 +223,68 @@ public class GameTimer extends AnimationTimer {
 // 		Spawn monsters after SPAWNDELAY time
 		long monsterElapsedTime = (currentTime - this.previousTimeMonster) / 1000000000;
 		if (monsterElapsedTime >= SPAWNDELAY_MONSTERS) {
-//			Monster codes
-			int[] monsterType = {11, 12, 13, 21, 22, 23, 31, 32, 33};
-			Random random = new Random();
 //			Create monsters based on the number of NUM_MONSTER
 			for (int i = monsterArrayList.size(); i < NUM_MONSTER; i++) {
-//				Random y coordinate
-				monsterY = Monster.spawnY();
-//				Random x coordinate
-				monsterX = Monster.spawnX(monsterY);
-				// Random spawning of monsters
-				int randomType = monsterType[random.nextInt(monsterType.length)];
-//				Random direciotn
-				int randomDirection = random.nextInt(1, 3);
-//				Create monster based on randomization
-				Monster monster = createMonster(randomType, monsterX, monsterY, randomDirection);
-//				Add the created monster to the array
-				this.monsterArrayList.add(monster);
+				boolean locationChecker;
+//				To prevent infinite loop
+				int attempts = 0;
+		        int maxAttempts = 50;
+//				Ensure each monster have minimum space or gap between each other
+				do {
+	                // Random y coordinate
+	                monsterY = Monster.spawnY();
+	                // Random x coordinate
+	                monsterX = Monster.spawnX(monsterY);
+	                //Initialize locationCheckter to true
+	                locationChecker = true;
+
+	                // Check if the position is far enough from other monsters
+	                for (Monster monster : monsterArrayList) {
+//	                	Calculate the distance between the random xy coordinate and the current monsters from the arrayList
+	                    double distance = calculateDistance(monsterX, monsterY, monster.getX(), monster.getY());
+//	                  	If the distance is less than the minimum distance:
+//	                    Compute for another x and y coordinate
+	                    if (distance < MIN_DISTANCE_BETWEEN_MONSTERS) {
+	                    	locationChecker = false;
+	                        break;
+	                    }
+	                }
+	                attempts ++;
+	                
+	            } while (!locationChecker && attempts < maxAttempts);
+				
+//				If location is valid, create a monster;
+//				If after maxAttempts and still no location valid, dont create a monster
+				if (locationChecker) {
+//					Create monster based on randomization and given xy
+					Monster monster = createMonster(monsterX, monsterY);
+//					Add the created monster to the array
+					this.monsterArrayList.add(monster);
+				}
+				
 			}
 			this.previousTimeMonster = currentTime;
 		}
 	}
 	
+//	Method for calculating distance between two monsters
+//	Reference: https://www.geeksforgeeks.org/program-calculate-distance-two-points/
+	public static double calculateDistance(double x1, double y1, double x2, double y2){
+		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+	}
+
+	
 //	Creating monster based on monster type
-	private Monster createMonster(int monsterType, int x, int y, int direction){
-        switch (monsterType) {
+	private Monster createMonster(int x, int y){
+//		Monster codes
+		int[] monsterType = {11, 12, 13, 21, 22, 23, 31, 32, 33};
+		Random random = new Random();
+		// Random spawning of monsters
+		int randomType = monsterType[random.nextInt(monsterType.length)];
+//		Random direciotn
+		int direction = random.nextInt(1, 3);
+		
+        switch (randomType) {
 	        case Formatting.ZOMBIE1:
 	            return new Zombie1(x, y, direction);
 	        case Formatting.ZOMBIE2:
@@ -268,9 +308,9 @@ public class GameTimer extends AnimationTimer {
 	}
 	
 //  Render monster
-	private void renderMonsters() {
+	private void renderMonsters(long currentTime) {
 		for (Monster monster : this.monsterArrayList) {	        
-	        monster.render(this.gc);
+	        monster.render(this.gc, currentTime);
 	    }
 	}
 	
@@ -298,7 +338,7 @@ public class GameTimer extends AnimationTimer {
         for (int i = fragmentPowerUps.size(); i < numFragments; i++) {
             spawnY = PowerUp.spawnY();
             spawnX = PowerUp.spawnX(spawnY);
-            PowerUp fragment = new PowerUp(spawnX, spawnY, 1, System.nanoTime(), 0, 1);
+            PowerUp fragment = new PowerUp(spawnX, spawnY, 1, System.nanoTime(), 0);
             this.fragmentPowerUps.add(fragment);
         }
 	}
@@ -309,7 +349,7 @@ public class GameTimer extends AnimationTimer {
         for (int i = 0; i < NUM_SPECIAL_POWERUP; i++) {
         	spawnY = PowerUp.spawnY();
             spawnX = PowerUp.spawnX(spawnY);
-            PowerUp special = new PowerUp(spawnX, spawnY, i+2, System.nanoTime(), 8000*1000000, 10);
+            PowerUp special = new PowerUp(spawnX, spawnY, i+2, System.nanoTime(), 8000*1000000);
             this.specialPowerUps.add(special);
         }
 	}
@@ -358,8 +398,8 @@ public class GameTimer extends AnimationTimer {
 //			Checks collision of characters and powerups
 	        PowerUp special = this.specialPowerUps.get(i);
 	        if (special.getAlive()){
-	        	special.checkPowerUpCollision(this.player1);
-	        	special.checkPowerUpCollision(this.player2);
+	        	special.checkPowerUpCollision(this.player1, currentNanoTime);
+	        	special.checkPowerUpCollision(this.player2, currentNanoTime);
 	        } else {
 //	        	Removes special power ups if idle for 10 seconds or picked up
 	        	this.specialPowerUps.remove(i);
@@ -370,8 +410,8 @@ public class GameTimer extends AnimationTimer {
 //			Checks collision of characters and fragments
 	        PowerUp fragment = this.fragmentPowerUps.get(i);
 	        if (fragment.getAlive()){
-	        	fragment.checkPowerUpCollision(this.player1);
-	        	fragment.checkPowerUpCollision(this.player2);
+	        	fragment.checkPowerUpCollision(this.player1, currentNanoTime);
+	        	fragment.checkPowerUpCollision(this.player2, currentNanoTime);
 	        } else {
 //	        	Removes fragments that are picked up 
 	        	this.fragmentPowerUps.remove(i);
@@ -393,29 +433,29 @@ public class GameTimer extends AnimationTimer {
 	//method that will read users input
 	private void keysCharacter(KeyCode ke) {
 	    switch (ke) {
-	        case W:
-	            this.player1.setDY(-2);
+	       	case W:
+	            this.player1.setDY(-this.player1.getSpeed());
 	            break;
 	        case A:
-	            this.player1.setDX(-2);
+	            this.player1.setDX(-this.player1.getSpeed());
 	            break;
 	        case S:
-	            this.player1.setDY(2);
+	            this.player1.setDY(this.player1.getSpeed());
 	            break;
 	        case D:
-	            this.player1.setDX(2);
+	            this.player1.setDX(this.player1.getSpeed());
 	            break;
 	        case UP:
-	            this.player2.setDY(-2);
+	            this.player2.setDY(-this.player2.getSpeed());
 	            break;
 	        case LEFT:
-	            this.player2.setDX(-2);
+	            this.player2.setDX(-this.player2.getSpeed());
 	            break;
 	        case DOWN:
-	            this.player2.setDY(2);
+	            this.player2.setDY(this.player2.getSpeed());
 	            break;
 	        case RIGHT:
-	            this.player2.setDX(2);
+	            this.player2.setDX(this.player2.getSpeed());
 	            break;
 	        case F:
 	            this.player1.setAttack(true);

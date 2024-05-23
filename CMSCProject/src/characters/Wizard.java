@@ -27,7 +27,7 @@ public class Wizard extends Sprite {
 		this.previousTimeLWalk = previousTime;
 		this.animationCountAttack = 1;
 		this.animationCountIdle = 1;
-		this.animationCountDie = 1;
+		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
 //		Load Wizard Image
 		this.loadImage(Formatting.WizRIdle1, 180, 52);
@@ -51,7 +51,7 @@ public class Wizard extends Sprite {
 		}
 		// Animation Right Walk
 		if(currentTime - this.previousTimeRWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == 2) {
+			if (this.getDX() >= 2) {
 				this.animationCountWalk ++;
 				this.walkRight();
 				this.setDirection(1);
@@ -61,7 +61,7 @@ public class Wizard extends Sprite {
 		
 		// Animation Left Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == -2) {
+			if (this.getDX() <= -2) {
 				this.animationCountWalk ++;
 				this.walkLeft();
 				this.setDirection(2);
@@ -71,7 +71,7 @@ public class Wizard extends Sprite {
 		
 		// Animation Right Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == 2) {
+			if (this.getDY() >= 2) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -84,7 +84,7 @@ public class Wizard extends Sprite {
 		
 		// Animation Left Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDY() == -2) {
+			if (this.getDY() <= -2) {
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -263,7 +263,6 @@ public class Wizard extends Sprite {
 	    if (currentTime - this.previousTimeDie >= (1000 * 1000000)) {
 	        this.animationCountDie++;
 	        this.animationCountDie %= 6;
-	        int direction = this.getDirection();
 //	        Run animation depending on its direction
 	        switch (this.getDirection()) {
 	            case 1:
@@ -278,6 +277,9 @@ public class Wizard extends Sprite {
 	                        this.img = Formatting.WizRDie3;
 	                        break;
 	                    case 4:
+	                        this.img = Formatting.WizRDie4;
+	                        break;
+	                    case 5:
 	                        System.out.println("Dying Animation Finished");
 //	                        Set the character to invisible
 	                        this.setVisible(false);
@@ -296,6 +298,9 @@ public class Wizard extends Sprite {
 	                        this.img = Formatting.WizLDie3;
 	                        break;
 	                    case 4:
+	                        this.img = Formatting.WizLDie4;
+	                        break;
+	                    case 5:
 	                        System.out.println("Dying Animation Finished");
 //	                        Set the character to invisible
 	                        this.setVisible(false);
