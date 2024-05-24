@@ -1,6 +1,7 @@
 package scenes;
 
 import elements.Formatting;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -15,6 +16,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
 
 public class DeveloperScene {
+	//attributes
 	private Group root;
 	private Scene developerScene;
 	private Canvas canvas;

@@ -1,4 +1,4 @@
-package scenes;
+	package scenes;
 
 import java.util.Random;
 
@@ -55,9 +55,8 @@ public class GameTimer extends AnimationTimer {
 	private int spawnX, spawnY;
 	private long startFPowerUpSpawn, startSPowerUpSpawn;
 
-	
 	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
-	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
+	private final static int SPAWNDELAY_SPOWERUP = 1; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
 	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
@@ -67,7 +66,7 @@ public class GameTimer extends AnimationTimer {
 	private int monsterX, monsterY;
 	private final static int SPAWNDELAY_MONSTERS = 8; // spawn monster every after 8 seconds
 	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
-	private static final double MIN_DISTANCE_BETWEEN_MONSTERS = 6; // minimum distance between monsters
+	private static final double MIN_DISTANCE_BETWEEN_MONSTERS = 100; // minimum distance between monsters
 
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
@@ -75,7 +74,7 @@ public class GameTimer extends AnimationTimer {
 		this.player1Code = player1;
 		this.player2Code = player2;
 //		Initial Timer
-		this.time = 121;
+		this.time = 9999;
 //		Player winner number (1 or 2)
 		this.playerWinNum = 0;
 //		Initializing stages and scenes
@@ -87,6 +86,7 @@ public class GameTimer extends AnimationTimer {
 		this.previousTimerTime = System.nanoTime();
 		this.animationCountTimer = 1;
 		this.previousTimerBG = System.nanoTime();
+		
 //		Timer image
 		this.timerBGimg = Formatting.TIMER1;
 		
@@ -97,9 +97,8 @@ public class GameTimer extends AnimationTimer {
 		mapBoundaries();
 		
 //		Creating two players
-		this.player1 = createPlayer(player1, 500, 100, 1);
-        this.player2 = createPlayer(player2, 600, 100, 2);
-        this.previousTimeMonster = System.nanoTime();
+		this.player1 = createPlayer(player1, 174, 278, 1);
+        this.player2 = createPlayer(player2, 950, 278, 2);
         
 //      Power Ups
         this.startFPowerUpSpawn = System.nanoTime();
@@ -109,6 +108,7 @@ public class GameTimer extends AnimationTimer {
         
 //		Monsters
         this.monsterArrayList = new ArrayList<Monster>();
+        this.previousTimeMonster = System.nanoTime();
         
 //		call method to handle key click event
 		this.handleKeyPressEvent();
@@ -124,7 +124,7 @@ public class GameTimer extends AnimationTimer {
             case Formatting.SWORDWOMAN:
                 return new SwordWoman(x, y, playerNum, System.nanoTime());
             case Formatting.WIZARD:
-                return new Wizard(x, y, playerNum, System.nanoTime());
+                return new Wizard(x-50, y, playerNum, System.nanoTime());
             default:
 //            	Reference: https://rollbar.com/blog/how-to-throw-illegalargumentexception-in-java/
             	throw new IllegalArgumentException("Invalid player type: " + playerType);
@@ -467,10 +467,16 @@ public class GameTimer extends AnimationTimer {
 	            this.player1.setShowBoxes(!this.player1.isShowBoxes());
 	            this.player2.setShowBoxes(!this.player2.isShowBoxes());
 	            break;
+	        case U:
+	        	this.showBoundaries = !this.showBoundaries;
+	        	break;
 	        case M:
 	        	for (Monster monster: this.monsterArrayList) {
 	        		monster.setShowBoxes(!monster.isShowBoxes());
 	        	}
+	        	break;
+	        case SPACE:
+	        	System.out.println(player1.getX() + " " + player1.getY());
 	        	break;
 	        case I:
 	        	this.showBoundaries = !this.showBoundaries;
@@ -545,7 +551,7 @@ public class GameTimer extends AnimationTimer {
 	}
 	
 	//method that will listen and handle the key press events
-		private void handleKeyPressEvent() {
+	private void handleKeyPressEvent() {
 		gameScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			public void handle(KeyEvent e){
             	KeyCode code = e.getCode();

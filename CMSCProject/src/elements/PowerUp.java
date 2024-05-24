@@ -14,7 +14,7 @@ public class PowerUp extends Sprite {
 	
 	
 	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration) {
-		super(0, 0, xPos, yPos, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0);
+		super(0, 0, xPos, yPos, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0);
 		
 		this.type = type;
 		this.duration = duration;
@@ -50,7 +50,7 @@ public class PowerUp extends Sprite {
 
 //	Map boundaries
 	public static int spawnY() {
-		int randY = random.nextInt(105,544);
+		int randY = random.nextInt(105,500);
 		return randY;
 	}
 	
@@ -59,27 +59,20 @@ public class PowerUp extends Sprite {
 		
 //		north
 		if (y >= 105 && y <= 179) {
-			randX = random.nextInt(350, 851);
+			randX = random.nextInt(350, 800);
 //		north 2
 		} else if (y >= 180 && y <= 249) {
-			randX = random.nextInt(250, 951);
+			randX = random.nextInt(250, 900);
 //		middle
-		} else if (y >= 250 && y <= 289) {
-			randX = random.nextInt(150, 1051);
-//		middle 2 (contains pillars)
-		} else if (y >= 290 && y <= 379){
-			randX = random.nextInt(150, 1051);
+		} else if (y >= 250 && y <= 379) {
+			randX = random.nextInt(210, 950);
 //		south 1
 		} else if (y >= 380 && y <= 469) {
-			randX = random.nextInt(270, 1006);
+			randX = random.nextInt(300, 870);
 //		south 2
-		} else if (y >= 470 && y <= 544) {
-			randX = random.nextInt(300, 906);
-//		south 3
-		} else {
-			randX = random.nextInt(400, 796);
+		} else if (y >= 470 && y <= 500) {
+			randX = random.nextInt(300, 800);
 		}
-		
 		return randX;
 	}
 	

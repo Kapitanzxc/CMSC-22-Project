@@ -1,13 +1,15 @@
 package scenes;
 
 import elements.Formatting;
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 
-// Scene for choosing character
+// Scene for selecting character
 public class ChooseCharacterScene {
+	// attributes
 	private Group root;
 	private Stage stage;
 	private Scene chooseCharacterScene,menuScene;
@@ -29,10 +31,13 @@ public class ChooseCharacterScene {
 		
 	}
 	
+	// returns the choose character scene.
 	public Scene getScene() {
-		//invoke the choose character 1 scene
+		//invoke the first character selection
 		System.out.println("Choose player 1!");
+		//transitions to chooseCharacter1 scene.
 		this.chooseCharacter1.start();
+		//display the stage
 		this.stage.show();
 		return chooseCharacterScene;
 	}

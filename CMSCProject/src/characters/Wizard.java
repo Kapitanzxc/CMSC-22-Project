@@ -13,7 +13,7 @@ public class Wizard extends Sprite {
 
 	// 	Constructor
 	public Wizard(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.WIZARD, playerNumber, x,y, 
+		super(Formatting.WIZARD, playerNumber, x,y,  playerNumber,
 				100, 1, 2,
 				0.45, 0.30, 
 				0.1, 0.64,
@@ -30,8 +30,13 @@ public class Wizard extends Sprite {
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
-//		Load Wizard Image
-		this.loadImage(Formatting.WizRIdle1, 180, 52);
+//		Load Wizard Image based on direction
+		if (playerNumber == 1) {
+			this.loadImage(Formatting.WizRIdle1, 180, 52);
+		} else {
+			this.loadImage(Formatting.WizLIdle1, 180, 52);
+		}
+	
 	}
 	
 //	Display images per frames per second

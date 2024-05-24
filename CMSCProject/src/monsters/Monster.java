@@ -78,14 +78,14 @@ public abstract class Monster{
 	        double healthBar = healthBarWidth * healthPercentage;
 	        
 //	      Black for background
-	        gc.setFill(Color.BLACK);
+	      gc.setFill(Color.BLACK);
 //	      Draw the background (height depending on the level of the monster)
 	        if (this.reward == 30) {
-	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 13, healthBar, healthBarHeight);
+	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 13, healthBarWidth, healthBarHeight);
 	        } else {
-	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 8, healthBar, healthBarHeight);
+	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 8, healthBarWidth, healthBarHeight);
 	        }
-//	      Draw the health bar (height depending on the level of the monster)
+//	      Draw the health bar (width depending on the level of the monster)
 	        gc.setFill(Color.RED);
 	        if (this.reward == 30) {
 	        	gc.fillRect(this.hitbox.x, this.hitbox.y - healthBarHeight - 13, healthBar, healthBarHeight);

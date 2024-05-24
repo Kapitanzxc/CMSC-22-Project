@@ -1,6 +1,7 @@
 package scenes;
 
 import elements.Formatting;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;

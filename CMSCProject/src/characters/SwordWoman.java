@@ -13,7 +13,7 @@ public class SwordWoman extends Sprite{
 	
 // 	Constructor
 	public SwordWoman(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.SWORDWOMAN, playerNumber, x,y, 
+		super(Formatting.SWORDWOMAN, playerNumber, x,y,  playerNumber,
 				100, 1, 3,
 				0.42, 0.20, 
 				0.22, 0.7,
@@ -30,8 +30,13 @@ public class SwordWoman extends Sprite{
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
-//		Load Sword Woman Image
-		this.loadImage(Formatting.SWRIdle1, 84, 44);
+//		Load Sword Woman Image based on direction
+		if (playerNumber == 1) {
+			this.loadImage(Formatting.SWRIdle1, 84, 44);
+		} else {
+			this.loadImage(Formatting.SWLIdle1, 84, 44);
+		}
+		
 	}
 	
 //	Display images per frames per second

@@ -14,7 +14,7 @@ public class Knight extends Sprite{
 	
 // 	Constructor
 	public Knight(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.KNIGHT, playerNumber, x,y, 
+		super(Formatting.KNIGHT, playerNumber, x,y, playerNumber,
 				100, 15, 2,
 				0.42, 0.18, 
 				0.20, 0.77,
@@ -31,8 +31,13 @@ public class Knight extends Sprite{
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
-//		Load knight Image
-		this.loadImage(Formatting.KnightRIdle1, 84, 44);
+//		Load knight Image based on direction
+		if (playerNumber == 1) {
+			this.loadImage(Formatting.KnightRIdle1, 84, 44);
+		} else {
+			this.loadImage(Formatting.KnightLIdle1, 84, 44);
+		}
+		
 
 	}
 	

@@ -15,8 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+//handles the character selection for player 2
 public class ChooseCharacter1 extends AnimationTimer{
-private Stage stage;
+	private Stage stage;
 	private Scene menuScene, characterP1Scene;
 	private GraphicsContext gc;
 	private int characterP1,animationCount;
@@ -47,22 +48,22 @@ private Stage stage;
 		this.handleKeyPressEvent();
 	}
 	
-	@Override
+//	@Override
 	public void handle(long currentTime) {
 		// Show the selection of characters per frame
 		if (nextCharacter == false) {
-			showCharacters(currentTime);
+			showCharacters(currentTime);//shows character if not yet selected
 		} else {
-			player2Selection(this.characterP1);
+			player2Selection(this.characterP1);//transitions to player2selection if the character 1 has been selected
 		}
 		
 	}
 	
-//	Reads user input
+//	Sets up key press input by the user for handling character selection
 	private void handleKeyPressEvent() {
 		characterP1Scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			public void handle(KeyEvent e){
-            	KeyCode code = e.getCode();
+            	KeyCode code = e.getCode();//gets the key code
             	nextCharacter(code);
 			}
 			
@@ -70,16 +71,19 @@ private Stage stage;
 		
 	}
 	
-//	Change image whenever the user input a code
+//	Handles key presses to change the selected character of the player
 	public void nextCharacter(KeyCode code) {
-	    switch (code) {
+	    switch (code) {// code is the key that was pressed
 	        case RIGHT, D:
+	        	//moves the character selection to the right
 	            this.characterP1++;
 	            break;
 	        case LEFT, A:
+	        	//moves the character selection to the left
 	            this.characterP1--;
 	            break;
 	        case SPACE:
+	        	//the player 1 have selected a character
 	            this.nextCharacter = true;
 	            switch (this.characterP1) {
 	                case Formatting.KNIGHT:
@@ -97,10 +101,11 @@ private Stage stage;
 	            }
 	            break;
 	        default:
+	        	//invalid cases
 	            System.out.println("Unknown key pressed.");
 	            break;
 	    }
-
+//		key press confirmation
 	    System.out.println(code + " key pressed.");
 	}
 
@@ -156,7 +161,6 @@ private Stage stage;
 	    }
 	    
 //		Hover FX
-	    
 	    // ImageView creation
 	    ImageView knightView = createImageView(Formatting.KNIGHTV, -80, 275, 430, 220);
 	    ImageView swordWomanView = createImageView(Formatting.SWV, 480, 300, 450, 230);
@@ -207,14 +211,15 @@ private Stage stage;
     }
     
     
-//	Proceed to player2secelction after selecting a character
+//	Proceeds to player2secelction after player 1 have chosen a character
 	public void player2Selection (int player1) {
 		this.stop();
 		System.out.println("Choose player 2!" );
+		// chooseCharacter2 object
 		ChooseCharacter2 chooseCharacter2 = new ChooseCharacter2(this.characterP1Scene,  this.stage, this.menuScene, player1);
 		chooseCharacter2.start();
 	}
-	
+	//returns the current scene
 	public Scene getScene() {
 		return characterP1Scene;
 	}

@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+//handles the character selection for player 2
 public class ChooseCharacter2 extends AnimationTimer{
 	private Stage stage;
 	private Scene menuScene, characterP2Scene;
@@ -54,34 +55,37 @@ public class ChooseCharacter2 extends AnimationTimer{
 	public void handle(long currentTime) {
 		// Show the selection of characters per frame
 		if (this.nextCharacter == false) {
-			showCharacters(currentTime);
+			showCharacters(currentTime);// shows characters if not yet selected
 		} else {
-			gameplayScene();;
+			gameplayScene();;// transitions to gameplayScene if the character has been selected.
 		}
-		showCharacters(currentTime);
+		showCharacters(currentTime);// shows characters
 	}
 	
-//	Reads user input
+//	Sets up key press input by the user for handling character selection
 	private void handleKeyPressEvent() {
 		characterP2Scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			public void handle(KeyEvent e){
-            	KeyCode code = e.getCode();
+            	KeyCode code = e.getCode();// gets the key code
             	nextCharacter(code);
 			}
 			
 		});
 		
 	}
-//	Change image whenever the user input a code
+//	Handles key presses to change the selected character of the player
 	public void nextCharacter(KeyCode code) {
-	    switch (code) {
+	    switch (code) {// code is the key that was pressed
 	        case RIGHT, D:
+	        	//moves the character selection to the right
 	            this.characterP2++;
 	            break;
 	        case LEFT, A:
+	        	//moves the character selection to the left
 	            this.characterP2--;
 	            break;
 	        case SPACE, ENTER:
+	        	//the player 2 have selected a character
 	            this.nextCharacter = true;
 	            switch (this.characterP2) {
 	                case Formatting.KNIGHT:
@@ -98,11 +102,12 @@ public class ChooseCharacter2 extends AnimationTimer{
 	                    break;
 	            }
 		default:
+			//invalid cases
 			System.out.println("Invalid key pressed.");
 			break;
 	            
 	    }
-
+//		key press confirmation
 	    System.out.println(code + " key pressed.");
 	}
 
@@ -210,21 +215,25 @@ public class ChooseCharacter2 extends AnimationTimer{
     }
     
 
-//	Proceed to gameplayScene after selecting a character
+//	Proceeds to GameScene after player 2 have selected a character
 	public void gameplayScene () {
 		this.stop();
 		System.out.println("Load game scene");
+		// creates new gameScene object
 		GameScene gameScene = new GameScene(this.menuScene, this.stage, this.player1, this.characterP2);
+		//fade out transition
 		FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), this.characterP2Scene.getRoot());
 		    fadeOut.setFromValue(1.0);
 		    fadeOut.setToValue(0.0);
 		    fadeOut.setOnFinished(e -> {
+		    	//changes the current scene to gameScene
 		        stage.setScene(gameScene.getScene());
 		        ;
 		    });
 		    fadeOut.play();
 	}
 	
+	//returns the current scene
 	public Scene getScene() {
 		return characterP2Scene;
 	}

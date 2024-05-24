@@ -1,13 +1,15 @@
 package scenes;
 
-
 import elements.Formatting;
+
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
+//	 handles the game scene setup
 public class GameScene {
 	private Group root;
 	private Stage stage;
@@ -19,6 +21,7 @@ public class GameScene {
 	
 
 	// Constructor
+	//initializes the game scene with players' chosen characters
 	public GameScene(Scene menuScene, Stage stage, int player1, int player2) {
 		// Initialize variables
 		this.stage = stage;
@@ -33,10 +36,11 @@ public class GameScene {
 		this.gametimer = new GameTimer(this.gc,this.gameScene, this.menuScene, this.stage, player1, player2);
 		
 	}
-	
+	// returns the gameScene
 	public Scene getScene() {
 		//invoke the start method of the animation timer
 		this.gametimer.start();
+		//displays the stage
 		this.stage.show();
 		return gameScene;
 	}
