@@ -1,22 +1,27 @@
 package characters;
 
+import java.util.ArrayList;
+
 import elements.Formatting;
+import monsters.Monster;
 
 // Knight Character
 public class Knight extends Sprite{
+	
 //	Attributes for animation
 	private long previousTimeIdle,previousTimeAttack,previousTimeDie,previousTimeRWalk,previousTimeLWalk;
 	public int animationCountIdle,animationCountAttack,animationCountDie,animationCountWalk;
+	
 // 	Constructor
 	public Knight(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.KNIGHT, playerNumber, x,y, 100,  
-				0.20, 0.18, 
-				0.55,
-				0.34, 0.77,
-				0.55, 0.05,
-				0.1,
-				0.4, 0.95,
-				0,1);
+		super(Formatting.KNIGHT, playerNumber, x,y, 
+				100, 15, 2,
+				0.42, 0.18, 
+				0.20, 0.77,
+				0.7, 0.05,
+				0.11,
+				0.27, 0.95);
+//		Variables for animation
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;
@@ -26,8 +31,9 @@ public class Knight extends Sprite{
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
-		this.loadImage(Formatting.KnightRIdle1, 55, 44);
-//		this.loadImage(Formatting.PIXEL);
+//		Load knight Image
+		this.loadImage(Formatting.KnightRIdle1, 84, 44);
+
 	}
 	
 //	**********
@@ -35,10 +41,10 @@ public class Knight extends Sprite{
 //	**********
 	
 //	Display images per frames per second
-	public void animation (long currentTime, Sprite player2) {
+	public void animation (long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
 //		Idle Animation
 		if(currentTime - this.previousTimeIdle >= (250 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
-			if (this.getDX() == 0 && this.getDY()==0) {
+			if (this.getDX() == 0 && this.getDY()== 0) {
 				this.animationCountIdle ++;
 				if (getDirection() == 1) {
 					this.idleRight();
@@ -52,7 +58,11 @@ public class Knight extends Sprite{
 		}
 		// Animation Right Walk
 		if(currentTime - this.previousTimeRWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDX() == this.getSpeed()) {
+=======
+			if (this.getDX() >= 2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				this.walkRight();
 				this.setDirection(1);
@@ -62,7 +72,11 @@ public class Knight extends Sprite{
 		
 		// Animation Left Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDX() == -this.getSpeed()) {
+=======
+			if (this.getDX() <= -2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				this.walkLeft();
 				this.setDirection(2);
@@ -72,7 +86,11 @@ public class Knight extends Sprite{
 		
 		// Animation Right Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDY() == this.getSpeed()) {
+=======
+			if (this.getDY() >= 2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -85,7 +103,11 @@ public class Knight extends Sprite{
 		
 		// Animation Left Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDY() == -this.getSpeed()) {
+=======
+			if (this.getDY() <= -2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -99,18 +121,18 @@ public class Knight extends Sprite{
 	    if (this.getAttack() && checkAlive()) {
 	        switch (this.getDirection()) {
 	            case 1:
-	                this.attackRightAnimation(currentTime, player2);
+	                this.attackRightAnimation(currentTime, player2, monsterArrayList);
 	                this.previousTimeDie = currentTime;
 	                break;
 	            case 2:
-	                this.attackLeftAnimation(currentTime, player2);
+	                this.attackLeftAnimation(currentTime, player2, monsterArrayList);
 	                this.previousTimeDie = currentTime;
 	                break;
 	        }
 	    }
 	}
 
-//	Image frames
+//	Image frames for Idle
 	public void idleRight() {
 	    this.animationCountIdle %= 5;
 	    switch (animationCountIdle) {
@@ -147,11 +169,12 @@ public class Knight extends Sprite{
 	    }
 	}
 
-	
-	public void attackRightAnimation(long currentTime, Sprite player2) {
+//  Image frames for attacking (right)
+	public void attackRightAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
+//		Setting dx and dy to zero to stop the character from moving
 	    this.setDX(0);
 	    this.setDY(0);
-	    // TODO Auto-generated method stub
+//	    Run animation
 	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
 	        this.animationCountAttack++;
 	        this.animationCountAttack %= 6;
@@ -164,15 +187,16 @@ public class Knight extends Sprite{
 	                break;
 	            case 3:
 	                this.img = Formatting.KnightRAttack3;
-	                // Checks if the weapon and character collides
+	                // Checks if the weapon (attackbox) and other character collides
 	                if (this.getCollisionChecker() == false && player2.checkAlive()) {
-	                    this.checkCollision(this, player2, currentTime, player2.getDirection());
+	                    this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	                }
 	                break;
 	            case 4:
 	                this.img = Formatting.KnightRAttack4;
 	                break;
 	            case 5:
+//	            	Last animation, set everything to false for reset
 	                this.img = Formatting.KnightRAttack5;
 	                System.out.println("Attack Animation Finished");
 	                this.attack = false;
@@ -183,10 +207,12 @@ public class Knight extends Sprite{
 	    }
 	}
 
-	
-	public void attackLeftAnimation(long currentTime, Sprite player2) {
+//  Image frames for attacking (left) 
+ 	public void attackLeftAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
+//		Setting dx and dy to zero to stop the character from moving
 	    this.setDY(0);
-	    // TODO Auto-generated method stub
+	    this.setDX(0);
+//	    Run animation
 	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
 	        this.animationCountAttack++;
 	        this.animationCountAttack %= 6;
@@ -199,9 +225,9 @@ public class Knight extends Sprite{
 	                break;
 	            case 3:
 	                this.img = Formatting.KnightLAttack3;
-	                // Checks if the weapon and character collides
+	                // Checks if the weapon (attackbox) and character collides
 	                if (this.getCollisionChecker() == false && player2.checkAlive()) {
-	                    this.checkCollision(this, player2, currentTime, player2.getDirection());
+	                    this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	                }
 	                break;
 	            case 4:
@@ -209,6 +235,7 @@ public class Knight extends Sprite{
 	                break;
 	            case 5:
 	                this.img = Formatting.KnightLAttack5;
+//	            	Last animation, set everything to false for reset
 	                System.out.println("Attack Animation Finished");
 	                this.attack = false;
 	                this.setCollisionChecker(false);
@@ -220,9 +247,11 @@ public class Knight extends Sprite{
 
 //	Dying animation
 	public boolean dieAnimation(long currentTime) {
+//		Run animation
 	    if (currentTime - this.previousTimeDie >= (1000 * 1000000)) {
 	        this.animationCountDie++;
 	        this.animationCountDie %= 5;
+//	        Run animation depending on its direction
 	        switch (this.getDirection()) {
 	            case 1:
 	                switch (animationCountDie) {
@@ -237,6 +266,7 @@ public class Knight extends Sprite{
 	                        break;
 	                    case 4:
 	                        System.out.println("Dying Animation Finished");
+//	                        Set the character to invisible
 	                        this.setVisible(false);
 	                        return true;
 	                }
@@ -254,6 +284,7 @@ public class Knight extends Sprite{
 	                        break;
 	                    case 4:
 	                        System.out.println("Dying Animation Finished");
+//	                        Set the character to invisible
 	                        this.setVisible(false);
 	                        return true;
 	                }
@@ -329,33 +360,57 @@ public class Knight extends Sprite{
 	}
 
 	
-//	Animation for hitting opponent
+//	Animation when hit
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
+//		Animation when hit (left and right)
 	    if (getHit() == true && this.checkAlive()) {
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.KnightRHit1;
-	                System.out.println("Hit Animation Finished");
-	                this.hit = false;
-	                // Decreases health
-	                this.setHealth(attacker.getAttackPoints());
-	                System.out.println("Player Health Remaining: " + this.health);
 	                break;
 	            default:
 	                this.img = Formatting.KnightLHit1;
-	                System.out.println("Hit Animation Finished");
-	                this.hit = false;
-	                // Decreases health
-	                this.setHealth(attacker.getAttackPoints());
-	                System.out.println("Player Health Remaining: " + this.health);
 	                break;
 	        }
+	        System.out.println("Hit Animation Finished");
+            this.hit = false;
+            // Decreases health
+            this.setHealth(this.health - attacker.getAttackPoints());
+            System.out.println("Player Health Remaining: " + this.health);
+//      If not hit, show idle animation
 	    } else if (this.getDirection() == 1) {
 	        this.img = Formatting.KnightRIdle1;
 	    } else {
 	        this.img = Formatting.KnightLIdle1;
 	    }
 	}
+	
+	
+//	Animation when hit by monster
+	public void hitAnimationMonster(long currentTime, Monster monster, int direction) {
+//		Animation when hit (left and right)
+	    if (getHit() == true && this.checkAlive()) {
+	        switch (direction) {
+	            case 1:
+	                this.img = Formatting.KnightRHit1;
+	                break;
+	            default:
+	                this.img = Formatting.KnightLHit1;
+	                break;
+	        }
+	        System.out.println("Hit Animation Finished");
+            this.hit = false;
+            // Decreases health
+            this.setHealth(this.health - monster.getReward());
+            System.out.println("Player Health Remaining: " + this.health);
+//      If not hit, show idle animation
+	    } else if (this.getDirection() == 1) {
+	        this.img = Formatting.KnightRIdle1;
+	    } else {
+	        this.img = Formatting.KnightLIdle1;
+	    }
+	}
+
 
 	
 

@@ -4,7 +4,6 @@ import elements.Formatting;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 // Scene for choosing character
@@ -13,7 +12,6 @@ public class ChooseCharacterScene {
 	private Stage stage;
 	private Scene chooseCharacterScene,menuScene;
 	private Canvas canvas;
-	private GraphicsContext gc;
 	private ChooseCharacter1 chooseCharacter1;
 	
 
@@ -25,7 +23,6 @@ public class ChooseCharacterScene {
 		this.chooseCharacterScene = new Scene(this.root,Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 		this.menuScene = menuScene;
 		this.canvas = new Canvas(Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
-		this.gc = canvas.getGraphicsContext2D();
 		this.root.getChildren().add(canvas);
 		// Initialize chooseCharacter 1 Scene
 		this.chooseCharacter1 = new ChooseCharacter1(this.chooseCharacterScene, this.menuScene, this.stage);

@@ -1,23 +1,26 @@
 package characters;
 
+import java.util.ArrayList;
+
 import elements.Formatting;
+import monsters.Monster;
 
 public class Wizard extends Sprite {
+	
 //	Attributes for animation
 	private long previousTimeDie,previousTimeAttack,previousTimeRWalk,previousTimeLWalk,previousTimeIdle;
 	private int animationCountDie,animationCountIdle, animationCountAttack,animationCountWalk;
-// 	Constructor
-	
+
+	// 	Constructor
 	public Wizard(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.WIZARD, playerNumber, x,y, 100,
+		super(Formatting.WIZARD, playerNumber, x,y, 
+				100, 1, 2,
 				0.45, 0.30, 
-				0.45,
 				0.1, 0.64,
 				0.68, 0.46,
 				0.025,
-				0.24, 0.62,
-				0.375,0.55);
-		
+				0.24, 0.62);
+//		Variables for animation
 		this.previousTimeIdle = previousTime;	
 		this.previousTimeAttack = previousTime;
 		this.previousTimeDie = previousTime;
@@ -25,10 +28,10 @@ public class Wizard extends Sprite {
 		this.previousTimeLWalk = previousTime;
 		this.animationCountAttack = 1;
 		this.animationCountIdle = 1;
-		this.animationCountDie = 1;
+		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
+//		Load Wizard Image
 		this.loadImage(Formatting.WizRIdle1, 180, 52);
-//		this.loadImage(Formatting.PIXEL);
 	}
 	
 //	**********
@@ -36,7 +39,7 @@ public class Wizard extends Sprite {
 //	**********
 	
 //	Display images per frames per second
-	public void animation (long currentTime, Sprite player2) {
+	public void animation (long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
 //		Idle Animation
 		if(currentTime - this.previousTimeIdle >= (250 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
 			if (this.getDX() == 0 && this.getDY()==0) {
@@ -53,7 +56,11 @@ public class Wizard extends Sprite {
 		}
 		// Animation Right Walk
 		if(currentTime - this.previousTimeRWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDX() == this.getSpeed()) {
+=======
+			if (this.getDX() >= 2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				this.walkRight();
 				this.setDirection(1);
@@ -63,7 +70,11 @@ public class Wizard extends Sprite {
 		
 		// Animation Left Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDX() == -this.getSpeed()) {
+=======
+			if (this.getDX() <= -2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				this.walkLeft();
 				this.setDirection(this.getSpeed());
@@ -73,7 +84,11 @@ public class Wizard extends Sprite {
 		
 		// Animation Right Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDY() == this.getSpeed()) {
+=======
+			if (this.getDY() >= 2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -86,7 +101,11 @@ public class Wizard extends Sprite {
 		
 		// Animation Left Down Walk
 		if(currentTime - this.previousTimeLWalk >= (125 * 1000000) && this.attack == false && this.getHit() == false && this.checkAlive() == true) {
+<<<<<<< HEAD
 			if (this.getDY() == -this.getSpeed()) {
+=======
+			if (this.getDY() <= -2) {
+>>>>>>> main
 				this.animationCountWalk ++;
 				if (getDirection() == 1) {
 					this.walkRight();
@@ -99,10 +118,10 @@ public class Wizard extends Sprite {
 //		Attack animation
 		if(this.getAttack() && checkAlive()) {
 			if (this.getDirection() == 1) {
-				this.attackRightAnimation(currentTime, player2);
+				this.attackRightAnimation(currentTime, player2, monsterArrayList);
 				this.previousTimeDie = currentTime;
 			} else {
-				this.attackLeftAnimation(currentTime, player2);
+				this.attackLeftAnimation(currentTime, player2, monsterArrayList);
 				this.previousTimeDie = currentTime;
 			}
 		}
@@ -151,11 +170,12 @@ public class Wizard extends Sprite {
 	    }
 	}
 
-	
-	public void attackRightAnimation(long currentTime, Sprite player2) {
-	    this.setDX(0);
+//  Image frames for attacking (right)
+	public void attackRightAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
+//		Setting dx and dy to zero to stop the character from moving
+		this.setDX(0);
 	    this.setDY(0);
-
+//	    Run animation
 	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
 	        this.animationCountAttack++;
 	        this.animationCountAttack %= 10;
@@ -190,26 +210,27 @@ public class Wizard extends Sprite {
 	                break;
 	            case 0:
 	                System.out.println("Attack Animation Finished");
+//	            	Last animation, set everything to false for reset
 	                this.attack = false;
 	                this.setCollisionChecker(false);
 	                break;
-	            default:
-	                // Handle unexpected case here
-	                break;
 	        }
-
+	        // Checks if the weapon (attackbox) and other character collides
+	        // Since wizard have a unique attack animation, we check collision from frame 5 to 9
 	        if (animationCountAttack >= 5 && animationCountAttack <= 9 && this.getCollisionChecker() == false && player2.checkAlive()) {
-	            this.checkCollision(this, player2, currentTime, player2.getDirection());
+	            this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	        }
 
 	        this.previousTimeAttack = currentTime;
 	    }
 	}
-
-	public void attackLeftAnimation(long currentTime, Sprite player2) {
-	    this.setDX(0);
+	
+//  Image frames for attacking (left) 
+	public void attackLeftAnimation(long currentTime, Sprite player2, ArrayList<Monster> monsterArrayList) {
+//		Setting dx and dy to zero to stop the character from moving
+		this.setDX(0);
 	    this.setDY(0);
-
+//	    Run animation
 	    if (currentTime - this.previousTimeAttack >= (142 * 1000000)) {
 	        this.animationCountAttack++;
 	        this.animationCountAttack %= 10;
@@ -247,13 +268,11 @@ public class Wizard extends Sprite {
 	                this.attack = false;
 	                this.setCollisionChecker(false);
 	                break;
-	            default:
-	                // Handle unexpected case here
-	                break;
 	        }
-
+	        // Checks if the weapon (attackbox) and other character collides
+	        // Since wizard have a unique attack animation, we check collision from frame 5 to 9
 	        if (animationCountAttack >= 5 && animationCountAttack <= 9 && this.getCollisionChecker() == false && player2.checkAlive()) {
-	            this.checkCollision(this, player2, currentTime, player2.getDirection());
+	            this.checkCollision(this, player2, currentTime, player2.getDirection(), monsterArrayList);
 	        }
 
 	        this.previousTimeAttack = currentTime;
@@ -265,26 +284,49 @@ public class Wizard extends Sprite {
 	    if (currentTime - this.previousTimeDie >= (1000 * 1000000)) {
 	        this.animationCountDie++;
 	        this.animationCountDie %= 6;
-	        int direction = this.getDirection();
-	        switch (animationCountDie) {
+//	        Run animation depending on its direction
+	        switch (this.getDirection()) {
 	            case 1:
-	                this.img = (direction == 1) ? Formatting.WizRDie1 : Formatting.WizLDie1;
+	                switch (animationCountDie) {
+	                    case 1:
+	                        this.img = Formatting.WizRDie1;
+	                        break;
+	                    case 2:
+	                        this.img = Formatting.WizRDie2;
+	                        break;
+	                    case 3:
+	                        this.img = Formatting.WizRDie3;
+	                        break;
+	                    case 4:
+	                        this.img = Formatting.WizRDie4;
+	                        break;
+	                    case 5:
+	                        System.out.println("Dying Animation Finished");
+//	                        Set the character to invisible
+	                        this.setVisible(false);
+	                        return true;
+	                }
 	                break;
-	            case 2:
-	                this.img = (direction == 1) ? Formatting.WizRDie2 : Formatting.WizLDie2;
-	                break;
-	            case 3:
-	                this.img = (direction == 1) ? Formatting.WizRDie3 : Formatting.WizLDie3;
-	                break;
-	            case 4:
-	                this.img = (direction == 1) ? Formatting.WizRDie4 : Formatting.WizLDie4;
-	                break;
-	            case 5:
-	                System.out.println("Dying Animation Finished");
-	                this.setVisible(false);
-	                return true;
 	            default:
-	                // Handle unexpected case here
+	                switch (animationCountDie) {
+	                    case 1:
+	                        this.img = Formatting.WizLDie1;
+	                        break;
+	                    case 2:
+	                        this.img = Formatting.WizLDie2;
+	                        break;
+	                    case 3:
+	                        this.img = Formatting.WizLDie3;
+	                        break;
+	                    case 4:
+	                        this.img = Formatting.WizLDie4;
+	                        break;
+	                    case 5:
+	                        System.out.println("Dying Animation Finished");
+//	                        Set the character to invisible
+	                        this.setVisible(false);
+	                        return true;
+	                }
 	                break;
 	        }
 	        this.previousTimeDie = currentTime;
@@ -362,8 +404,9 @@ public class Wizard extends Sprite {
 	}
 
 	
-//	Animation for hitting opponent
+//	Animation when hit
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
+//		Animation when hit (left and right)
 	    if (getHit() && this.checkAlive()) {
 	        switch (direction) {
 	            case 1:
@@ -376,17 +419,40 @@ public class Wizard extends Sprite {
 	        System.out.println("Hit Animation Finished");
 	        this.hit = false;
 	        // Decreases health
-	        this.setHealth(attacker.getAttackPoints()); 
+	        this.setHealth(this.health - attacker.getAttackPoints()); 
 	        System.out.println("Player Health Remaining: " + this.health);
+//	    If not hit, show idle animation
+	    } else if (this.getDirection() == 1) {
+	        this.img = Formatting.WizRIdle1;
 	    } else {
-	        if (this.getDirection() == 1) {
-	            this.img = Formatting.WizRIdle1;
-	        } else {
-	            this.img = Formatting.WizLIdle1;
-	        }
+	        this.img = Formatting.WizLIdle1;
 	    }
 	}
 
+//	Animation when hit by monster
+	public void hitAnimationMonster(long currentTime, Monster monster, int direction) {
+//		Animation when hit (left and right)
+	    if (getHit() && this.checkAlive()) {
+	        switch (direction) {
+	            case 1:
+	                this.img = Formatting.WizRHit1;
+	                break;
+	            default:
+	                this.img = Formatting.WizLHit1;
+	                break;
+	        }
+	        System.out.println("Hit Animation Finished");
+	        this.hit = false;
+	        // Decreases health
+	        this.setHealth(this.health -  monster.getReward()); 
+	        System.out.println("Player Health Remaining: " + this.health);
+//	   If not hit, show idle animation
+	    } else if (this.getDirection() == 1) {
+	        this.img = Formatting.WizRIdle1;
+	    } else {
+	        this.img = Formatting.WizLIdle1;
+	    }
+	}
 	
 
 }

@@ -3,23 +3,30 @@ package monsters;
 import elements.Formatting;
 
 public class Ogre3 extends Monster{
-
+//	Attributes
 	private int animationCountIdle;
 	private long previousTimeIdle;
 	private int direction;
 	
+//	Constructor
 	public Ogre3(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.OGRE3, 100, 0, 0, 0, 0);
+		super(xPos, yPos, Formatting.OGRE3, 200, 30,  0.225, 0.13, 0.59, 0.75);
+//		Variables for animation
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 
-		this.loadImage(Formatting.Lvl3ROgre1, 65, 65);
+//		Load image
+		if (direction == 1) {
+			this.loadImage(Formatting.Lvl3ROgre1, 65, 65);
+		} else {
+			this.loadImage(Formatting.Lvl3LOgre1, 65, 65);
+		}
 	
 	}
 	
-
-	@Override
+//	Animation for idle
 	public void animation(long currentTime) {
+//		Animation depending on its direction
 		if (direction == 1) {
 			if(currentTime - this.previousTimeIdle >= (100 * 1000000)) {
 				this.animationCountIdle ++;
@@ -64,4 +71,14 @@ public class Ogre3 extends Monster{
 			}
 		}
 	}		
+	
+//	Animation when hit
+	public void hitAnimation() {
+		if (direction == 1) {
+			this.img = Formatting.Lvl3ROgreHit;
+		}	
+		else {
+			this.img = Formatting.Lvl3LOgreHit;
+		}
+	}
 }

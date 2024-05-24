@@ -155,17 +155,19 @@ private Stage stage;
 	        this.previousTime = currentTime;
 	    }
 	    
+//		Hover FX
+	    
 	    // ImageView creation
-	    ImageView knightView = createImageView(Formatting.KNIGHTV, 74, 290);
-	    ImageView swordWomanView = createImageView(Formatting.SWV, 640, 305);
-	    ImageView orcView = createImageView(Formatting.ORCV, 310, 230);
-	    ImageView wizardView = createImageView(Formatting.WIZV, 460, 230);
+	    ImageView knightView = createImageView(Formatting.KNIGHTV, -80, 275, 430, 220);
+	    ImageView swordWomanView = createImageView(Formatting.SWV, 480, 300, 450, 230);
+	    ImageView orcView = createImageView(Formatting.ORCV, 280, 250, 379, 325);
+	    ImageView wizardView = createImageView(Formatting.WIZV, 510, 240, 1000, 287);
 
 	    // Text creation and formatting
-	    Text hoverKnight = createHoverText("This is the knight text", 550, 680);
-	    Text hoverOrc = createHoverText("This is the orc text", 550, 680);
-	    Text hoverSW = createHoverText("This is the swordwoman text", 550, 680);
-	    Text hoverWiz = createHoverText("This is the wizard text", 550, 680);
+	    Text hoverKnight = createHoverText("Starts with high attack power, making him a formidable melee fighter", 550, 680);
+	    Text hoverOrc = createHoverText("Boasts superior starting health, allowing him to endure more damage in battle", 550, 680);
+	    Text hoverSW = createHoverText("The fastest character, excelling in speed and agility on the battlefield", 550, 680);
+	    Text hoverWiz = createHoverText("Specializes in long-range attacks, casting powerful fireballs to strike enemies from a distance", 550, 680);
 
 	    // Add hover event handlers
 	    knightView.setOnMouseEntered(event -> hoverKnight.setVisible(true));
@@ -182,11 +184,13 @@ private Stage stage;
 
 	}
 	
-	  // Method to create an ImageView
-    private ImageView createImageView(Image image, double x, double y) {
+	  // Method to create an ImageView for hover fx
+    private ImageView createImageView(Image image, double x, double y, double width, double height) {
         ImageView imageView = new ImageView(image);
         imageView.setX(x);
         imageView.setY(y);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
         imageView.setOpacity(0);
         return imageView;
     }

@@ -3,23 +3,30 @@ package monsters;
 import elements.Formatting;
 
 public class Zombie2 extends Monster{
-
+//	Attributes
 	private int animationCountIdle;
 	private long previousTimeIdle;
 	private int direction;
 	
+//	Constructor
 	public Zombie2(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.ZOMBIE2, 100, 0, 0, 0, 0);
+		super(xPos, yPos, Formatting.ZOMBIE2, 100, 20,  0.355, 0.475, 0.275, 0.5);
+//		Variables for animation
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 
-		this.loadImage(Formatting.Lvl2RZombie1, 65, 65);
+//		Load image
+		if (direction == 1) {
+			this.loadImage(Formatting.Lvl2RZombie1, 65, 65);
+		} else {
+			this.loadImage(Formatting.Lvl2LZombie1, 65, 65);
+		}
 		
 	}
-	
 
-	@Override
+//	Animation for idle
 	public void animation(long currentTime) {
+//		Animation depending on its direction
 		if (direction == 1) {
 			if(currentTime - this.previousTimeIdle >= (100 * 1000000)) {
 				this.animationCountIdle ++;
@@ -62,9 +69,17 @@ public class Zombie2 extends Monster{
 				}
 				
 				previousTimeIdle = currentTime;
-			}
-			
+			}	
+		}		
+	}
+	
+//	Animation when hit
+	public void hitAnimation() {
+		if (direction == 1) {
+			this.img = Formatting.Lv12RZombieHit;
+		}	
+		else {
+			this.img = Formatting.Lv12LZombieHit;
 		}
-			
 	}
 }

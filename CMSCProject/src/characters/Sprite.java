@@ -1,21 +1,32 @@
 package characters;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import elements.Formatting;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import monsters.Monster;
 
 public abstract class Sprite {
 //	Attributes
 	protected Image img;
 	private int characterID, playerNumber;	
 	protected int x, y, dx, dy, width, height, health, attackPoints, direction,maxHealth, fragmentsCollected, monstersKilled, specialCollected, currentWidth, currentHeight;
-	private double xOffset, yOffset, attackWOffset, attackHOffset, characterLWidth, characterRWidth, widthLOffset, widthROffset, hitboxW, hitboxH, attackW, attackH, xLOffset, attackLWOffset;
+	private double xOffset, yOffset, attackWOffset, attackHOffset, hitboxW, hitboxH, attackW, attackH, attackLWOffset;
 	private boolean visible, alive, collisionChecker, showBoxes, showCBoxes;
 	protected boolean attack,hit;
 	public Rectangle hitbox, attackbox;
+	
+//	For powerups
+	private int speed;
+	private int addDamage;
+	private long speedBoostTime;
+	private long attackBoostTime;
+	private boolean speedBoostActive;
+	private boolean attackBoostActive;
+	
 	private static final int HEALTHWIDTH = 147;
     private static final int HEALTHHEIGHT = 6;
     
@@ -30,60 +41,71 @@ public abstract class Sprite {
 //	**********
     
 //	Constructor
-	public Sprite(int characterID, int playerNumber, int xPos, int yPos, int health, 
+	public Sprite(int characterID, int playerNumber, int xPos, int yPos, 
+			int health, int attackPoints, int speed,
 			double xOffset, double yOffset,
-			double xLOffset,
 			double hitBoxW, double hitBoxH,
 			double attackWOffset, double attackHOffset,
 			double attackLWOffset,
-			double attackW, double attackH,
-			double widthLOffset, double widthROffset){
+			double attackW, double attackH){
 		
-		this.characterID = characterID;
-		this.playerNumber = playerNumber;
-		this.xOffset = xOffset;
-		this.yOffset = yOffset;
-		this.x = (int) (xPos + this.width * xOffset);				
-		this.y = (int) (yPos + this.height + yOffset);
-		this.hitboxW = hitBoxW;
-		this.hitboxH = hitBoxH;
-		this.widthLOffset = widthLOffset;
-		this.widthROffset = widthROffset;
-		this.xLOffset = xLOffset;
-		this.maxHealth = 100;
-		this.health = health;
-		this.attackPoints = 1;
+		this.characterID = characterID; // Player code
+		this.playerNumber = playerNumber; // If player 1 or 2
+		this.maxHealth = 100;   // initial max health
+		this.health = health;   // health of a character
+		this.attackPoints = attackPoints;  // initial attack points
+		this.xOffset = xOffset;  // How far is the body from the left
+		this.yOffset = yOffset;  // How far is the body from the above
+		this.x =  xPos;	// X coordinate
+		this.y =  yPos;	// Y coordinate	
+		this.hitboxW = hitBoxW; // hitbox width
+		this.hitboxH = hitBoxH; // hitbox height
+		this.attackWOffset = attackWOffset; // How far is the attack range from the left (character in right direction)
+		this.attackHOffset = attackHOffset; // How far is the attack range from the above
+		this.attackLWOffset = attackLWOffset; // How far is the attack range from the left (character in left direction)
+		this.attackW = attackW; // attackbox width
+		this.attackH = attackH; // attackbox right
+		this.direction = 1; // direction of the player
+//		Character stats
 		this.fragmentsCollected = 0;
 		this.specialCollected = 0;
 		this.monstersKilled = 0;
+//		Boolean variables which checks if the character is still visible, alive, in attacking motion, getting hit, or collides with other entities
 		this.visible = true;
 		this.alive = true;
 		this.attack = false;
 		this.hit = false;
+		this.collisionChecker = false;
+//		Variable for showing the hitboxes and attackboxes of characters
 		this.setShowBoxes(false);
-		this.attackWOffset = attackWOffset;
-		this.attackHOffset = attackHOffset;
-		this.attackLWOffset = attackLWOffset;
-		this.attackW = attackW;
-		this.attackH = attackH;
 		this.hitbox = new Rectangle (this.x, this.y, 0 , 0);
 		this.attackbox = new Rectangle (this.x, this.y, 0,0);
+<<<<<<< HEAD
 		this.collisionChecker = false;
 		this.direction = 1;
 		
 //		**********
 		this.speed = 2;
+=======
+//		Powerups attributes
+		this.speed = speed;
+>>>>>>> main
 		this.speedBoostTime = 0;
 		this.attackBoostTime = 0;
 		this.speedBoostActive = false;
 		this.attackBoostActive = false;
 		this.addDamage = 0;
+<<<<<<< HEAD
 //		**********
+=======
+>>>>>>> main
 	}
 	
+//	Abstract methods
 	public abstract boolean dieAnimation(long nanoTime);
-	public abstract void animation(long nanoTime, Sprite player2);
-	public abstract void hitAnimation(long currentTime, Sprite player1, int direction2);
+	public abstract void animation(long nanoTime, Sprite player2, ArrayList<Monster> monsterArrayList);
+	public abstract void hitAnimation(long currentTime, Sprite player1, int direction);
+	public abstract void hitAnimationMonster(long currentTime, Monster monster, int direction);
 	
 	
 	//method to set the object's image
@@ -95,18 +117,15 @@ public abstract class Sprite {
 		} catch(Exception e){}
 	}
 	
-	//method to render the character and update hitbox
+	//method to render the character and update hitboxes depending on characters direction
 	public void render(GraphicsContext gc){
 		if (this.visible) {
-
+//			If character is still visible, render its image and update its hitbox
 			renderCharacter(gc);
-			this.characterLWidth =  this.currentWidth * this.widthLOffset;
-			this.characterRWidth =  this.currentWidth * this.widthROffset;	        
-	        
-			flipHitbox(gc);
+			updateHitbox(gc);
 		} 
-		 
 		renderHealthBar(gc);
+		
 		 // Draw hitbox and attackbox
 		if (this.isShowBoxes()) {
 			gc.setStroke(Color.GREEN); 
@@ -115,36 +134,34 @@ public abstract class Sprite {
 		    gc.setStroke(Color.RED); 
 		    gc.strokeRect(this.attackbox.x, this.attackbox.y, this.attackbox.width, this.attackbox.height);
 		}
-		
-		if (this.isShowCBoxes()) {
-		    // Draw stroke around character's width and height
-	        gc.setStroke(Color.BLUE); 
-	        gc.strokeRect(this.x, this.y, this.characterRWidth, this.currentHeight); 
-	        gc.setStroke(Color.BLUE); 
-	        gc.strokeRect(this.x, this.y, this.characterLWidth, this.currentHeight);
-		}
     }
 	
-	 private void renderCharacter(GraphicsContext gc) {
-		 	
-	        this.currentWidth = (int) (this.width * (1 + 0.01* this.attackPoints));
-	        this.currentHeight = (int) (this.height * (1 + 0.01 * this.attackPoints));
-	        
-	    
-	        
-	        gc.drawImage(this.img, this.x, this.y,   this.currentWidth,  this.currentHeight );
-	    }
+//	Draws the character in the scene
+	private void renderCharacter(GraphicsContext gc) {
+//		Grow mechanism (enlarge the image by 0.2% of its attackpoitns)
+        this.currentWidth = (int) (this.width * (1 + 0.002* this.attackPoints));
+        this.currentHeight = (int) (this.height * (1 + 0.002 * this.attackPoints));
+//      Draw the character
+        gc.drawImage(this.img, this.x, this.y,   this.currentWidth,  this.currentHeight );
+	 }
 	
-	
+//	Draws the health bars of each character
 	public void renderHealthBar(GraphicsContext gc) {
+//		Computing for health percentage
 	    double healthPercentage = (double) this.health / this.maxHealth;
-
+//	    For player 1:
 	    if (this.playerNumber == 1) {
+	    	
 	        // Health Bar
+//	    	Dark blue background
 	        gc.setFill(Formatting.DARKBLUE);
 	        gc.fillRect(88, 30, HEALTHWIDTH, HEALTHHEIGHT);
+//	        Green colored health bar
 	        gc.setFill(Color.GREEN);
+//	        Width depending on the health percentage
 	        gc.fillRect(88, 30, HEALTHWIDTH * healthPercentage, HEALTHHEIGHT);
+	        
+//	        Show health bar depending on the character
 	        switch (this.characterID) {
 	            case Formatting.KNIGHT:
 	                gc.drawImage(Formatting.KnightLHealthBar, 10, 10);  
@@ -160,16 +177,36 @@ public abstract class Sprite {
 	                break;
 	        }
 	        // Set font and color
-	        gc.setFill(Color.WHITE);
+//	        Set font to red if attackboost is active, else, white
+	        if (this.attackBoostActive) {
+	        	gc.setFill(Color.RED);
+	        } else {
+	        	gc.setFill(Color.WHITE);
+	        }
 	        gc.setFont(Formatting.FONT_STYLE_22);
-	        // Render text
+	        // Render text (attack points)
 	        gc.fillText(""+this.attackPoints, 120, 65);
+	        
+
+//	        If speedboost is active, draw this icon
+	        if (this.speedBoostActive) {
+	        	gc.drawImage(Formatting.SBOOST, 165, 43, 30, 30);
+	        }
+	       
+	        
 	    } else {
+	    	
 	        // Health Bar
+//	    	Green health bar
 	        gc.setFill(Color.GREEN);
 	        gc.fillRect(966, 30, HEALTHWIDTH, HEALTHHEIGHT);
+//	    	Dark blue background
+//	        Dark blue background covering the green health bar
+//	        Dark blue will gradually cover the green health bar depending on the health percentage
 	        gc.setFill(Formatting.DARKBLUE);
 	        gc.fillRect(966, 30, HEALTHWIDTH * (healthPercentage - 1)*-1, HEALTHHEIGHT);
+	        
+//	        Show health bar depending on the character
 	        switch (this.characterID) {
 	            case Formatting.KNIGHT:
 	                gc.drawImage(Formatting.KnightRHealthBar, 959, 10);   
@@ -184,9 +221,16 @@ public abstract class Sprite {
 	                gc.drawImage(Formatting.WizRHealthBar, 959, 10);  
 	                break;
 	        }
+	        
 	        // Set font and color
-	        gc.setFill(Color.WHITE);
+//	        Set font to red if attackboost is active, else, white
+	        if (this.attackBoostActive) {
+	        	gc.setFill(Color.RED);
+	        } else {
+	        	gc.setFill(Color.WHITE);
+	        }
 	        gc.setFont(Formatting.FONT_STYLE_22);
+	        
 	        // Render text depending on the number of digits
 	        if (this.attackPoints >= 1000) {
 	            gc.fillText(""+this.attackPoints, 1041, 65);
@@ -197,50 +241,45 @@ public abstract class Sprite {
 	        } else {
 	            gc.fillText(""+this.attackPoints, 1073, 65);
 	        }
+	        
+//	        If speedboost is active, draw this icon
+	        if (this.speedBoostActive) {
+	        	gc.drawImage(Formatting.SBOOST, 1005, 43, 30, 30);
+	        }
+	       
 	    }
 	}
 
 	
-//	Update hitbox
-	private void flipHitbox(GraphicsContext gc) {
+//	Update hitbox depending on the direction
+	private void updateHitbox(GraphicsContext gc) {
+		hitboxRUpdate();
 		if (this.direction == 1) {
-			hitboxRUpdate();
 			attackboxRUpdate();
 		} else {
-			hitboxLUpdate();
 			attackboxLUpdate();
 		}
 		
 	}
 	
-//	Swapping hitboxes when the character faced opposite direction
+//	Swapping attack boxes when the character faced opposite direction
+	
 	private void hitboxRUpdate() {
-		// TODO Auto-generated method stub
 		this.hitbox.x = (int) (this.x + this.currentWidth * this.xOffset);
 		this.hitbox.y = (int) (this.y + this.currentHeight * this.yOffset);
 		this.hitbox.width = (int) (this.currentWidth * this.hitboxW);
 		this.hitbox.height = (int) (this.currentHeight * this.hitboxH);
 	}
-	
+//	When facing right direction
 	private void attackboxRUpdate() {
-		// TODO Auto-generated method stub
 		this.attackbox.x = (int) (this.x + this.currentWidth * this.attackWOffset);
 		this.attackbox.y = (int) (this.y + this.currentHeight * this.attackHOffset);	
 		this.attackbox.width = (int) (this.currentWidth * this.attackW);	
 		this.attackbox.height = (int) (this.currentHeight * this.attackH);
 		
 	}
-	
-	private void hitboxLUpdate() {
-		// TODO Auto-generated method stub
-		this.hitbox.x = (int) (this.x + this.currentWidth * this.xLOffset);
-		this.hitbox.y = (int) (this.y + this.currentHeight * this.yOffset);
-		this.hitbox.width = (int) (this.currentWidth * this.hitboxW);
-		this.hitbox.height = (int) (this.currentHeight * this.hitboxH);
-	}
-	
+//	When facing left direction
 	private void attackboxLUpdate() {
-		// TODO Auto-generated method stub
 		this.attackbox.x = (int) (this.x + this.currentWidth * this.attackLWOffset);
 		this.attackbox.y = (int) (this.y + this.currentHeight * this.attackHOffset);	
 		this.attackbox.width = (int) (this.currentWidth * this.attackW);	
@@ -249,18 +288,60 @@ public abstract class Sprite {
 	}
 
 //	Method for checking collision
-	public void checkCollision(Sprite player1, Sprite player2, long currentTime, int direction) {
-		if (player1.attackbox.intersects(player2.hitbox)) {
-			player2.setHit(true);
-			System.out.println("Hit");
-			player2.hitAnimation(currentTime, player1, direction);
+	public void checkCollision(Sprite player1, Sprite player2, long currentTime, int direction, ArrayList<Monster> monsterArrayList) {
+	    // Check collision between player1 and player2
+	    if (player1.attackbox.intersects(player2.hitbox)) {
+//	    	Player 2 is hit
+	        player2.setHit(true);
+	        System.out.println("Hit");
+//	        Plays hit animation
+	        player2.hitAnimation(currentTime, player1, direction);
 	        // Attack hits the defending player
-	    	player1.setCollisionChecker(true);
+	        player1.setCollisionChecker(true);
 	    } else {
-	    	System.out.println("Miss");
+	        System.out.println("Miss");
 	    }
-	}
+	    
+	    // Check collision between player1 and each monster in the monsterArrayList
+	    for (Monster monster : monsterArrayList) {
+	        if (player1.attackbox.intersects(monster.getHitbox())) {
+	        	monster.setHit(true);
+	        	monster.setHitTime(currentTime);
+//	        	Monster hit animation
+	        	monster.hitAnimation();
+	        	player1.setCollisionChecker(true);
+//	        	Decreases heath
+	            monster.setHealth(monster.getHealth() - player1.getAttackPoints()); 
+	            System.out.println("Monster Health Remaining: " + monster.getHealth());
+//	            If player slayed the monster, update its stats
+	            if (monster.getHealth() <= 0) {
+	            	player1.monstersKilled += 1;
+	            	player1.attackPoints += monster.getReward();
+	            	player1.addHealth(monster.getReward());
+	            	player1.maxHealth += monster.getReward();
+	            }
+	            System.out.println("Monster Hit");
+	        }
+	    }
+	}	
 	
+//	Method for checking collision from the monster
+	public void checkMonsterCollision(ArrayList<Monster> monsterArrayList, long currentTime) {
+	    for (Monster monster: monsterArrayList) {
+	    	if (monster.getHitbox().intersects(this.hitbox)) {
+	    		 // Elapsed time of last attack
+		        double attackElapsedTime = (currentTime - monster.getLastAttackTime()) / 1000000000.0;
+		        // Attack player after 2 seconds
+		        if (attackElapsedTime > monster.getAttackTime()) {
+		        	this.setHit(true);
+		 	        System.out.println("Hit by monster");
+//		 	        Play hit animation of the player when hit by the monster
+		 	        this.hitAnimationMonster(currentTime, monster, direction);
+		           	monster.setLastAttackTime(currentTime);
+		        }
+	    	}	
+	    }
+	}	
 
 
 	// Checks if character still alive
@@ -272,82 +353,39 @@ public abstract class Sprite {
 		return true;
 	}
 
-//	Method for updating characters coordinates
-	public void move() {
-		if (mapCollision() && this.alive) {
-			this.x += this.dx;
-			this.y += this.dy;
-		}
+//	Method which constantly checks player movement
+	public void move(ArrayList<Rectangle> mapBoundaries) {
+	    if (this.alive) {
+	    	
+	        // Calculate potential new position
+	        int newX = this.hitbox.x + this.dx;
+	        int newY = this.hitbox.y + this.dy;
+
+	        // Create a new hitbox for the next possible position
+	        Rectangle newHitbox = new Rectangle(newX, newY, this.hitbox.width, this.hitbox.height);
+
+	        // Check if the new position will cause a collision
+	        if (!mapCollision(newHitbox, mapBoundaries)) {
+	            System.out.println("Collision");
+	        } else {
+	            // No collision, update coordinates
+	            this.x += this.dx;
+	            this.y += this.dy;
+	        }
+	    }
+	}
+
+//	Returns true when the hitbox doesnt intersects with map boundaries
+	public boolean mapCollision(Rectangle newHitbox, ArrayList<Rectangle> mapBoundaries) {
+	    for (Rectangle boundary : mapBoundaries) {
+	        if (newHitbox.intersects(boundary)) {
+	            return false;
+	        }
+	    }
+	    return true;
 	}
 	
-//	Map boundaries
-	public boolean mapCollision() {
-//		north
-		if (this.y + this.dy + this.height >= 91 && this.y + this.dy + this.height <= 167) {
-			if (this.x + this.dx + this.characterLWidth >= 343 && this.x + this.dx + this.characterRWidth <= 870) {
-				return true;
-			} else {
-				System.out.println("Collision");
-				return false;
-			}
-//		north 2
-		} else if (this.y + this.dy + this.height >= 168 && this.y + this.dy + this.height <= 240) {
-			if (this.x + this.dx + this.characterLWidth >= 230 && this.x + this.dx + this.characterRWidth <= 967) {
-				return true;
-			} else {
-				System.out.println("Collision");
-				return false;
-			}
-//		middle
-		} else if (this.y + this.dy + this.height >= 241 && this.y + this.dy + this.height <= 397) {
-			if (this.x + this.dx + this.characterLWidth >= 134 && this.x + this.dx + this.characterRWidth <= 1069) {
-//				Structures
-				if (this.y + this.dy + this.height >= 314 && this.y + this.dy  <= 373) {
-					if (this.x + this.dx + this.characterRWidth >= 303 && this.x + this.dx + this.characterLWidth <= 381) {
-						System.out.println("Collision1");
-						return false;
-					} 
-					else if (this.x + this.dx + this.characterRWidth >= 839 && this.x + this.dx + this.characterLWidth <= 910){
-						System.out.println("Collision2");
-						return false;
-					}
-				}
-				return true;
-
-			} else {
-				System.out.println("Collision3");
-				return false;
-			}
-//		south 1
-		} else if (this.y + this.dy + this.height >= 398 && this.y + this.dy + this.height <= 486) {
-			if (this.x + this.dx + this.characterLWidth >= 180 && this.x + this.dx + this.characterRWidth  <= 1023) {
-				return true;
-			} else {
-				System.out.println("Collision");
-				return false;
-			}
-//		south 2
-		} else if (this.y + this.dy + this.height >= 487 && this.y + this.dy + this.height <= 560) {
-			if (this.x + this.dx + this.characterLWidth >= 286 && this.x + this.dx + this.characterRWidth  <= 922) {
-				return true;
-			} else {
-				System.out.println("Collision");
-				return false;
-			}
-//		south 3
-		} else if (this.y + this.dy + this.height >= 561 && this.y + this.dy + this.height <= 619) {
-			if (this.x + this.dx + this.characterLWidth >= 384 && this.x + this.dx + this.characterRWidth  <= 816) {
-				return true;
-			} else {
-				System.out.println("Collision");
-				return false;
-			}
-		} else {
-			System.out.println("Collision");
-			return false;
-		}
-		
-	}
+	
 	//getters
 	public int getX() {
     	return this.x;
@@ -424,9 +462,12 @@ public abstract class Sprite {
 		return this.monstersKilled;
 	}
 	
+<<<<<<< HEAD
 //	**********
 	
 //	getters
+=======
+>>>>>>> main
 	public int getSpeed() {
 		return this.speed;
 	}
@@ -451,6 +492,7 @@ public abstract class Sprite {
 		return this.addDamage;
 	}
 	
+<<<<<<< HEAD
 //	setters
 	public void addAttackPoints () {
 		this.attackPoints += 1;
@@ -487,6 +529,12 @@ public abstract class Sprite {
 	
 //	**********
 
+=======
+	public void addMaxHealth(int add) {
+		this.maxHealth += add;
+		
+	}
+>>>>>>> main
 	public void addHealth(int add) {
 		this.health += add;
 	}
@@ -498,19 +546,47 @@ public abstract class Sprite {
 	public void addSpecial() {
 		this.specialCollected += 1;
 	}
+	
 //	Setters
 	public void setAlive(boolean state) {
 		this.alive = state;
 	}
 	
+<<<<<<< HEAD
+=======
+	public void setAttackPoints (int attackPoints) {
+		this.attackPoints = attackPoints;
+	}
+	
+>>>>>>> main
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 	
-	public void setHealth(int damage) {
-		this.health -= damage;
+	public void setHealth(int health) {
+		this.health = health;
 	}
 	
+<<<<<<< HEAD
+=======
+	public void setHealthAdd(int additional) {
+//		Max health = 100
+		if(this.health + additional > 100) {
+			this.health = 100;
+		} else {
+			this.health += additional;
+		}
+	}
+	
+	public void addFragments() {
+		this.fragmentsCollected += 1;
+	}
+	
+	public void addSpecial() {
+		this.specialCollected += 1;
+	}
+	
+>>>>>>> main
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
@@ -551,12 +627,47 @@ public abstract class Sprite {
 		this.showCBoxes = showCBoxes;
 	}
 	
+<<<<<<< HEAD
 //	**********
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 //	**********
 
+=======
+	public void addAttackPoints () {
+		this.attackPoints += 1;
+	}
+	
+	public void setAttackBoostActive(boolean active) {
+		this.attackBoostActive = active;
+	}
+	
+	public void setSpeedBoostActive(boolean active) {
+		this.speedBoostActive = active;
+	}
+	
+	public void setAttackBoostTime(long collectTime) {
+		this.attackBoostTime = collectTime;
+	}
+	
+	public void setSpeedBoostTime(long collectTime) {
+		this.speedBoostTime = collectTime;
+	}
+	
+	public void setAddDamage(int addDamage) {
+		this.addDamage = addDamage;
+	}
+	
+	public void addMaxHealth() {
+		this.maxHealth += 1;
+		
+	}
+	
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+>>>>>>> main
 
 	
 

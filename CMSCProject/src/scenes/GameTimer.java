@@ -10,6 +10,7 @@ import characters.Wizard;
 import elements.Formatting;
 import elements.PowerUp;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -44,44 +45,62 @@ public class GameTimer extends AnimationTimer {
 	private int playerWinner,player1Code,player2Code,animationCountTimer, playerWinNum;
 	private long previousTimerTime,time,previousTimerBG, previousTimeMonster;
 	private Image timerBGimg;
-//	private int numMonster;
+	
+//	Map Boundaries
+	private ArrayList<Rectangle> mapBoundaries;
+	private boolean showBoundaries;
 
-//	****************
 //	Power-ups
 	private ArrayList<PowerUp> fragmentPowerUps, specialPowerUps;
 	private int spawnX, spawnY;
 	private long startFPowerUpSpawn, startSPowerUpSpawn;
-	private boolean initialSpawn;
+
 	
 	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
 	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
+<<<<<<< HEAD
 	private final static int UPTIME_MONSTER = 10;
 	private final static int NUM_FRAGMENT_POWERUP = 40;	// 40 fragments
+=======
+	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
+>>>>>>> main
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
-//	****************
 	
 	// Monsters
 	private ArrayList<Monster> monsterArrayList;
 	private int monsterX, monsterY;
-	private long startMonsterSpawn;
-	
-	private final static int SPAWNDELAY_MONSTERS = 5; // spawn monster every after 5 seconds
+	private final static int SPAWNDELAY_MONSTERS = 8; // spawn monster every after 8 seconds
 	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
+	private static final double MIN_DISTANCE_BETWEEN_MONSTERS = 6; // minimum distance between monsters
+
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
+//		Player 1 and 2 codes
 		this.player1Code = player1;
 		this.player2Code = player2;
+//		Initial Timer
 		this.time = 121;
+//		Player winner number (1 or 2)
 		this.playerWinNum = 0;
-		this.previousTimerTime = System.nanoTime();
-		this.animationCountTimer = 1;
-		this.previousTimerBG = System.nanoTime();
-		this.timerBGimg = Formatting.TIMER1;
+//		Initializing stages and scenes
 		this.stage = stage;
 		this.menuScene = menuScene;
 		this.gc = gc;
 		this.gameScene = theScene;
+//		Variables for animation
+		this.previousTimerTime = System.nanoTime();
+		this.animationCountTimer = 1;
+		this.previousTimerBG = System.nanoTime();
+//		Timer image
+		this.timerBGimg = Formatting.TIMER1;
+		
+//		Map Boundaries
+		this.mapBoundaries = new ArrayList<Rectangle>();
+		this.showBoundaries = false;
+//		Create map boundaries
+		mapBoundaries();
+		
 //		Creating two players
 		this.player1 = createPlayer(player1, 500, 100, 1);
         this.player2 = createPlayer(player2, 600, 100, 2);
@@ -92,13 +111,18 @@ public class GameTimer extends AnimationTimer {
         this.startSPowerUpSpawn = System.nanoTime();
         this.fragmentPowerUps = new ArrayList<PowerUp>();
         this.specialPowerUps = new ArrayList<PowerUp>();
-        this.initialSpawn = true;
-
+        
+//		Monsters
         this.monsterArrayList = new ArrayList<Monster>();
+        
 //		call method to handle key click event
 		this.handleKeyPressEvent();
 	}
 	
+<<<<<<< HEAD
+=======
+//	Method for creating player depending on the playerType
+>>>>>>> main
 	private Sprite createPlayer(int playerType, int x, int y, int playerNum) {
         switch (playerType) {
             case Formatting.KNIGHT:
@@ -115,7 +139,7 @@ public class GameTimer extends AnimationTimer {
         }
 	}
 	
-	@Override
+//	Method that will run every nano seconds
 	public void handle(long currentNanoTime) {
 //		Runs the gameplay and checks game over situation
 		if (!this.gameOver && this.time > 0) {
@@ -127,11 +151,13 @@ public class GameTimer extends AnimationTimer {
 				
 //				If dead: Finish the die animation
 				if (!player1.checkAlive()) {
+//					If player 1 dies:
 					this.gameOver = player1.dieAnimation(System.nanoTime());
 					this.player1.render(this.gc);
 					this.playerWinner = this.player2Code;
 					this.playerWinNum = 2;
 				} else {
+//					If player 2 dies:
 					this.gameOver = player2.dieAnimation(System.nanoTime());
 					this.player2.render(this.gc);
 					this.playerWinner = this.player1Code;
@@ -148,6 +174,7 @@ public class GameTimer extends AnimationTimer {
 		}
 	}
 	
+<<<<<<< HEAD
 	//method that will listen and handle the key press events
 	private void handleKeyPressEvent() {
 		gameScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -168,14 +195,23 @@ public class GameTimer extends AnimationTimer {
     }
 	
 	
+=======
+//	Gameplay method or main method
+>>>>>>> main
 	private void gameplay(long currentNanoTime) {
 //		Resets the screen and draw the map
 		this.gc.clearRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+//		Set background
 		gc.setFill(Color.BLACK); 
-	    gc.fillRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT); 
-		timerBackground(currentNanoTime);
+	    gc.fillRect(0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
+//	    Draw timer background
+		timerBackground(currentNanoTime);		
+//		Draw map
 		this.gc.drawImage(Formatting.MAP, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
+//		Show Timer
 		timer(currentNanoTime);
+//		Show map boundaries
+		renderMapBoundaries();
 
 //		Spawning Fragment Power-ups
 		spawnFragmentPowerUps(currentNanoTime);
@@ -186,56 +222,100 @@ public class GameTimer extends AnimationTimer {
 //		Rendering Power-ups
 		renderPowerUps();
 		// Rendering Monsters
-		renderMonsters();
-	
-
+		renderMonsters(currentNanoTime);
+		
 //		Check players movement and update it accordingly
-		this.player1.move();
-		this.player2.move();
+		this.player1.move(this.mapBoundaries);
+		this.player2.move(this.mapBoundaries);
+		
+//		Monster collisions
+		this.player1.checkMonsterCollision(monsterArrayList, currentNanoTime);
+		this.player2.checkMonsterCollision(monsterArrayList, currentNanoTime);
+		
 //		Shows players respective animations
-		this.player1.animation(System.nanoTime(), this.player2);
-		this.player2.animation(System.nanoTime(), this.player1);
+		this.player1.animation(System.nanoTime(), this.player2, this.monsterArrayList);
+		this.player2.animation(System.nanoTime(), this.player1, this.monsterArrayList);
+		
 		// Monster animation
 		animationMonster(currentNanoTime);
+		
 //		Spawning two players
 		this.player1.render(this.gc);
 		this.player2.render(this.gc);
-//		Draw structure
-		this.gc.drawImage(Formatting.TOWER, 307, 202);
-		this.gc.drawImage(Formatting.TOWER, 844, 202);
-
+		
 //		Deletes Power-ups (by collecting and expiration)
 		deletePowerUps(currentNanoTime);
-		// Deleting Monster every 10 seconds
-//		deleteMonsters(currentNanoTime);
+		// Deleting dead monster
+		dieMonster();
 	}
 
+//	Method for spawning monsters
 	private void spawnMonsters(long currentTime){
-// 		Spawn monsters
+// 		Spawn monsters after SPAWNDELAY time
 		long monsterElapsedTime = (currentTime - this.previousTimeMonster) / 1000000000;
-//		if (currentTime - this.previousTimeMonster >= 5000*1000000) {
-		this.startMonsterSpawn = System.nanoTime();
 		if (monsterElapsedTime >= SPAWNDELAY_MONSTERS) {
-			int[] monsterType = {11, 12, 13, 21, 22, 23, 31, 32, 33};
-			Random random = new Random();
-			
+//			Create monsters based on the number of NUM_MONSTER
 			for (int i = monsterArrayList.size(); i < NUM_MONSTER; i++) {
-				spawnY = Monster.spawnY();
-				spawnX = Monster.spawnX(spawnY);
+				boolean locationChecker;
+//				To prevent infinite loop
+				int attempts = 0;
+		        int maxAttempts = 50;
+//				Ensure each monster have minimum space or gap between each other
+				do {
+	                // Random y coordinate
+	                monsterY = Monster.spawnY();
+	                // Random x coordinate
+	                monsterX = Monster.spawnX(monsterY);
+	                //Initialize locationCheckter to true
+	                locationChecker = true;
+
+	                // Check if the position is far enough from other monsters
+	                for (Monster monster : monsterArrayList) {
+//	                	Calculate the distance between the random xy coordinate and the current monsters from the arrayList
+	                    double distance = calculateDistance(monsterX, monsterY, monster.getX(), monster.getY());
+//	                  	If the distance is less than the minimum distance:
+//	                    Compute for another x and y coordinate
+	                    if (distance < MIN_DISTANCE_BETWEEN_MONSTERS) {
+	                    	locationChecker = false;
+	                        break;
+	                    }
+	                }
+	                attempts ++;
+	                
+	            } while (!locationChecker && attempts < maxAttempts);
 				
-				// Random spawning of monsters
-				int randomType = monsterType[random.nextInt(monsterType.length)];
-				int randomDirection = random.nextInt(1, 3);
-				Monster monster = createMonster(randomType, spawnX, spawnY, randomDirection);
-				this.monsterArrayList.add(monster);
+//				If location is valid, create a monster;
+//				If after maxAttempts and still no location valid, dont create a monster
+				if (locationChecker) {
+//					Create monster based on randomization and given xy
+					Monster monster = createMonster(monsterX, monsterY);
+//					Add the created monster to the array
+					this.monsterArrayList.add(monster);
+				}
+				
 			}
-			
 			this.previousTimeMonster = currentTime;
 		}
 	}
 	
-	private Monster createMonster(int monsterType, int x, int y, int direction){
-        switch (monsterType) {
+//	Method for calculating distance between two monsters
+//	Reference: https://www.geeksforgeeks.org/program-calculate-distance-two-points/
+	public static double calculateDistance(double x1, double y1, double x2, double y2){
+		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+	}
+
+	
+//	Creating monster based on monster type
+	private Monster createMonster(int x, int y){
+//		Monster codes
+		int[] monsterType = {11, 12, 13, 21, 22, 23, 31, 32, 33};
+		Random random = new Random();
+		// Random spawning of monsters
+		int randomType = monsterType[random.nextInt(monsterType.length)];
+//		Random direciotn
+		int direction = random.nextInt(1, 3);
+		
+        switch (randomType) {
 	        case Formatting.ZOMBIE1:
 	            return new Zombie1(x, y, direction);
 	        case Formatting.ZOMBIE2:
@@ -259,78 +339,65 @@ public class GameTimer extends AnimationTimer {
 	}
 	
 //  Render monster
-	private void renderMonsters() {
+	private void renderMonsters(long currentTime) {
 		for (Monster monster : this.monsterArrayList) {	        
-	        monster.render(this.gc);
+	        monster.render(this.gc, currentTime);
 	    }
 	}
 	
-//	// Delete Monster
-//		public void dieMonster(long currentNanoTime) {		
-//			for(Monster monster : monsterArrayList){
-//				if (monster.health < 0){ // check monster's health
-//					monster.setVisible(false);
-//				}
-//			}		
-//		}
-	
-	// Delete Monster
+	// Monster animation
 	public void animationMonster(long currentTime) {		
 		for(Monster monster : monsterArrayList){
 			monster.animation(currentTime);
 		}
 	}
 	
-
-////	Delete monsters that is idle for 10 seconds
-//	private void deleteMonsters(long currentNanoTime) {		
-//		for(Monster monster : this.monsterArrayList){
-//			if (((currentNanoTime-this.startMonsterSpawn) / 1000000000.0) >= UPTIME_MONSTER){ // checks if 5 seconds have elapsed
-//				monster.setVisible(false);
-//				this.monsterArrayList.remove(monster); // removed from the array list
-//			}
-//		}		
-//	}
+	// Delete Monster
+	public void dieMonster() {		
+		for(int i = 0; i < this.monsterArrayList.size(); i++) {
+	        Monster monster = this.monsterArrayList.get(i);
+	        if (monster.getHealth() <= 0) {
+	            this.monsterArrayList.remove(i);
+	            i--; // adjusting index
+	        }
+	    }
+	}
+	
+//	Generate fragments
 	private void generateFragmentPowerUps(int numFragments){
 // 		Create fragment type power-ups
         for (int i = fragmentPowerUps.size(); i < numFragments; i++) {
             spawnY = PowerUp.spawnY();
             spawnX = PowerUp.spawnX(spawnY);
-            PowerUp fragment = new PowerUp(spawnX, spawnY, 1, System.nanoTime(), 0, 1);
+            PowerUp fragment = new PowerUp(spawnX, spawnY, 1, System.nanoTime(), 0);
             this.fragmentPowerUps.add(fragment);
         }
 	}
 	
+//	Generate special powerups
 	private void generateSpecialPowerUps() {        
 //		Create special type power-ups
         for (int i = 0; i < NUM_SPECIAL_POWERUP; i++) {
         	spawnY = PowerUp.spawnY();
             spawnX = PowerUp.spawnX(spawnY);
-            PowerUp special = new PowerUp(spawnX, spawnY, i+2, System.nanoTime(), 8000*1000000, 10);
+            PowerUp special = new PowerUp(spawnX, spawnY, i+2, System.nanoTime(), 8000*1000000);
             this.specialPowerUps.add(special);
         }
 	}
 	
+//	Spawn fragments
 	private void spawnFragmentPowerUps(long currentNanoTime) {
-	    // Initial Spawn of Fragment Power-ups
-	    if (this.initialSpawn) {
-	        this.generateFragmentPowerUps(NUM_FRAGMENT_POWERUP); // generates power ups
-	        this.startFPowerUpSpawn = System.nanoTime(); // resets time to compare again until the spawn delay
-	        this.initialSpawn = false;
-	    } else {
-	        // Elapsed time from spawn to current (in seconds)
-	        double spawnElapsedTime = (currentNanoTime - this.startFPowerUpSpawn) / 1000000000.0;
-
-	        // Respawn every 5 seconds (if fragments < 20)
-	        if (spawnElapsedTime > SPAWNDELAY_FPOWERUP) {
-	            this.generateFragmentPowerUps(NUM_FRAGMENT_POWERUP); // generates power ups
-	            this.startFPowerUpSpawn = currentNanoTime; // resets time to compare again until the spawn delay
-	        }
-	    }
-
+        // Elapsed time from spawn to current (in seconds)
+        double spawnElapsedTime = (currentNanoTime - this.startFPowerUpSpawn) / 1000000000.0;
+        // Respawn every 5 seconds (if fragments < 20)
+        if (spawnElapsedTime > SPAWNDELAY_FPOWERUP) {
+            this.generateFragmentPowerUps(NUM_FRAGMENT_POWERUP); // generates power ups
+            this.startFPowerUpSpawn = currentNanoTime; // resets time to compare again until the spawn delay
+        }
 	    collectPowerUps(currentNanoTime); // check if collides with player or not
 	}
 	
+//	Spawn powerups
 	private void spawnSpecialPowerUps(long currentNanoTime) {
 //		Elapsed time from spawn to current (in seconds)
 		double spawnElapsedTime = (currentNanoTime - this.startSPowerUpSpawn) / 1000000000.0;
@@ -344,8 +411,6 @@ public class GameTimer extends AnimationTimer {
 //   	Check if a special power up collides with a player or not
    		collectPowerUps(currentNanoTime);
 	}
-	
-
 		
 //  Render power-ups
 	private void renderPowerUps() {
@@ -358,8 +423,10 @@ public class GameTimer extends AnimationTimer {
 		}
 	}
 	
+//	Collects powerups
 	private void collectPowerUps(long currentNanoTime) {
 		for(int i = 0; i < this.specialPowerUps.size(); i++){
+//			Checks collision of characters and powerups
 	        PowerUp special = this.specialPowerUps.get(i);
 	        if (special.getAlive()){
 	        	special.checkPowerUpCollision(this.player1, currentNanoTime);
@@ -371,6 +438,7 @@ public class GameTimer extends AnimationTimer {
 	    }
 		
 		for(int i = 0; i < this.fragmentPowerUps.size(); i++){
+//			Checks collision of characters and fragments
 	        PowerUp fragment = this.fragmentPowerUps.get(i);
 	        if (fragment.getAlive()){
 	        	fragment.checkPowerUpCollision(this.player1, currentNanoTime);
@@ -400,7 +468,11 @@ public class GameTimer extends AnimationTimer {
 	//method that will read users input
 	private void keysCharacter(KeyCode ke) {
 	    switch (ke) {
+<<<<<<< HEAD
 	        case W:
+=======
+	       	case W:
+>>>>>>> main
 	            this.player1.setDY(-this.player1.getSpeed());
 	            break;
 	        case A:
@@ -430,35 +502,22 @@ public class GameTimer extends AnimationTimer {
 	        case K:
 	            this.player2.setAttack(true);
 	            break;
-	        case SPACE:
-//	            int x = this.player2.x + this.player2.width;
-//	            int y = this.player2.y + this.player2.height;
-//	            System.out.println("X: " + x + " Y: " + y);
-	            break;
 	        case Y:
 	            this.player1.setShowBoxes(!this.player1.isShowBoxes());
 	            this.player2.setShowBoxes(!this.player2.isShowBoxes());
 	            break;
-	        case U:
-	            this.player1.setShowCBoxes(!this.player1.isShowCBoxes());
-	            this.player2.setShowCBoxes(!this.player2.isShowCBoxes());
+	        case M:
+	        	for (Monster monster: this.monsterArrayList) {
+	        		monster.setShowBoxes(!monster.isShowBoxes());
+	        	}
+	        	break;
+	        case I:
+	        	this.showBoundaries = !this.showBoundaries;
 	            break;
 	        default:
 	            System.out.println(ke + " key pressed.");
 	            break;
 	    }
-	}
-
-	// Set dx and dy to 0 when character is not moving
-	private void stopCharacter(KeyCode ke){
-		if (ke == KeyCode.W || ke == KeyCode.A|| ke == KeyCode.S || ke == KeyCode.D) {
-			this.player1.setDX(0);
-			this.player1.setDY(0);
-		}
-		if (ke == KeyCode.UP || ke == KeyCode.LEFT|| ke == KeyCode.DOWN || ke == KeyCode.RIGHT) {
-			this.player2.setDX(0);
-			this.player2.setDY(0);
-		}
 	}
 	
 	private void timer(long currentTime) {
@@ -523,8 +582,82 @@ public class GameTimer extends AnimationTimer {
 	    }
 	    this.gc.drawImage(this.timerBGimg, 524, -20);
 	}
-
 	
+	//method that will listen and handle the key press events
+		private void handleKeyPressEvent() {
+		gameScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent e){
+            	KeyCode code = e.getCode();
+                keysCharacter(code);
+			}
+			
+		});
+		gameScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
+            public void handle(KeyEvent e){
+            	KeyCode code = e.getCode();
+            	stopCharacter(code);
+        		
+            }
+        });
+    }
+	
+	
+	// Set dx and dy to 0 when character is not moving
+	private void stopCharacter(KeyCode ke){
+		if (ke == KeyCode.W || ke == KeyCode.A|| ke == KeyCode.S || ke == KeyCode.D) {
+			this.player1.setDX(0);
+			this.player1.setDY(0);
+		}
+		if (ke == KeyCode.UP || ke == KeyCode.LEFT|| ke == KeyCode.DOWN || ke == KeyCode.RIGHT) {
+			this.player2.setDX(0);
+			this.player2.setDY(0);
+		}
+	}
+		
+	public void mapBoundaries () {
+	
+        // Create Rectangle objects
+        Rectangle north = new Rectangle(338, 3, 538, 62);
+        Rectangle west1 = new Rectangle(214, 37, 125, 106);
+        Rectangle west2 = new Rectangle(120, 142, 107, 71);
+        Rectangle west3 = new Rectangle(58, 212, 75, 242);
+        Rectangle west4 = new Rectangle(133, 400, 47, 144);
+        Rectangle west5 = new Rectangle(179, 489, 102, 132);
+        Rectangle west6 = new Rectangle(280, 564, 101, 126);
+        Rectangle south = new Rectangle(380, 633, 454, 55);
+        Rectangle east1 = new Rectangle(876, 48, 98, 99);
+        Rectangle east2 = new Rectangle(974, 117, 100, 102);
+        Rectangle east3 = new Rectangle(1073, 190, 64, 211);
+        Rectangle east4 = new Rectangle(1024, 401, 63, 88);
+        Rectangle east5 = new Rectangle(924, 489, 111, 76);
+        Rectangle east6 = new Rectangle(820, 565, 116, 70);
+        
+        // Add these to the ArrayList
+        this.mapBoundaries.add(north);
+        this.mapBoundaries.add(west1);
+        this.mapBoundaries.add(west2);
+        this.mapBoundaries.add(west3);
+        this.mapBoundaries.add(west4);
+        this.mapBoundaries.add(west5);
+        this.mapBoundaries.add(west6);
+        this.mapBoundaries.add(south);
+        this.mapBoundaries.add(east1);
+        this.mapBoundaries.add(east2);
+        this.mapBoundaries.add(east3);
+        this.mapBoundaries.add(east4);
+        this.mapBoundaries.add(east5);
+        this.mapBoundaries.add(east6);
+	}
+	
+	private void renderMapBoundaries() {
+	    if (this.showBoundaries) {
+	    	gc.setStroke(Color.RED); 
+	    	gc.setLineWidth(2);
+	        for (Rectangle boundary : this.mapBoundaries) {
+	            gc.strokeRect(boundary.getX(), boundary.getY(), boundary.getWidth(), boundary.getHeight());
+	        }
+	    }
+	}
 	
 //	End game method
 	private void endGame(int winningType) {

@@ -9,11 +9,15 @@ public class Zombie3 extends Monster{
 	private int direction;
 	
 	public Zombie3(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.ZOMBIE3, 100, 0, 0, 0, 0);
+		super(xPos, yPos, Formatting.ZOMBIE3, 100, 30,  0.2, 0.26, 0.6, 0.715);
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 
-		this.loadImage(Formatting.Lvl3RZombie1, 65, 65);
+		if (direction == 1) {
+			this.loadImage(Formatting.Lvl3RZombie1, 65, 65);
+		} else {
+			this.loadImage(Formatting.Lvl3LZombie1, 65, 65);
+		}
 	}
 	
 
@@ -63,9 +67,15 @@ public class Zombie3 extends Monster{
 				previousTimeIdle = currentTime;
 			}
 		}
-	
-		
 	}
-			
+	
+	public void hitAnimation() {
+		if (direction == 1) {
+			this.img = Formatting.Lv13RZombieHit;
+		}	
+		else {
+			this.img = Formatting.Lv13LZombieHit;
+		}
+	}
 
 }

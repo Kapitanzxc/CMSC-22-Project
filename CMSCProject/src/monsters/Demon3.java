@@ -3,23 +3,30 @@ package monsters;
 import elements.Formatting;
 
 public class Demon3 extends Monster{
-
+//	Attributes
 	private int animationCountIdle;
 	private long previousTimeIdle;
 	private int direction;
 	
+//	Constructor
 	public Demon3(int xPos, int yPos, int direction) {
-		super(xPos, yPos, Formatting.DEMON3, 100, 0, 0, 0, 0);
+		super(xPos, yPos, Formatting.DEMON3, 200, 30,  0.24, 0.18, 0.515, 0.77);
+//		Variables for animation
 		this.animationCountIdle = 0;
 		this.previousTimeIdle = System.nanoTime();
 		this.direction = direction; 
-		this.loadImage(Formatting.Lvl3RDemon1, 65, 65);
+//		Load image
+		if (direction == 1) {
+			this.loadImage(Formatting.Lvl3RDemon1, 65, 65);
+		} else {
+			this.loadImage(Formatting.Lvl3LDemon1, 65, 65);
+		}
 		
 	}
 	
-
-	@Override
+//	Animation for idle
 	public void animation(long currentTime) {
+//		Animation depending on its direction
 		if (direction == 1) {
 			if(currentTime - this.previousTimeIdle >= (100 * 1000000)) {
 				this.animationCountIdle ++;
@@ -63,7 +70,17 @@ public class Demon3 extends Monster{
 				previousTimeIdle = currentTime;
 			}
 		}
+	}		
 	
-	}			
+//	Animation when hit
+	public void hitAnimation() {
+		if (direction == 1) {
+			this.img = Formatting.Lvl3RDemonHit;
+		}	
+		else {
+			this.img = Formatting.Lvl3LDemonHit;
+		}
+	}
+	
 
 }
