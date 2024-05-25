@@ -73,8 +73,7 @@ public class AboutScene {
 			}	
 			
 		});
-		
-	 
+	   
 		// Load these things
 		this.root.getChildren().add(this.canvas);
 		this.root.getChildren().add(rightButton);
@@ -82,6 +81,7 @@ public class AboutScene {
 
 	}
 	
+	//return aboutScene
 	public Scene getScene() {
 		return aboutScene;
 	}

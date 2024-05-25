@@ -13,7 +13,7 @@ public class Orc extends Sprite{
 	
 // 	Constructor
 	public Orc(int x, int y, int playerNumber, long previousTime){
-		super(Formatting.ORC, playerNumber, x,y, 
+		super(Formatting.ORC, playerNumber, x,y, playerNumber,
 				250, 1, 2,
 				0.38, 0.23, 
 				0.26, 0.47,
@@ -30,8 +30,13 @@ public class Orc extends Sprite{
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
-//		Load Orc Image
-		this.loadImage(Formatting.OrcRIdle1, 73, 63);
+//		Load Orc Image based on direction
+		if (playerNumber == 1) {
+			this.loadImage(Formatting.OrcRIdle1, 73, 63);
+		} else {
+			this.loadImage(Formatting.OrcLIdle1, 73, 63);
+		}
+		
 	}
 	
 //	**********

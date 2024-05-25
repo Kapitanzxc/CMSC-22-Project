@@ -41,17 +41,19 @@ public abstract class Sprite {
 //	**********
     
 //	Constructor
-	public Sprite(int characterID, int playerNumber, int xPos, int yPos, 
+	public Sprite(int characterID, int playerNumber, int xPos, int yPos, int direction, 
 			int health, int attackPoints, int speed,
+//			hitbox
 			double xOffset, double yOffset,
 			double hitBoxW, double hitBoxH,
+//			Attackbox
 			double attackWOffset, double attackHOffset,
 			double attackLWOffset,
 			double attackW, double attackH){
 		
 		this.characterID = characterID; // Player code
 		this.playerNumber = playerNumber; // If player 1 or 2
-		this.maxHealth = 100;   // initial max health
+		this.maxHealth = health;   // initial max health
 		this.health = health;   // health of a character
 		this.attackPoints = attackPoints;  // initial attack points
 		this.xOffset = xOffset;  // How far is the body from the left
@@ -65,7 +67,7 @@ public abstract class Sprite {
 		this.attackLWOffset = attackLWOffset; // How far is the attack range from the left (character in left direction)
 		this.attackW = attackW; // attackbox width
 		this.attackH = attackH; // attackbox right
-		this.direction = 1; // direction of the player
+		this.direction = direction; // direction of the player
 //		Character stats
 		this.fragmentsCollected = 0;
 		this.specialCollected = 0;
