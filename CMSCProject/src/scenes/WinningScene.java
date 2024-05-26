@@ -79,7 +79,7 @@ public class WinningScene {
     	
         Timeline timeline = new Timeline();
         
-        // Display text after 2 seconds
+        // Display text after 1 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -101,7 +101,7 @@ public class WinningScene {
         }));
 
         
-        // Show rectangles after 4 seconds
+        // Show rectangles after 2 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -159,7 +159,7 @@ public class WinningScene {
             }
         }));
         
-     // Show heart icon after 5 seconds
+     // Show heart icon after 3 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(3), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -193,7 +193,7 @@ public class WinningScene {
 
             }
         }));
-//      Show attack points after 6 seconds
+//      Show attack points after 4 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(4), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -219,7 +219,7 @@ public class WinningScene {
             }
         }));
         
-//      Show fragments collected after 7 seconds
+//      Show fragments collected after 5 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -244,7 +244,7 @@ public class WinningScene {
             }
         }));
         
-//      Show powerups collected after 8 seconds
+//      Show powerups collected after 6 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(6), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -269,7 +269,7 @@ public class WinningScene {
             }
         }));
         
-//      Show monster killed after 9 seconds
+//      Show monster killed after 7 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), new EventHandler<ActionEvent>() {
 
 			@Override

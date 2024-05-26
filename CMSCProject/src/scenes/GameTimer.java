@@ -56,7 +56,7 @@ public class GameTimer extends AnimationTimer {
 	private long startFPowerUpSpawn, startSPowerUpSpawn;
 
 	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
-	private final static int SPAWNDELAY_SPOWERUP = 1; 	// 20 seconds
+	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
 	private final static int UPTIME_SPOWERUP = 10;
 	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
 	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
