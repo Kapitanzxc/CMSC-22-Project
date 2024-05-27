@@ -31,7 +31,7 @@ public abstract class Monster{
 	
 	private static int monsterX, monsterY;
 	private final static int SPAWNDELAY_MONSTERS = 8; // spawn monster every after 8 seconds
-	private final static int NUM_MONSTER = 1000;	// spawn 6 monsters
+	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
 	private static final double MIN_DISTANCE_BETWEEN_MONSTERS = 100; // minimum distance between monsters
 	
 	public Monster(int xPos, int yPos, int type, int health, int reward,
