@@ -1,7 +1,19 @@
 package monsters;
 
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import elements.Formatting;
+import scenes.GameTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -16,6 +28,11 @@ public abstract class Monster{
 	private double hitBoxW, hitBoxH, xOffset, yOffset;
 	private boolean visible, showBoxes, hit;
 	private Rectangle hitbox;
+	
+	private static int monsterX, monsterY;
+	private final static int SPAWNDELAY_MONSTERS = 8; // spawn monster every after 8 seconds
+	private final static int NUM_MONSTER = 1000;	// spawn 6 monsters
+	private static final double MIN_DISTANCE_BETWEEN_MONSTERS = 100; // minimum distance between monsters
 	
 	public Monster(int xPos, int yPos, int type, int health, int reward,
 			double xOffset, double yOffset,
@@ -111,6 +128,34 @@ public abstract class Monster{
 		this.hitbox.height = (int) (this.height * this.hitBoxH);
 	}
 
+//  Method for playing sound
+	// Reference: https://www.youtube.com/watch?v=wJO_cq5XeSA
+	public void playSound(String soundFile) {
+	    try {
+	    	  // get a sound clip
+	        Clip clip = AudioSystem.getClip();
+	        
+	        // Load file as a resource from the classpath
+	        URL soundURL = getClass().getClassLoader().getResource(soundFile);
+            
+            // If there is no sound file, do this
+            if (soundURL == null) {
+                System.err.println("Sound file not found: " + soundFile);
+                return;
+            }
+	        
+	        // open audio input stream (an input stream with a specified audio format and length) from the sound file 
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL);
+	       
+	        // open clip and start playing the sound
+	        clip.open(audioInputStream);
+	        clip.start();
+	      
+	    } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 //	Map boundaries 
 	public static int spawnY() {
 		int randY = random.nextInt(105,555);
@@ -142,6 +187,119 @@ public abstract class Monster{
 		}
 		return randX;
 	}
+
+	//	Method for spawning monsters
+	public static void spawnMonsters(ArrayList<Monster> monsterArrayList, long currentTime){
+// 		Spawn monsters after SPAWNDELAY time
+		long monsterElapsedTime = (currentTime - GameTimer.getPreviousTimeMonster()) / 1000000000;
+		if (monsterElapsedTime >= SPAWNDELAY_MONSTERS) {
+//			Create monsters based on the number of NUM_MONSTER
+			for (int i = monsterArrayList.size(); i < NUM_MONSTER; i++) {
+				boolean locationChecker;
+//				To prevent infinite loop
+				int attempts = 0;
+		        int maxAttempts = 50;
+//				Ensure each monster have minimum space or gap between each other
+				do {
+	                // Random y coordinate
+	                monsterY = spawnY();
+	                // Random x coordinate
+	                monsterX = spawnX(monsterY);
+	                //Initialize locationCheckter to true
+	                locationChecker = true;
+
+	                // Check if the position is far enough from other monsters
+	                for (Monster monster : monsterArrayList) {
+//	                	Calculate the distance between the random xy coordinate and the current monsters from the arrayList
+	                    double distance = calculateDistance(monsterX, monsterY, monster.getX(), monster.getY());
+//	                  	If the distance is less than the minimum distance:
+//	                    Compute for another x and y coordinate
+	                    if (distance < MIN_DISTANCE_BETWEEN_MONSTERS) {
+	                    	locationChecker = false;
+	                        break;
+	                    }
+	                }
+	                attempts ++;
+	                
+	            } while (!locationChecker && attempts < maxAttempts);
+				
+//				If location is valid, create a monster;
+//				If after maxAttempts and still no location valid, dont create a monster
+				if (locationChecker) {
+//					Create monster based on randomization and given xy
+					Monster monster = createMonster(monsterX, monsterY);
+//					Add the created monster to the array
+					monsterArrayList.add(monster);
+				}
+				
+			}
+			GameTimer.setPreviousTimeMonster(currentTime);
+		}
+	}
+
+//	Method for calculating distance between two monsters
+//	Reference: https://www.geeksforgeeks.org/program-calculate-distance-two-points/
+	public static double calculateDistance(double x1, double y1, double x2, double y2){
+		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+	}
+
+//	Creating monster based on monster type
+	private static Monster createMonster(int x, int y){
+//		Monster codes
+		int[] monsterType = {11, 12, 13, 21, 22, 23, 31, 32, 33};
+		Random random = new Random();
+		// Random spawning of monsters
+		int randomType = monsterType[random.nextInt(monsterType.length)];
+//		Random direciotn
+		int direction = random.nextInt(1, 3);
+		
+        switch (randomType) {
+	        case Formatting.ZOMBIE1:
+	            return new Zombie1(x, y, direction);
+	        case Formatting.ZOMBIE2:
+	            return new Zombie2(x, y, direction);
+            case Formatting.ZOMBIE3:
+                return new Zombie3(x, y, direction);
+            case Formatting.OGRE1:
+	            return new Ogre1(x, y, direction);
+	        case Formatting.OGRE2:
+	            return new Ogre2(x, y, direction);
+            case Formatting.OGRE3:
+                return new Ogre3(x, y, direction);
+            case Formatting.DEMON1:
+	            return new Demon1(x, y, direction);
+	        case Formatting.DEMON2:
+	            return new Demon2(x, y, direction);
+            case Formatting.DEMON3:
+                return new Demon3(x, y, direction);
+        }
+		return null;
+	}
+	
+//  Render monster
+	public static void renderMonsters(ArrayList<Monster> monsterArrayList, GraphicsContext gc, long currentTime) {
+		for (Monster monster : monsterArrayList) {	        
+	        monster.render(gc, currentTime);
+	    }
+	}
+
+	// Monster animation
+	public static void animationMonster(ArrayList<Monster> monsterArrayList, long currentTime) {		
+		for(Monster monster : monsterArrayList){
+			monster.animation(currentTime);
+		}
+	}
+	
+	// Delete Monster
+	public static void dieMonster(ArrayList<Monster> monsterArrayList) {		
+		for(int i = 0; i < monsterArrayList.size(); i++) {
+	        Monster monster = monsterArrayList.get(i);
+	        if (monster.getHealth() <= 0) {
+	            monsterArrayList.remove(i);
+	            i--; // adjusting index
+	        }
+	    }
+	}	
 	
 //	getters
 	public int getX() {
@@ -156,7 +314,6 @@ public abstract class Monster{
 	}
 	
 	public int getHealth() {
-		// TODO Auto-generated method stub
 		return this.health;
 	}
 	
@@ -172,22 +329,18 @@ public abstract class Monster{
 		return this.attackLastTime;
 	}
 	public int getReward() {
-		// TODO Auto-generated method stub
 		return this.reward;
 	}
 	public boolean isShowBoxes() {
-		// TODO Auto-generated method stub
 		return this.showBoxes;
 	}
 	
 //	Setters
 	public void setShowBoxes(boolean b) {
-		// TODO Auto-generated method stub
 		this.showBoxes = b;
 	}
 
 	public void setHealth(int health) {
-		// TODO Auto-generated method stub
 		this.health = health;
 	}
 
@@ -206,13 +359,4 @@ public abstract class Monster{
 // 	Unimplemented methods
 	public abstract void hitAnimation();
 	public abstract void animation(long currentTime);
-
-
-	
-
-	
-
-
-	
-
 }

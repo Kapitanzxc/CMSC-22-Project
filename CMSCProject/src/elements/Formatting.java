@@ -53,10 +53,21 @@ public class Formatting {
 	public static final Font FONT_STYLE_20 = Font.loadFont("file:resources/Font/Munro.ttf",20);
 	
 	
+//	Font Styles
+	public static final String HITSOUNDFX = "Sound Effects/HitSoundFX.wav";
+	public static final String HOVERSOUNDFX = "Sound Effects/HoverFX.wav";
+	public static final String SELECTSOUNDFX = "Sound Effects/SelectFX.wav";
+	public static final String BGSOUNDFX = "Sound Effects/BGSoundFX.wav";
+	public static final String SWSOUNDFX = "Sound Effects/SwordWomanSoundFX.wav";
+	public static final String WIZSOUNDFX = "Sound Effects/WizardSoundFX.wav";
+	public static final String ORCSOUNDFX = "Sound Effects/OrcSoundFX.wav";
+	public static final String KNIGHTSOUNDFX = "Sound Effects/KnightSoundFX.wav";
+	
 	public static final double XPOS_TEXT = SCREEN_WIDTH/2;
 	public static final double YPOS_TEXT = 600;
-	public static final Color BEIGE = Color.rgb(236,221, 192);
+	public static final Color BEIGE = Color.rgb(249,244, 241);
 	public static final Color DARKBLUE = Color.rgb(24,20, 37);
+	public static final Color BROWN = Color.rgb(97,88, 83);
 	public static final Color BGCOLOR = Color.rgb(38,33, 74);
 	
 //	Character codes

@@ -70,6 +70,8 @@ public class Ogre2 extends Monster{
 	}
 			
 	public void hitAnimation() {
+		// Hit sound effect
+        playSound(Formatting.HITSOUNDFX);
 		if (direction == 1) {
 			this.img = Formatting.Lvl2ROgreHit;
 		}	

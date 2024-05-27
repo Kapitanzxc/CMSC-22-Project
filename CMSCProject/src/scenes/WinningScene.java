@@ -1,5 +1,14 @@
 package scenes;
 
+import java.io.IOException;
+import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import characters.Sprite;
 import elements.Formatting;
 import javafx.animation.KeyFrame;
@@ -229,8 +238,8 @@ public class WinningScene {
                 double x2 = 655;
                 double y = 440;
                 
-                gc.drawImage(Formatting.BLUEFRAGMENT, x-4, y-5, 30, 25);
-                gc.drawImage(Formatting.BLUEFRAGMENT, x-4, y-5, 30, 25);
+                gc.drawImage(Formatting.BLUEFRAGMENT, x-7, y-2, 35, 25);
+                gc.drawImage(Formatting.BLUEFRAGMENT, x2-7, y-2, 35, 25);
                 
 //                Display text
                 Text player1frag = new Text(x + 30, y + 18, "Fragments collected: " + player1.getFragmentsCollected()); 
@@ -258,18 +267,18 @@ public class WinningScene {
                 gc.drawImage(Formatting.ABOOST, x2-4, y-7, 30, 40);
                 
 //                Display text
-                Text player1frag = new Text(x + 30, y + 18, "Power Ups Collected: " + player1.getSpecialCollected()); 
-                Text player2frag = new Text(x2 + 30, y + 18, "Power Ups Collected: " + player2.getSpecialCollected()); 
-                player1frag.setFont(Formatting.FONT_STYLE_20);
-                player2frag.setFont(Formatting.FONT_STYLE_20);
-                player1frag.setFill(Color.WHITE);
-                player2frag.setFill(Color.WHITE);
-		        root.getChildren().addAll(player1frag, player2frag);
+                Text player1sfrag = new Text(x + 30, y + 18, "Power Ups Collected: " + player1.getSpecialCollected()); 
+                Text player2sfrag = new Text(x2 + 30, y + 18, "Power Ups Collected: " + player2.getSpecialCollected()); 
+                player1sfrag.setFont(Formatting.FONT_STYLE_20);
+                player2sfrag.setFont(Formatting.FONT_STYLE_20);
+                player1sfrag.setFill(Color.WHITE);
+                player2sfrag.setFill(Color.WHITE);
+		        root.getChildren().addAll(player1sfrag, player2sfrag);
 
             }
         }));
         
-//      Show monster killed after 7 seconds
+//      Show monster killed after 9 seconds
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(7), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -283,13 +292,13 @@ public class WinningScene {
                 gc.drawImage(Formatting.MONSTER, x2-4, y-4);
                 
 //                Display text
-                Text player1frag = new Text(x + 30, y + 18, "Monsters killed: " + player1.getMonstersKilled()); 
-                Text player2frag = new Text(x2 + 30, y + 18, "Monsters killed: " + player2.getMonstersKilled()); 
-                player1frag.setFont(Formatting.FONT_STYLE_20);
-                player2frag.setFont(Formatting.FONT_STYLE_20);
-                player1frag.setFill(Color.WHITE);
-                player2frag.setFill(Color.WHITE);
-		        root.getChildren().addAll(player1frag, player2frag);
+                Text player1monster = new Text(x + 30, y + 18, "Monsters killed: " + player1.getMonstersKilled()); 
+                Text player2monster = new Text(x2 + 30, y + 18, "Monsters killed: " + player2.getMonstersKilled()); 
+                player1monster.setFont(Formatting.FONT_STYLE_20);
+                player2monster.setFont(Formatting.FONT_STYLE_20);
+                player1monster.setFill(Color.WHITE);
+                player2monster.setFill(Color.WHITE);
+		        root.getChildren().addAll(player1monster, player2monster);
 
             }
         }));
@@ -303,6 +312,8 @@ public class WinningScene {
         t.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent arg0) {
+            	// Hover sound effect
+            	playSound(Formatting.HOVERSOUNDFX, 0);
                 t.setFill(Color.DARKBLUE);
             }
         });
@@ -317,13 +328,47 @@ public class WinningScene {
         t.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                // When new game is clicked
+            	// Select sound effect
+            	playSound(Formatting.SELECTSOUNDFX, 0);
+                // When new game is clicked	
                 System.out.println("Load New Game Scene");
                 // Change scene here
                 stage.setScene(menuScene);
             }
         });
     }
+    
+ // Play background music
+ 	public void playSound(String soundFile, int loopMusic) {
+ 	    try {
+ 	    	  // get a sound clip
+	        Clip clip = AudioSystem.getClip();
+	        
+	        // Load file as a resource from the classpath
+	        URL soundURL = getClass().getClassLoader().getResource(soundFile);
+            
+            // If there is no sound file, do this
+            if (soundURL == null) {
+                System.err.println("Sound file not found: " + soundFile);
+                return;
+            }
+	        
+	        // open audio input stream (an input stream with a specified audio format and length) from the sound file 
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL);
+	       
+	        // open clip and start playing the sound
+	        clip.open(audioInputStream);
+	        clip.start();
+	        
+	        // loops the background music only
+	        if (loopMusic == 1) {
+	        	clip.loop(Clip.LOOP_CONTINUOUSLY);
+	        }
+ 	        
+ 	    } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+ 	        e.printStackTrace();
+ 	    }
+ 	}
 
     public Scene getScene() {
         return winningScene;

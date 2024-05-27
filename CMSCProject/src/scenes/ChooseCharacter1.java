@@ -1,5 +1,14 @@
 package scenes;
 
+import java.io.IOException;
+import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import elements.Formatting;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -26,6 +35,7 @@ public class ChooseCharacter1 extends AnimationTimer{
 	private Group root;
 	private Canvas canvas;
 
+	
 	// Constructor
 	public ChooseCharacter1(Scene theScene, Scene menuScene, Stage stage) {
 		this.root = new Group();
@@ -75,14 +85,20 @@ public class ChooseCharacter1 extends AnimationTimer{
 	public void nextCharacter(KeyCode code) {
 	    switch (code) {// code is the key that was pressed
 	        case RIGHT, D:
+	        	// Hover sound effect
+	        	playSound(Formatting.HOVERSOUNDFX, 0);
 	        	//moves the character selection to the right
 	            this.characterP1++;
 	            break;
 	        case LEFT, A:
+	        	// Hover sound effect
+	        	playSound(Formatting.HOVERSOUNDFX, 0);
 	        	//moves the character selection to the left
 	            this.characterP1--;
 	            break;
 	        case SPACE:
+	        	 // Select sound effect
+                playSound(Formatting.SELECTSOUNDFX, 0);
 	        	//the player 1 have selected a character
 	            this.nextCharacter = true;
 	            switch (this.characterP1) {
@@ -159,6 +175,7 @@ public class ChooseCharacter1 extends AnimationTimer{
 	        this.gc.drawImage(Formatting.CCCONTROLS,  0, 0, Formatting.SCREEN_WIDTH, Formatting.SCREEN_HEIGHT);
 	        this.previousTime = currentTime;
 	    }
+	   
 	    
 //		Hover FX
 	    // ImageView creation
@@ -186,6 +203,39 @@ public class ChooseCharacter1 extends AnimationTimer{
 	    // Add all ImageView and Text nodes to the root group
 	    this.root.getChildren().addAll(knightView, swordWomanView, orcView, wizardView, hoverKnight, hoverOrc, hoverSW, hoverWiz);
 
+	}
+	
+//  Method for playing sound
+	// Reference: https://www.youtube.com/watch?v=wJO_cq5XeSA
+	public void playSound(String soundFile, int loopMusic) {
+	    try {
+	    	  // get a sound clip
+	        Clip clip = AudioSystem.getClip();
+	        
+	        // Load file as a resource from the classpath
+	        URL soundURL = getClass().getClassLoader().getResource(soundFile);
+            
+            // If there is no sound file, do this
+            if (soundURL == null) {
+                System.err.println("Sound file not found: " + soundFile);
+                return;
+            }
+	        
+	        // open audio input stream (an input stream with a specified audio format and length) from the sound file 
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL);
+	       
+	        // open clip and start playing the sound
+	        clip.open(audioInputStream);
+	        clip.start();
+	        
+	        // loops the background music only
+	        if (loopMusic == 1) {
+	        	clip.loop(Clip.LOOP_CONTINUOUSLY);
+	        }
+	 
+	    } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	  // Method to create an ImageView for hover fx

@@ -1,5 +1,7 @@
 package scenes;
 
+import javax.sound.sampled.Clip;
+
 import elements.Formatting;
 
 import javafx.scene.Group;
@@ -15,10 +17,8 @@ public class ChooseCharacterScene {
 	private Scene chooseCharacterScene,menuScene;
 	private Canvas canvas;
 	private ChooseCharacter1 chooseCharacter1;
-	
-
 	// Constructor
-	public ChooseCharacterScene(Scene menuScene, Stage stage) {
+	public ChooseCharacterScene(Scene menuScene, Stage stage, Clip clip) {
 		// Initialize variables
 		this.stage = stage;
 		this.root = new Group();

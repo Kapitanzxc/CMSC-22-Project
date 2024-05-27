@@ -15,7 +15,7 @@ public class Knight extends Sprite{
 // 	Constructor
 	public Knight(int x, int y, int playerNumber, long previousTime){
 		super(Formatting.KNIGHT, playerNumber, x,y, playerNumber,
-				100, 15, 2,
+				100, 7, 2,
 				0.42, 0.18, 
 				0.20, 0.77,
 				0.7, 0.05,
@@ -27,7 +27,7 @@ public class Knight extends Sprite{
 		this.previousTimeDie = previousTime;
 		this.previousTimeRWalk = previousTime;
 		this.previousTimeLWalk = previousTime;
-		this.animationCountAttack = 1;
+		this.animationCountAttack = 0;
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
@@ -166,6 +166,8 @@ public class Knight extends Sprite{
 	        switch (animationCountAttack) {
 	            case 1:
 	                this.img = Formatting.KnightRAttack1;
+	                // Attack sound effect
+	                playSound(Formatting.KNIGHTSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.KnightRAttack2;
@@ -204,6 +206,8 @@ public class Knight extends Sprite{
 	        switch (animationCountAttack) {
 	            case 1:
 	                this.img = Formatting.KnightLAttack1;
+	             // Attack sound effect
+	                playSound(Formatting.KNIGHTSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.KnightLAttack2;
@@ -349,6 +353,8 @@ public class Knight extends Sprite{
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() == true && this.checkAlive()) {
+	    	// Hit sound effect
+            playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.KnightRHit1;
@@ -375,6 +381,8 @@ public class Knight extends Sprite{
 	public void hitAnimationMonster(long currentTime, Monster monster, int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() == true && this.checkAlive()) {
+			// Hit sound effect
+	        playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.KnightRHit1;

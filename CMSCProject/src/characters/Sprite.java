@@ -1,7 +1,16 @@
 package characters;
 
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import elements.Formatting;
 import javafx.scene.canvas.GraphicsContext;
@@ -365,7 +374,33 @@ public abstract class Sprite {
 	    return true;
 	}
 	
-	
+//  Method for playing sound
+	// Reference: https://www.youtube.com/watch?v=wJO_cq5XeSA
+	public void playSound(String soundFile) {
+	    try {
+	    	  // get a sound clip
+	        Clip clip = AudioSystem.getClip();
+	        
+	        // Load file as a resource from the classpath
+	        URL soundURL = getClass().getClassLoader().getResource(soundFile);
+            
+            // If there is no sound file, do this
+            if (soundURL == null) {
+                System.err.println("Sound file not found: " + soundFile);
+                return;
+            }
+	        
+	        // open audio input stream (an input stream with a specified audio format and length) from the sound file 
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL);
+	       
+	        // open clip and start playing the sound
+	        clip.open(audioInputStream);
+	        clip.start();
+	        
+	    } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 	//getters
 	public int getX() {
     	return this.x;

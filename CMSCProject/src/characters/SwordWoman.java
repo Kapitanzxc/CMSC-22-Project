@@ -26,7 +26,7 @@ public class SwordWoman extends Sprite{
 		this.previousTimeDie = previousTime;
 		this.previousTimeRWalk = previousTime;
 		this.previousTimeLWalk = previousTime;
-		this.animationCountAttack = 1;
+		this.animationCountAttack = 0;
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
@@ -165,6 +165,8 @@ public class SwordWoman extends Sprite{
 	        switch (animationCountAttack) {
 	            case 1:
 	                this.img = Formatting.SWRAttack1;
+	              	// Attack sound effect
+	                playSound(Formatting.SWSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.SWRAttack2;
@@ -208,6 +210,8 @@ public class SwordWoman extends Sprite{
 	        switch (animationCountAttack) {
 	            case 1:
 	                this.img = Formatting.SWLAttack1;
+	              	// Attack sound effect
+	                playSound(Formatting.SWSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.SWLAttack2;
@@ -370,6 +374,8 @@ public class SwordWoman extends Sprite{
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() && checkAlive()) {
+	    	// Hit sound effect
+            playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.SWRHit1;
@@ -397,6 +403,8 @@ public class SwordWoman extends Sprite{
 	public void hitAnimationMonster(long currentTime, Monster monster,  int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() && checkAlive()) {
+			// Hit sound effect
+	        playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.SWRHit1;

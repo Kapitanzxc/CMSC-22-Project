@@ -30,13 +30,13 @@ public class AboutScene {
 		// Draw Background
 		this.gc.drawImage(Formatting.ABOUT, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 		// Draw Scroll Wheel
-		this.gc.drawImage(Formatting.LEFT_SCROLL, (Formatting.SCREEN_WIDTH - Formatting.LEFT_SCROLL.getWidth())/2, Formatting.YPOS_TEXT);
+		this.gc.drawImage(Formatting.LEFT_SCROLL, 530, Formatting.YPOS_TEXT);
 		
 //		Draw right button
 		ImageView imgView = new ImageView(Formatting.RIGHT_BUTTON);
 		Button rightButton = new Button();
 		rightButton.setPadding(Insets.EMPTY);
-		rightButton.setTranslateX(Formatting.XPOS_TEXT+68);
+		rightButton.setTranslateX(530 + Formatting.MIDDLE_SCROLL.getWidth() + 10);
 		rightButton.setTranslateY(Formatting.YPOS_TEXT);
 		rightButton.setPrefSize(Formatting.RIGHT_BUTTON.getWidth(),Formatting.RIGHT_BUTTON.getHeight());
 		rightButton.setBackground(new Background(new BackgroundFill(Formatting.BEIGE, null, null)));
@@ -60,7 +60,7 @@ public class AboutScene {
 		homeButton.setTranslateX(7);
 		homeButton.setTranslateY(7);
 		homeButton.setPrefSize(Formatting.HOME_BUTTON.getWidth(),Formatting.HOME_BUTTON.getHeight());
-		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BGCOLOR, null, null)));
+		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BROWN, null, null)));
 		homeButton.setGraphic(imgViewHome);
 //		Adding Event
 		homeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {

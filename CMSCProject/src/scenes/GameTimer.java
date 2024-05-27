@@ -1,6 +1,4 @@
-	package scenes;
-
-import java.util.Random;
+package scenes;
 
 import characters.Knight;
 import characters.Orc;
@@ -24,16 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import monsters.Demon1;
-import monsters.Demon2;
-import monsters.Demon3;
 import monsters.Monster;
-import monsters.Ogre1;
-import monsters.Ogre2;
-import monsters.Ogre3;
-import monsters.Zombie1;
-import monsters.Zombie2;
-import monsters.Zombie3;
 
 public class GameTimer extends AnimationTimer {
 //	Attributes
@@ -43,7 +32,7 @@ public class GameTimer extends AnimationTimer {
 	private boolean gameOver;
 	private Sprite player1,player2;
 	private int playerWinner,player1Code,player2Code,animationCountTimer, playerWinNum;
-	private long previousTimerTime,time,previousTimerBG, previousTimeMonster;
+	private long previousTimerTime,time,previousTimerBG;
 	private Image timerBGimg;
 	
 //	Map Boundaries
@@ -52,29 +41,18 @@ public class GameTimer extends AnimationTimer {
 
 //	Power-ups
 	private ArrayList<PowerUp> fragmentPowerUps, specialPowerUps;
-	private int spawnX, spawnY;
-	private long startFPowerUpSpawn, startSPowerUpSpawn;
-
-	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
-	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
-	private final static int UPTIME_SPOWERUP = 10;
-	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
-	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
+	private static long previousTimeFPowerUp, previousTimeSPowerUp;
 	
-	// Monsters
+//	Monsters
 	private ArrayList<Monster> monsterArrayList;
-	private int monsterX, monsterY;
-	private final static int SPAWNDELAY_MONSTERS = 8; // spawn monster every after 8 seconds
-	private final static int NUM_MONSTER = 6;	// spawn 6 monsters
-	private static final double MIN_DISTANCE_BETWEEN_MONSTERS = 100; // minimum distance between monsters
-
+	private static long previousTimeMonster;
 	
 	GameTimer(GraphicsContext gc, Scene theScene, Scene menuScene, Stage stage, int player1, int player2) {
 //		Player 1 and 2 codes
 		this.player1Code = player1;
 		this.player2Code = player2;
 //		Initial Timer
-		this.time = 9999;
+		this.time = 121;
 //		Player winner number (1 or 2)
 		this.playerWinNum = 0;
 //		Initializing stages and scenes
@@ -101,14 +79,14 @@ public class GameTimer extends AnimationTimer {
         this.player2 = createPlayer(player2, 950, 278, 2);
         
 //      Power Ups
-        this.startFPowerUpSpawn = System.nanoTime();
-        this.startSPowerUpSpawn = System.nanoTime();
+        GameTimer.previousTimeFPowerUp = System.nanoTime();
+        GameTimer.previousTimeSPowerUp = System.nanoTime();
         this.fragmentPowerUps = new ArrayList<PowerUp>();
         this.specialPowerUps = new ArrayList<PowerUp>();
         
 //		Monsters
         this.monsterArrayList = new ArrayList<Monster>();
-        this.previousTimeMonster = System.nanoTime();
+        GameTimer.previousTimeMonster = System.nanoTime();
         
 //		call method to handle key click event
 		this.handleKeyPressEvent();
@@ -125,10 +103,8 @@ public class GameTimer extends AnimationTimer {
                 return new SwordWoman(x, y, playerNum, System.nanoTime());
             case Formatting.WIZARD:
                 return new Wizard(x-50, y, playerNum, System.nanoTime());
-            default:
-//            	Reference: https://rollbar.com/blog/how-to-throw-illegalargumentexception-in-java/
-            	throw new IllegalArgumentException("Invalid player type: " + playerType);
         }
+		return null;
 	}
 	
 //	Method that will run every nano seconds
@@ -183,15 +159,17 @@ public class GameTimer extends AnimationTimer {
 		renderMapBoundaries();
 
 //		Spawning Fragment Power-ups
-		spawnFragmentPowerUps(currentNanoTime);
+		PowerUp.spawnFragmentPowerUps(this.fragmentPowerUps, currentNanoTime);
 //		Spawning Special Power-ups
-		spawnSpecialPowerUps(currentNanoTime);
-		// Spawn Monsters
-		spawnMonsters(currentNanoTime);
+		PowerUp.spawnSpecialPowerUps(this.specialPowerUps, currentNanoTime);
+//   	Check if a special power up collides with a player or not
+		PowerUp.collectPowerUps(this.fragmentPowerUps, this.specialPowerUps, this.player1, this.player2, currentNanoTime);
+//		Spawn Monsters
+		Monster.spawnMonsters(monsterArrayList, currentNanoTime);
 //		Rendering Power-ups
-		renderPowerUps();
-		// Rendering Monsters
-		renderMonsters(currentNanoTime);
+		PowerUp.renderPowerUps(this.fragmentPowerUps, this.specialPowerUps, this.gc);
+//		Rendering Monsters
+		Monster.renderMonsters(this.monsterArrayList, this.gc, currentNanoTime);
 		
 //		Check players movement and update it accordingly
 		this.player1.move(this.mapBoundaries);
@@ -205,230 +183,18 @@ public class GameTimer extends AnimationTimer {
 		this.player1.animation(System.nanoTime(), this.player2, this.monsterArrayList);
 		this.player2.animation(System.nanoTime(), this.player1, this.monsterArrayList);
 		
-		// Monster animation
-		animationMonster(currentNanoTime);
+//		Monster animation
+		Monster.animationMonster(monsterArrayList, currentNanoTime);
 		
 //		Spawning two players
 		this.player1.render(this.gc);
 		this.player2.render(this.gc);
 		
 //		Deletes Power-ups (by collecting and expiration)
-		deletePowerUps(currentNanoTime);
+		PowerUp.deletePowerUps(specialPowerUps, currentNanoTime);
 		// Deleting dead monster
-		dieMonster();
+		Monster.dieMonster(monsterArrayList);
 	}
-
-//	Method for spawning monsters
-	private void spawnMonsters(long currentTime){
-// 		Spawn monsters after SPAWNDELAY time
-		long monsterElapsedTime = (currentTime - this.previousTimeMonster) / 1000000000;
-		if (monsterElapsedTime >= SPAWNDELAY_MONSTERS) {
-//			Create monsters based on the number of NUM_MONSTER
-			for (int i = monsterArrayList.size(); i < NUM_MONSTER; i++) {
-				boolean locationChecker;
-//				To prevent infinite loop
-				int attempts = 0;
-		        int maxAttempts = 50;
-//				Ensure each monster have minimum space or gap between each other
-				do {
-	                // Random y coordinate
-	                monsterY = Monster.spawnY();
-	                // Random x coordinate
-	                monsterX = Monster.spawnX(monsterY);
-	                //Initialize locationCheckter to true
-	                locationChecker = true;
-
-	                // Check if the position is far enough from other monsters
-	                for (Monster monster : monsterArrayList) {
-//	                	Calculate the distance between the random xy coordinate and the current monsters from the arrayList
-	                    double distance = calculateDistance(monsterX, monsterY, monster.getX(), monster.getY());
-//	                  	If the distance is less than the minimum distance:
-//	                    Compute for another x and y coordinate
-	                    if (distance < MIN_DISTANCE_BETWEEN_MONSTERS) {
-	                    	locationChecker = false;
-	                        break;
-	                    }
-	                }
-	                attempts ++;
-	                
-	            } while (!locationChecker && attempts < maxAttempts);
-				
-//				If location is valid, create a monster;
-//				If after maxAttempts and still no location valid, dont create a monster
-				if (locationChecker) {
-//					Create monster based on randomization and given xy
-					Monster monster = createMonster(monsterX, monsterY);
-//					Add the created monster to the array
-					this.monsterArrayList.add(monster);
-				}
-				
-			}
-			this.previousTimeMonster = currentTime;
-		}
-	}
-	
-//	Method for calculating distance between two monsters
-//	Reference: https://www.geeksforgeeks.org/program-calculate-distance-two-points/
-	public static double calculateDistance(double x1, double y1, double x2, double y2){
-		return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-	}
-
-	
-//	Creating monster based on monster type
-	private Monster createMonster(int x, int y){
-//		Monster codes
-		int[] monsterType = {11, 12, 13, 21, 22, 23, 31, 32, 33};
-		Random random = new Random();
-		// Random spawning of monsters
-		int randomType = monsterType[random.nextInt(monsterType.length)];
-//		Random direciotn
-		int direction = random.nextInt(1, 3);
-		
-        switch (randomType) {
-	        case Formatting.ZOMBIE1:
-	            return new Zombie1(x, y, direction);
-	        case Formatting.ZOMBIE2:
-	            return new Zombie2(x, y, direction);
-            case Formatting.ZOMBIE3:
-                return new Zombie3(x, y, direction);
-            case Formatting.OGRE1:
-	            return new Ogre1(x, y, direction);
-	        case Formatting.OGRE2:
-	            return new Ogre2(x, y, direction);
-            case Formatting.OGRE3:
-                return new Ogre3(x, y, direction);
-            case Formatting.DEMON1:
-	            return new Demon1(x, y, direction);
-	        case Formatting.DEMON2:
-	            return new Demon2(x, y, direction);
-            case Formatting.DEMON3:
-                return new Demon3(x, y, direction);
-        }
-		return null;
-	}
-	
-//  Render monster
-	private void renderMonsters(long currentTime) {
-		for (Monster monster : this.monsterArrayList) {	        
-	        monster.render(this.gc, currentTime);
-	    }
-	}
-	
-	// Monster animation
-	public void animationMonster(long currentTime) {		
-		for(Monster monster : monsterArrayList){
-			monster.animation(currentTime);
-		}
-	}
-	
-	// Delete Monster
-	public void dieMonster() {		
-		for(int i = 0; i < this.monsterArrayList.size(); i++) {
-	        Monster monster = this.monsterArrayList.get(i);
-	        if (monster.getHealth() <= 0) {
-	            this.monsterArrayList.remove(i);
-	            i--; // adjusting index
-	        }
-	    }
-	}
-	
-//	Generate fragments
-	private void generateFragmentPowerUps(int numFragments){
-// 		Create fragment type power-ups
-        for (int i = fragmentPowerUps.size(); i < numFragments; i++) {
-            spawnY = PowerUp.spawnY();
-            spawnX = PowerUp.spawnX(spawnY);
-            PowerUp fragment = new PowerUp(spawnX, spawnY, 1, System.nanoTime(), 0);
-            this.fragmentPowerUps.add(fragment);
-        }
-	}
-	
-//	Generate special powerups
-	private void generateSpecialPowerUps() {        
-//		Create special type power-ups
-        for (int i = 0; i < NUM_SPECIAL_POWERUP; i++) {
-        	spawnY = PowerUp.spawnY();
-            spawnX = PowerUp.spawnX(spawnY);
-            PowerUp special = new PowerUp(spawnX, spawnY, i+2, System.nanoTime(), 8000*1000000);
-            this.specialPowerUps.add(special);
-        }
-	}
-	
-//	Spawn fragments
-	private void spawnFragmentPowerUps(long currentNanoTime) {
-        // Elapsed time from spawn to current (in seconds)
-        double spawnElapsedTime = (currentNanoTime - this.startFPowerUpSpawn) / 1000000000.0;
-        // Respawn every 5 seconds (if fragments < 20)
-        if (spawnElapsedTime > SPAWNDELAY_FPOWERUP) {
-            this.generateFragmentPowerUps(NUM_FRAGMENT_POWERUP); // generates power ups
-            this.startFPowerUpSpawn = currentNanoTime; // resets time to compare again until the spawn delay
-        }
-	    collectPowerUps(currentNanoTime); // check if collides with player or not
-	}
-	
-//	Spawn powerups
-	private void spawnSpecialPowerUps(long currentNanoTime) {
-//		Elapsed time from spawn to current (in seconds)
-		double spawnElapsedTime = (currentNanoTime - this.startSPowerUpSpawn) / 1000000000.0;
-        
-// 		Spawn special power-ups
-   		if (spawnElapsedTime > SPAWNDELAY_SPOWERUP) {
-     	  	this.generateSpecialPowerUps(); // generates power ups
-     	  	this.startSPowerUpSpawn = System.nanoTime(); // resets time to compare again until 10 seconds elapsed
-   		}
-   		
-//   	Check if a special power up collides with a player or not
-   		collectPowerUps(currentNanoTime);
-	}
-		
-//  Render power-ups
-	private void renderPowerUps() {
-		for (PowerUp special : this.specialPowerUps) {	        
-	        special.render(this.gc);
-	    }
-		
-		for (PowerUp fragment : this.fragmentPowerUps) {
-			fragment.render(this.gc);
-		}
-	}
-	
-//	Collects powerups
-	private void collectPowerUps(long currentNanoTime) {
-		for(int i = 0; i < this.specialPowerUps.size(); i++){
-//			Checks collision of characters and powerups
-	        PowerUp special = this.specialPowerUps.get(i);
-	        if (special.getAlive()){
-	        	special.checkPowerUpCollision(this.player1, currentNanoTime);
-	        	special.checkPowerUpCollision(this.player2, currentNanoTime);
-	        } else {
-//	        	Removes special power ups if idle for 10 seconds or picked up
-	        	this.specialPowerUps.remove(i);
-	        }
-	    }
-		
-		for(int i = 0; i < this.fragmentPowerUps.size(); i++){
-//			Checks collision of characters and fragments
-	        PowerUp fragment = this.fragmentPowerUps.get(i);
-	        if (fragment.getAlive()){
-	        	fragment.checkPowerUpCollision(this.player1, currentNanoTime);
-	        	fragment.checkPowerUpCollision(this.player2, currentNanoTime);
-	        } else {
-//	        	Removes fragments that are picked up 
-	        	this.fragmentPowerUps.remove(i);
-	        }
-	    }
-	}
-
-//	Delete special power-ups that is idle for 10 seconds
-	private void deletePowerUps(long currentNanoTime) {		
-		for(int i = 0; i < this.specialPowerUps.size(); i++){
-			if (((currentNanoTime-this.startSPowerUpSpawn) / 1000000000.0) >= UPTIME_SPOWERUP){ // checks if 5 seconds have elapsed
-				this.specialPowerUps.get(i).setAlive(false);
-				this.specialPowerUps.remove(i); // removed from the array list
-			}
-		}		
-	}
-	
 
 	//method that will read users input
 	private void keysCharacter(KeyCode ke) {
@@ -475,11 +241,8 @@ public class GameTimer extends AnimationTimer {
 	        		monster.setShowBoxes(!monster.isShowBoxes());
 	        	}
 	        	break;
-	        case SPACE:
-	        	System.out.println(player1.getX() + " " + player1.getY());
-	        	break;
 	        case I:
-	        	this.showBoundaries = !this.showBoundaries;
+	        	this.time = 3;
 	            break;
 	        default:
 	            System.out.println(ke + " key pressed.");
@@ -664,6 +427,30 @@ public class GameTimer extends AnimationTimer {
 	
 	public Scene getScene() {
 		return gameScene;
+	}
+	
+	public static long getPreviousTimeFPowerUp() {
+		return previousTimeFPowerUp;
+	}
+	
+	public static long getPreviousTimeSPowerUp() {
+		return previousTimeSPowerUp;
+	}
+	
+	public static long getPreviousTimeMonster() {
+		return previousTimeMonster;
+	}
+	
+	public static void setPreviousTimeFPowerUp(long spawn) {
+		GameTimer.previousTimeFPowerUp = spawn;
+	}
+	
+	public static void setPreviousTimeSPowerUp(long spawn) {
+		GameTimer.previousTimeSPowerUp = spawn;
+	}
+	
+	public static void setPreviousTimeMonster(long spawn) {
+		GameTimer.previousTimeMonster = spawn;
 	}
 
 }

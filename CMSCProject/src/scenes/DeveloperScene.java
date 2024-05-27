@@ -41,7 +41,7 @@ public class DeveloperScene {
 		homeButton.setTranslateY(7);
 		homeButton.setPrefSize(26,27);
 		homeButton.setGraphic(imgViewHome);
-		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BGCOLOR, null, null)));
+		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BROWN, null, null)));
 		homeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {

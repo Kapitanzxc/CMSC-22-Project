@@ -2,22 +2,28 @@ package elements;
 
 import java.util.ArrayList;
 import java.util.Random;
+import javafx.scene.canvas.GraphicsContext;
 
 import characters.Sprite;
 import monsters.Monster;
+import scenes.GameTimer;
 
 public class PowerUp extends Sprite {
 	static Random random = new Random();
 	private int type;
-	private long duration;
-	private static final int POWERUPTIME = 8;
 	
+	private static int spawnX, spawnY;
+	private final static int POWERUPTIME = 8;			// Duration  of 8 seconds if a power-up is picked up
+	private final static int SPAWNDELAY_FPOWERUP = 5; 	// 5 seconds
+	private final static int SPAWNDELAY_SPOWERUP = 20; 	// 20 seconds
+	private final static int UPTIME_SPOWERUP = 10;		// Special Power-ups disappear after 10 seconds if not picked up
+	private final static int NUM_FRAGMENT_POWERUP = 20;	// 20 fragments
+	private final static int NUM_SPECIAL_POWERUP = 3;	// 3 special power-ups (1 of each type)
 	
-	public PowerUp(int xPos, int yPos, int type, long spawnTime, long duration) {
+	public PowerUp(int xPos, int yPos, int type) {
 		super(0, 0, xPos, yPos, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0);
 		
 		this.type = type;
-		this.duration = duration;
 //		loads the image for the correct type
 		if(type == Formatting.FRAGMENT) {
 			int rand = random.nextInt(1,9);
@@ -48,32 +54,99 @@ public class PowerUp extends Sprite {
  		
 	}
 
-//	Map boundaries
-	public static int spawnY() {
-		int randY = random.nextInt(105,500);
-		return randY;
+// 	Methods for generating and managing power-ups
+    public static void generateFragmentPowerUps(ArrayList<PowerUp> fragmentPowerUps) {
+// 		Create fragment type power-ups
+    	for (int i = fragmentPowerUps.size(); i < NUM_FRAGMENT_POWERUP; i++) {
+            spawnY = PowerUp.spawnY();
+            spawnX = PowerUp.spawnX(spawnY);
+            PowerUp fragment = new PowerUp(spawnX, spawnY, 1);
+            fragmentPowerUps.add(fragment);
+        }
+    }
+    
+//	Generate special powerups
+	public static void generateSpecialPowerUps(ArrayList<PowerUp> specialPowerUps) {        
+//		Create special type power-ups
+        for (int i = 0; i < NUM_SPECIAL_POWERUP; i++) {
+        	spawnY = PowerUp.spawnY();
+            spawnX = PowerUp.spawnX(spawnY);
+            PowerUp special = new PowerUp(spawnX, spawnY, i+2);
+            specialPowerUps.add(special);
+        }
 	}
 	
-	public static int spawnX(int y) {
-		int randX = 0;
-		
-//		north
-		if (y >= 105 && y <= 179) {
-			randX = random.nextInt(350, 800);
-//		north 2
-		} else if (y >= 180 && y <= 249) {
-			randX = random.nextInt(250, 900);
-//		middle
-		} else if (y >= 250 && y <= 379) {
-			randX = random.nextInt(210, 950);
-//		south 1
-		} else if (y >= 380 && y <= 469) {
-			randX = random.nextInt(300, 870);
-//		south 2
-		} else if (y >= 470 && y <= 500) {
-			randX = random.nextInt(300, 800);
+//	Spawn fragments
+	public static void spawnFragmentPowerUps(ArrayList<PowerUp> fragmentPowerUps, long currentNanoTime) {
+        // Elapsed time from spawn to current (in seconds)
+        double spawnElapsedTime = (currentNanoTime - GameTimer.getPreviousTimeFPowerUp()) / 1000000000.0;
+        // Respawn every 5 seconds (if fragments < 20)
+        if (spawnElapsedTime > SPAWNDELAY_FPOWERUP) {
+            generateFragmentPowerUps(fragmentPowerUps); // generates power ups
+            GameTimer.setPreviousTimeFPowerUp(currentNanoTime); // resets time to compare again until the spawn delay
+        }
+	}
+	
+//	Spawn powerups
+	public static void spawnSpecialPowerUps(ArrayList<PowerUp> specialPowerUps, long currentNanoTime) {
+//		Elapsed time from spawn to current (in seconds)
+		double spawnElapsedTime = (currentNanoTime - GameTimer.getPreviousTimeSPowerUp()) / 1000000000.0;
+        
+// 		Spawn special power-ups
+   		if (spawnElapsedTime > SPAWNDELAY_SPOWERUP) {
+     	  	generateSpecialPowerUps(specialPowerUps); // generates power ups
+     	  	GameTimer.setPreviousTimeSPowerUp(currentNanoTime); // resets time to compare again until 10 seconds elapsed
+   		}
+	}
+	
+//  Render power-ups
+	public static void renderPowerUps(ArrayList<PowerUp> fragmentPowerUps, ArrayList<PowerUp> specialPowerUps, GraphicsContext gc) {
+		for (PowerUp fragment : fragmentPowerUps) {
+			fragment.render(gc);
 		}
-		return randX;
+		
+		for (PowerUp special : specialPowerUps) {	        
+	        special.render(gc);
+		}
+	}
+	
+//	Collects powerups
+	public static void collectPowerUps(ArrayList<PowerUp> fragmentPowerUps, ArrayList<PowerUp> specialPowerUps, Sprite player1, Sprite player2, long currentNanoTime) {
+		for(int i = 0; i < specialPowerUps.size(); i++){
+//			Checks collision of characters and powerups
+	        PowerUp special = specialPowerUps.get(i);
+	        if (special.getAlive()){
+	        	special.checkPowerUpCollision(player1, currentNanoTime);
+	        	special.checkPowerUpCollision(player2, currentNanoTime);
+	        } else {
+//	        	Removes special power ups if idle for 10 seconds or picked up
+	        	specialPowerUps.remove(i);
+	        }
+	    }
+		
+		for(int i = 0; i < fragmentPowerUps.size(); i++){
+//			Checks collision of characters and fragments
+	        PowerUp fragment = fragmentPowerUps.get(i);
+	        if (fragment.getAlive()){
+	        	fragment.checkPowerUpCollision(player1, currentNanoTime);
+	        	fragment.checkPowerUpCollision(player2, currentNanoTime);
+	        } else {
+//	        	Removes fragments that are picked up 
+	        	fragmentPowerUps.remove(i);
+	        }
+	    }
+	}
+
+//	Delete special power-ups that is idle for 10 seconds
+	public static void deletePowerUps(ArrayList<PowerUp> specialPowerUps, long currentNanoTime) {		
+		for(int i = 0; i < specialPowerUps.size(); i++){
+			if (((currentNanoTime-GameTimer.getPreviousTimeSPowerUp()) / 1000000000.0) >= UPTIME_SPOWERUP){ // checks if 5 seconds have elapsed
+				specialPowerUps.get(i).setAlive(false);
+				specialPowerUps.remove(i); // removed from the array list
+				
+				i--; // adjusting index
+			}
+		}		
 	}
 	
 	public void checkPowerUpCollision(Sprite player, long currentNanoTime) {
@@ -100,7 +173,7 @@ public class PowerUp extends Sprite {
     		} else if (this.type == Formatting.HEAL) {
     			player.addSpecial();
     			if(player.getHealth() < player.getMaxHealth()) {
-    				player.addHealth(10);
+    				player.addHealth(25);
     			}
     			typeFragment = "Heal";
     		} else {
@@ -143,14 +216,36 @@ public class PowerUp extends Sprite {
 			}
 		}
 	}
-//	getters
-	public int getType() {
-		return this.type;
+	
+//	Map boundaries
+	public static int spawnY() {
+		int randY = random.nextInt(105,500);
+		return randY;
 	}
 	
-	public long getDuration() {
-		return this.duration;
+	public static int spawnX(int y) {
+		int randX = 0;
+		
+//		north
+		if (y >= 105 && y <= 179) {
+			randX = random.nextInt(350, 800);
+//		north 2
+		} else if (y >= 180 && y <= 249) {
+			randX = random.nextInt(250, 900);
+//		middle
+		} else if (y >= 250 && y <= 379) {
+			randX = random.nextInt(210, 950);
+//		south 1
+		} else if (y >= 380 && y <= 469) {
+			randX = random.nextInt(300, 870);
+//		south 2
+		} else if (y >= 470 && y <= 500) {
+			randX = random.nextInt(300, 800);
+		}
+		return randX;
 	}
+	
+
 	
 //	Unimplemented methods
 	public boolean dieAnimation(long nanoTime) {return false;}

@@ -14,7 +14,7 @@ public class Orc extends Sprite{
 // 	Constructor
 	public Orc(int x, int y, int playerNumber, long previousTime){
 		super(Formatting.ORC, playerNumber, x,y, playerNumber,
-				250, 1, 2,
+				200, 1, 2,
 				0.38, 0.23, 
 				0.26, 0.47,
 				0.66, 0.17,
@@ -26,7 +26,7 @@ public class Orc extends Sprite{
 		this.previousTimeDie = previousTime;
 		this.previousTimeRWalk = previousTime;
 		this.previousTimeLWalk = previousTime;
-		this.animationCountAttack = 1;
+		this.animationCountAttack = 0;
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
@@ -162,8 +162,10 @@ public class Orc extends Sprite{
 	        this.animationCountAttack++;
 	        this.animationCountAttack %= 8;
 	        switch (animationCountAttack) {
-	            case 1:
+	            case 1:	          
 	                this.img = Formatting.OrcRAttack1;
+	              	// Attack sound effect
+	                playSound(Formatting.ORCSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.OrcRAttack2;
@@ -210,6 +212,8 @@ public class Orc extends Sprite{
 	        switch (animationCountAttack) {
 	            case 1:
 	                this.img = Formatting.OrcLAttack1;
+	              	// Attack sound effect
+	                playSound(Formatting.ORCSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.OrcLAttack2;
@@ -370,6 +374,8 @@ public class Orc extends Sprite{
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() == true && this.checkAlive()) {
+	    	// Hit sound effect
+            playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.OrcRHit1;
@@ -395,6 +401,8 @@ public class Orc extends Sprite{
 	public void hitAnimationMonster(long currentTime, Monster monster, int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() == true && this.checkAlive()) {
+	    	// Hit sound effect
+            playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.OrcRHit1;

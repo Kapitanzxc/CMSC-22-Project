@@ -74,6 +74,8 @@ public class Demon3 extends Monster{
 	
 //	Animation when hit
 	public void hitAnimation() {
+		// Hit sound effect
+        playSound(Formatting.HITSOUNDFX);
 		if (direction == 1) {
 			this.img = Formatting.Lvl3RDemonHit;
 		}	

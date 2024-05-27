@@ -29,13 +29,13 @@ public class ReferenceScene {
 		// Draw Background
 		this.gc.drawImage(Formatting.REFERENCES, 0, 0, Formatting.SCREEN_WIDTH,Formatting.SCREEN_HEIGHT);
 //		DrawScroll Wheel
-		this.gc.drawImage(Formatting.RIGHT_SCROLL, (Formatting.SCREEN_WIDTH - Formatting.LEFT_SCROLL.getWidth())/2, Formatting.YPOS_TEXT);
+		this.gc.drawImage(Formatting.RIGHT_SCROLL, 530, Formatting.YPOS_TEXT);
 		
 		// Draw left button
 		ImageView imgView1 = new ImageView(Formatting.LEFT_BUTTON);
 		Button leftButton = new Button();
 		leftButton.setPadding(Insets.EMPTY);
-		leftButton.setTranslateX(Formatting.XPOS_TEXT-100);
+		leftButton.setTranslateX(490);
 		leftButton.setTranslateY(Formatting.YPOS_TEXT);
 		leftButton.setPrefSize(Formatting.LEFT_BUTTON.getWidth(),Formatting.LEFT_BUTTON.getHeight() );
 		leftButton.setBackground(new Background(new BackgroundFill(Formatting.BEIGE, null, null)));
@@ -56,7 +56,7 @@ public class ReferenceScene {
 		homeButton.setTranslateX(7);
 		homeButton.setTranslateY(7);
 		homeButton.setPrefSize(Formatting.HOME_BUTTON.getWidth(),Formatting.HOME_BUTTON.getHeight() );
-		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BGCOLOR, null, null)));
+		homeButton.setBackground(new Background(new BackgroundFill(Formatting.BROWN, null, null)));
 		homeButton.setGraphic(imgViewHome);
 		homeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override

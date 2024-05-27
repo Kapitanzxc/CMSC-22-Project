@@ -26,7 +26,7 @@ public class Wizard extends Sprite {
 		this.previousTimeDie = previousTime;
 		this.previousTimeRWalk = previousTime;
 		this.previousTimeLWalk = previousTime;
-		this.animationCountAttack = 1;
+		this.animationCountAttack = 0;
 		this.animationCountIdle = 1;
 		this.animationCountDie = 0;
 		this.animationCountWalk = 1;
@@ -168,6 +168,8 @@ public class Wizard extends Sprite {
 	        switch (animationCountAttack) {
 	            case 1:
 	                this.img = Formatting.WizRAttack1;
+	              	// Attack sound effect
+	                playSound(Formatting.WIZSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.WizRAttack2;
@@ -221,8 +223,10 @@ public class Wizard extends Sprite {
 	        this.animationCountAttack %= 10;
 
 	        switch (animationCountAttack) {
-	            case 1:
+	            case 1:     
 	                this.img = Formatting.WizLAttack1;
+	             // Attack sound effect
+	                playSound(Formatting.WIZSOUNDFX);
 	                break;
 	            case 2:
 	                this.img = Formatting.WizLAttack2;
@@ -393,6 +397,8 @@ public class Wizard extends Sprite {
 	public void hitAnimation(long currentTime, Sprite attacker, int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() && this.checkAlive()) {
+	    	// Hit sound effect
+            playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.WizRHit1;
@@ -418,6 +424,8 @@ public class Wizard extends Sprite {
 	public void hitAnimationMonster(long currentTime, Monster monster, int direction) {
 //		Animation when hit (left and right)
 	    if (getHit() && this.checkAlive()) {
+			// Hit sound effect
+	        playSound(Formatting.HITSOUNDFX);
 	        switch (direction) {
 	            case 1:
 	                this.img = Formatting.WizRHit1;
